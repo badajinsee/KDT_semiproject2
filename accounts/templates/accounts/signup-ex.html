@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form action="{% url 'accounts:signup' %}" method="POST">
+    {% csrf_token %}
+    <div>
+      {{ form.as_p }}
+      <p>
+        다른 개인 정보와 유사한 비밀번호는 사용할 수 없습니다.<br>
+        비밀번호는 최소 8자 이상이어야 합니다.<br>
+        통상적으로 자주 사용되는 비밀번호는 사용할 수 없습니다.<br>
+        숫자로만 이루어진 비밀번호는 사용할 수 없습니다.
+      </p>
+    </div>
+    <input type="submit" value='회원 가입' class="btn btn-success fw-bold  mb-5" style="font-family: 'S-CoreDream-3Light'; width:100%; padding:15px; font-size: 22px;">
+  </div>
+</form>
+</body>
+</html>

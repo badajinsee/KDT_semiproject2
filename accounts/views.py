@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import  PasswordChangeForm
-from .forms import CustomUserCreationForm, CustomUserChangeForm, LogInForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import update_session_auth_hash, get_user_model
@@ -14,12 +15,12 @@ def login(request):
         return redirect('posts:index')
     
     if request.method == 'POST':
-        form = LogInForm(request, request.POST)
+        form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             return redirect('posts:index')
     
     else:
-        form = LogInForm()
+        form = AuthenticationForm()
     context = {
         'form': form,
     }
