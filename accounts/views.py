@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import  PasswordChangeForm
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .forms import CustomUserChangeForm, LoginForm, signupForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import update_session_auth_hash, get_user_model
+from django.contrib.auth import get_user_model, authenticate, login as django_login
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+from .models import User
 # Create your views here.
 
 
@@ -15,12 +17,13 @@ def login(request):
         return redirect('posts:index')
     
     if request.method == 'POST':
-        form = AuthenticationForm(request, request.POST)
+        form = LoginForm(request.POST)
         if form.is_valid():
+            form.login(request)
             return redirect('posts:index')
     
     else:
-        form = AuthenticationForm()
+        form = LoginForm()
     context = {
         'form': form,
     }
@@ -38,13 +41,23 @@ def signup(request):
         return redirect('posts:index')
 
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST, request.FILES)
+        form = signupForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.save()
-            auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            return redirect('posts:index')
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            email = form.cleaned_data['email']
+            first_name = form.cleaned_data['first_name']
+            if User.objects.filter(username=username).exists():
+                return HttpResponse(f'Username {username} is already exist')
+            user = User.objects.create_user(
+                username=username,
+                password=password,
+                email=email,
+                first_name=first_name,
+            )
+            return redirect('accounts:login')
     else:
-        form = CustomUserCreationForm()
+        form = signupForm()
     context = {
         'form': form,
     }

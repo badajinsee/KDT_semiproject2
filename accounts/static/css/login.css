@@ -1,0 +1,113 @@
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+
+/* 폰트지정 */
+* {
+  font-family: "Spoqa Han Sans Neo", "sans-serif";
+}
+
+/* 인스타 이미지 */
+.main_img {
+  width: 180px;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+
+/* 전체 컨테이너 */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* 로그인 폼 전체 */
+.login_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 350px;
+  height: 320px;
+  /*  */
+  padding: 10px auto;
+  border: 1px solid #dfdfdf;
+  border-radius: 3px;
+  text-align: center;
+}
+
+/* input 부분 */
+.input_size {
+  width: 260px;
+  height: 40px;
+  padding: 14px 0 2px 8px;
+  display: block;
+  background-color: #fcfcfc;
+  font-size: 12px;
+}
+
+/* 로그인 버튼 */
+.login_button {
+  width: 260px;
+  height: 35px;
+  background-color: rgb(65, 147, 239);
+  border: none;
+}
+
+.haveAccount {
+  width: 348px;
+  height: 48px;
+  margin-top: 10px;
+  padding: 15px;
+  border: 1px solid #dfdfdf;
+  border-radius: 3px;
+  text-align: center;
+}
+
+/* 회원가입 P태그 */
+.haveAccount p {
+  font-size: 14px;
+  font-weight: 400;
+  color: #333333;
+}
+
+/* 회원가입 P > a */
+.haveAccount p a {
+  font-weight: 600;
+  color: #248ae3;
+  text-decoration: none;
+}
+
+/* 다운로드 이미지 */
+.down_img {
+  width: 136px;
+  height: 40px;
+}
+
+/* 또한 지정 */
+.or {
+  font-size: 13px;
+  color: #999999;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0px 15px;
+}
+
+/* 페이스북 이미지 사이즈 */
+/* .facebook_img_size {
+  width: 15px;
+  height: 15px;
+  margin-right: 3px;
+  margin-top: 12px;
+} */
+
+/* 페이스북 div 전체 */
+/* .facebook {
+  display: flex;
+  align-items: center;
+} */
+
+/* favebook 안에 a 링크 */
+/* .facebook a {
+  text-decoration: none;
+  color: rgb(61, 80, 129);
+} */
