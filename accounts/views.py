@@ -112,4 +112,4 @@ def follow(request, user_pk):
             'followers_count': person.followers.count(),
         }
         return JsonResponse(context)
-    return redirect('account:profile', person.username)
+    return redirect('accounts:profile', person.username)
