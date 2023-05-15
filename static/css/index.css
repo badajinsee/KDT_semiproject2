@@ -1,0 +1,152 @@
+.square-image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+  max-height: 500px;
+  overflow: hidden;
+  padding-bottom:100%;
+}
+.square-image {
+  width: 100%;
+  height: 500px;
+  max-height: 100%;
+  max-width: 500px;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.circle-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  clip-path: circle(50% at center);
+  border: 1px solid rgb(196, 192, 192);
+}
+
+.post-header-m {
+  margin-right: 10px;
+}
+
+.main-content {
+  flex-direction:column;
+  display: flex;
+}
+
+.icon-size {
+  font-size: 25px;
+}
+
+.a-decoration {
+  text-decoration: none;
+}
+
+.modal-header-like {
+  display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--bs-modal-header-padding);
+    border-bottom: var(--bs-modal-header-border-width) solid var(--bs-modal-header-border-color);
+    border-top-left-radius: var(--bs-modal-inner-border-radius);
+    border-top-right-radius: var(--bs-modal-inner-border-radius);
+}
+
+.post-username {
+  white-space: nowrap;
+  margin-right: 10px;
+}
+.post-content {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+
+.post-name-content {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.comment-input {
+  border: none;
+  outline: none;
+  width: 100%;
+  word-break: break-all;
+  overflow-wrap: break-word;
+  white-space: normal;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgb(187, 186, 186);
+}
+
+.comment-input::placeholder {
+  color: #999;
+}
+
+.comment-input:focus::placeholder {
+  color: transparent;
+  cursor: text;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  color: #fff;
+  background-color: #ebe6e6; /* 원하는 배경색을 설정하세요 */
+  border-radius: 50%; /* 원하는 모양을 설정하세요 */
+  font-size: 6px; /* 아이콘 크기를 조정하세요 */
+  width: 24px; /* 아이콘 너비를 조정하세요 */
+  height: 24px; /* 아이콘 높이를 조정하세요 */
+  line-height: 24px; /* 아이콘과 배경 사이의 수직 정렬을 조정하세요 */
+}
+
+
+.carousel-control-prev-icon::before,
+.carousel-control-next-icon::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border-radius: 50%;
+}
+.carousel-indicators {
+  border-radius: 5px;
+}
+.carousel-indicators .active {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  width: 10px;
+  height: 10px;
+}
+
+.carousel-indicators button {
+  background-color: rgba(0, 0, 0, 0.3); /* 원하는 색상으로 변경하세요 */
+  border-radius: 50%;
+  width: 110px;
+  height: 10px;
+  margin: 0 5px;
+}
+
+@media (max-width: 992px) {
+  .main-content {
+    width: 100%;
+    margin: 20px 0;
+  }
+  .main-content,
+  aside {
+    margin: 20px 0;
+  }
+  aside {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .square-image-container {
+    width:100%;
+    height: auto;
+  }
+}
