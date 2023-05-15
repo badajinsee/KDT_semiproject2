@@ -116,3 +116,4 @@ def comments_delete(request, post_pk, comment_pk):
 def notifications(request):
     notifications = Notification.objects.filter(user=request.user, is_read=False).order_by('-created_at')
     return render(request, 'posts/notifications.html', {'notifications': notifications})
+
