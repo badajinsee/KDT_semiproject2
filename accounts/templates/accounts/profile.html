@@ -22,9 +22,23 @@
         <div class="d-flex justicy-content-center">
           <!-- 프로필 사진 -->
           <div class="main_1">
-            <img class="pro_main_img"
-              src="https://www.nemopan.com/files/attach/images/6294/115/834/012/b79dbaf114f50acd111e3a8e0744928e.jpg"
-              alt="">
+            {% comment %} <form action="{% url 'accounts:profile_img'%}" method="POST">
+              {% csrf_token %}
+              {%if request.user == person %}
+                {{ form.as_p }}
+                  {% if person.profile_image %}
+                    <img src="{{ person.profile_image.url }}" alt="post_image" class="col-3 rounded-circle">
+                  {% else %}
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="no_image" class="col-3 rounded-circle">
+                  {% endif %}
+              {% else %}
+                {% if person.profile_image %}
+                  <img src="{{ person.profile_image.url }}" alt="post_image" class="col-3 rounded-circle">
+                {% else %}
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="no_image" class="col-3 rounded-circle">
+                {% endif %}
+              {% endif %} {% endcomment %}
+            {% comment %} </form> {% endcomment %}
           </div>
 
           <!-- 프로필 정보 & 버튼 -->
@@ -44,10 +58,7 @@
               </form>
               {% endif %}
               {% if request.user == person %}
-              <form action="{%url 'accounts:update' %}" method="POST">
-                {% csrf_token %}
-                <input type="submit" value="프로필 편집" class="btn button btn-secondary">
-              </form>
+                <a href="{% url 'accounts:edit' %}" value="프로필 편집" class="btn button btn-secondary">프로필 편집</a>
               {% endif %}
               {% comment %} <button id="followButton" class="btn button btn-primary" type="button">팔로우</button> {% endcomment %}
             </div>

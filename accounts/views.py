@@ -71,7 +71,7 @@ def delete(request):
 
 
 @login_required
-def update(request):
+def edit(request):
     if request.method == 'POST':
         form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
@@ -82,7 +82,7 @@ def update(request):
     context = {
         'form': form,
     }
-    return render(request, 'accounts/update.html', context)
+    return render(request, 'accounts/edit.html', context)
 
 
 def profile(request, username):
