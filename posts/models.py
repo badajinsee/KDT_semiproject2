@@ -6,7 +6,7 @@ from imagekit.processors import ResizeToFill
 
 # Create your models here.
 class Post(models.Model):
-    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     like_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="like_posts"
     )
@@ -17,6 +17,7 @@ class Post(models.Model):
     comment_count = models.IntegerField(default=0)
     latitude = models.FloatField()
     longitude = models.FloatField()
+    location = models.CharField(max_length=100)
 
 
 class PostImage(models.Model):
@@ -29,13 +30,14 @@ class PostImage(models.Model):
         processors=[ResizeToFill(600, 600)],
         format="JPEG",
         options={"quality": 90},
+        blank = False,
         default=default_image,
     )
 
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     parent_comment = models.ForeignKey("self", on_delete=models.CASCADE, null=True)
     content = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
