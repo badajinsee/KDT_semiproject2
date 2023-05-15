@@ -1,0 +1,202 @@
+.main_img {
+  height: 30px;
+  object-fit: contain;
+  margin: 30px;
+}
+
+/* 아이콘 모음 */
+.icons {
+  margin: 20px;
+  font-size: 20px;
+  height: 800px;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 100;
+  font-size: 50px;
+}
+
+/* 사이드바 지정 */
+.sidebar {
+  border-right: 1px solid rgb(219, 219, 219);
+  height: 100%;
+  width: 300px;
+  padding: 12px 8px 20px 12px;
+  position: fixed;
+}
+
+/* 메뉴 클릭시 a 링크 hover */
+.menuhover a:hover {
+  background-color: rgb(242, 242, 242);
+  border-radius: 5%;
+}
+
+div.page-border:hover span.material-symbols-outlined {
+  transform: scale(1.2);
+  transition: transform;
+}
+
+/* 프로필 이미지 크기 조정 */
+.profile {
+  width: 30px;
+  height: 30px;
+  border-radius: 70%;
+  object-fit: cover;
+}
+
+/* 아이콘 a링크 스타일 지정  */
+.a-text {
+  text-decoration: none;
+  color: black;
+}
+
+/* 아이콘 + 글제목 스타일 */
+.page-border {
+  width: 170px;
+  height: 50px;
+  border-radius: 70%;
+}
+
+/* 네브바 푸터 */
+.material-icons {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+}
+.sidebar-footer {
+  position: relative;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  z-index: 1;
+  display: none;
+  min-width: 120px;
+  padding: 0.5rem 0;
+  margin: 0.125rem 0 0;
+  font-size: 1rem;
+  text-align: left;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+/* 더보기 폰트 사이즈 */
+.plus-fontsize {
+  font-size: 18px;
+}
+
+/* 만들기 모달 */
+.modal_overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px);
+  z-index: 99999;
+}
+
+.modal_window {
+  background: white;
+  backdrop-filter: blur(13.5px);
+  -webkit-backdrop-filter: blur(13.5px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  width: 800px;
+  height: 600px;
+  position: relative;
+  padding: 10px;
+  z-index: 99999;
+}
+
+.modal_image_upload {
+  outline: 1px dashed lightgray;
+  outline-offset: -10px;
+  text-align: center;
+  transition: all 0.15s ease-in-out;
+  width: 780px;
+  height: 548px;
+}
+/* 화면의 너비가 800px 이하일 때, div 요소가 표시되지 않음 */
+
+@media (max-width: 800px) {
+  .main_img {
+    display: none;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .sidebar {
+    width: 20%;
+    height: 100%;
+  }
+
+  /*  */
+  .sidebar-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .page-border {
+    width: auto;
+    border-radius: 70%;
+  }
+  /* .dropdown-toggle {
+    font-size: 2rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .dropdown-menu {
+    font-size: 1.5rem;
+    width: 100%;
+  }
+
+  .dropdown-item {
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .material-symbols-outlined {
+    font-size: 2rem;
+  }
+
+  .ms-3 {
+    margin-left: 0.5rem;
+  } */
+}
+
+@media (max-width: 200px) {
+  .sidebar {
+    position: absolute;
+    bottom: 0;
+  }
+}

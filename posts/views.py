@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Post, PostImage, Comment
+from .models import Post, PostImage, Comment, Notification
 from .forms import PostForm, PostImageForm, CommentForm
 
 
@@ -119,3 +119,8 @@ def comments_delete(request, post_pk, comment_pk):
     # if request.user == comment.user:
     comment.delete()
     return redirect("posts:detail", post_pk)
+
+def notifications(request):
+    notifications = Notification.objects.filter(user=request.user, is_read=False).order_by('-created_at')
+    return render(request, 'posts/notifications.html', {'notifications': notifications})
+

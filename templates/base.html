@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>instagram_clone</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+      crossorigin="anonymous"
+    />
+    <!-- css 지정 -->
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/sidebar.css'%}" />
+    <!-- 아이콘 -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <!-- Jquery -->
+
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    {% block sytle %} {% endblock sytle %}
+  </head>
+
+  <body>
+    <div class="row">
+      <div class="col-md-4">
+        <!-- sidebar -->
+        <div class="row">
+          <div
+            class="col-md-3 sidebar"
+            style="display: flex; flex-direction: column"
+          >
+            <!-- 인스타그램 이미지 & 메인페이지 지정 -->
+            <div>
+              <a href="#">
+                <img
+                  class="main_img"
+                  src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png"
+                  alt="Insta main picture"
+              /></a>
+            </div>
+
+            <div class="icons">
+              <!-- 홈 카테고리 -->
+              <div class="d-flex justify-content-between menuhover mb-2">
+                <a class="a-text" href="https://www.naver.com">
+                  <div class="d-flex align-items-center page-border">
+                    <span class="material-symbols-outlined">home</span>
+                    <h1 class="ms-3 hidden">홈</h1>
+                  </div>
+                </a>
+              </div>
+              <!-- 검색 카테고리 -->
+              <div class="d-flex justify-content-between menuhover mb-2">
+                <a class="a-text" href="#">
+                  <div class="d-flex align-items-center page-border">
+                    <span class="material-symbols-outlined"> search </span>
+                    <h1 class="ms-3 hidden">검색</h1>
+                  </div>
+                </a>
+              </div>
+              <!-- 탐색 탭 카테고리 -->
+              <div class="d-flex justify-content-between menuhover mb-2">
+                <a class="a-text" href="#">
+                  <div class="d-flex align-items-center page-border">
+                    <span class="material-symbols-outlined">explore</span>
+                    <h1 class="ms-3 hidden">탐색 탭</h1>
+                  </div>
+                </a>
+              </div>
+              <!-- 알림 카테고리 -->
+              <div class="d-flex justify-content-between menuhover mb-2">
+                <a class="a-text" href="#">
+                  <div class="d-flex align-items-center page-border">
+                    <span class="material-symbols-outlined">favorite</span>
+                    <h1 class="ms-3 hidden">알림</h1>
+                  </div>
+                </a>
+              </div>
+              <!-- 만들기(게시글) 카테고리 -->
+              <div class="d-flex justify-content-between menuhover mb-2">
+                <a class="a-text" href="#" id="sidebar_add_box">
+                  <div class="d-flex align-items-center page-border">
+                    <span class="material-symbols-outlined">add_box</span>
+                    <h1 class="ms-3 hidden">만들기</h1>
+                  </div>
+                </a>
+              </div>
+
+              <!-- 프로필 카테고리 -->
+              <div class="d-flex justify-content-between menuhover mb-2">
+                <a class="a-text" href="#">
+                  <div class="d-flex align-items-center page-border">
+                    <img
+                      class="profile"
+                      src="http://file3.instiz.net/data/file3/2021/05/31/3/e/5/3e53b0b1d44022514120cd75182aeecd.png"
+                      alt=""
+                    />
+                    <h2 class="ms-3 hidden">프로필</h2>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- 네브바 푸터 -->
+            <div class="sidebar-footer menuhover ms-3">
+              <div class="dropdown plus-fontsize">
+                <div
+                  class="d-flex align-items-center page-border dropdown-toggle"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false "
+                >
+                  <span class="material-symbols-outlined"> menu </span>
+                  <h1 class="ms-3 hidden">더 보기</h1>
+                </div>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="#">
+                    <div class="d-flex align-items-center page-border">
+                      <span class="material-symbols-outlined"> settings </span>
+                      <h1 class="ms-3">설정</h1>
+                    </div>
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <div class="d-flex align-items-center page-border">
+                      <span class="material-symbols-outlined">bookmark</span>
+                      <h1 class="ms-3">저장됨</h1>
+                    </div>
+                  </a>
+                  <hr />
+                  <!-- django 할때 로그인 부분 구현  -->
+                  <!-- <a class="dropdown-item" href="#">로그인</a> -->
+                  <a class="dropdown-item" href="#">로그아웃</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+          crossorigin="anonymous"
+        ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+          crossorigin="anonymous"
+        ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+        {% comment %}
+        <div class="modal_overlay">
+          <div class="modal_window"></div>
+        </div>
+        {% endcomment %}
+
+        <!-- 더보기 토글 -->
+        <script>
+          const dropdownButton = document.querySelector(".dropdown-toggle");
+          const dropdownMenu = document.querySelector(".dropdown-menu");
+
+          dropdownButton.addEventListener("click", () => {
+            dropdownMenu.classList.toggle("show");
+          });
+
+          window.addEventListener("click", (event) => {
+            if (!event.target.matches(".dropdown-toggle")) {
+              dropdownMenu.classList.remove("show");
+            }
+          });
+        </script>
+      </div>
+      <div class="col-md-8">{% block content %}{% endblock content %}</div>
+    </div>
+    <!-- 첫번째 모달 -->
+    <div id="first_modal" class="modal_overlay">
+      <div class="modal_window" style="width: 1000px; height: 700px">
+        <div
+          style="
+            border-bottom: solid 1px lightgray;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding-bottom: 10px;
+          "
+        >
+          <div style="width: 40px"></div>
+          <div>새 이미지 업로드</div>
+          <div style="width: 40px">
+            <a class="a-text close_modal" href="#" style="color: black">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-x-lg"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div
+          class="img_upload_space modal_image_upload"
+          style="width: 977px; height: 641px; margin-top: 10px"
+        ></div>
+      </div>
+    </div>
+    <!-- 두번째 모달 -->
+    <div id="second_modal" class="modal_overlay">
+      <div class="modal_window" style="width: 1000px; height: 700px">
+        <div
+          style="
+            border-bottom: solid 1px lightgray;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding-bottom: 10px;
+          "
+        >
+          <div style="width: 40px"></div>
+          <div>새 이미지 업로드</div>
+          <div style="width: 40px">
+            <a class="a-text close_modal" href="" style="color: black">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-x-lg"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: row">
+          <div
+            class="img_upload_space"
+            style="width: 500px; height: 540px; margin: 10px"
+          ></div>
+          <div>
+            <textarea
+              class="form-control"
+              id="exampleFormControlTextarea1"
+              rows="10"
+              placeholder=".내용을 입력해주세요"
+              style="
+                width: 449px;
+                height: 588px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+              "
+            ></textarea>
+            <button type="button" class="btn btn-primary" style="width: 100%">
+              공유하기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Jquery -->
+    <script>
+      $("#sidebar_add_box").click(function () {
+        $("#first_modal").css({
+          display: "flex",
+        });
+
+        $(document.body).css({
+          overflowY: "hidden",
+        });
+      });
+      $(".close_modal").click(function () {
+        $(".modal_overlay").css({
+          display: "none",
+        });
+
+        $(document.body).css({
+          overflowY: "hidden",
+        });
+      });
+      $(".img_upload_space")
+        .on("dragover", dragOver)
+        .on("dragleave", dragOver)
+        .on("drop", uploadFiles);
+
+      function dragOver(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        if (e.type == "dragover") {
+          $(e.target).css({
+            "background-color": "black",
+            "outline-offset": "-20px",
+          });
+        } else {
+          $(e.target).css({
+            "background-color": "gray",
+            "outline-offset": "-10px",
+          });
+        }
+      }
+
+      function uploadFiles(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        dragOver(e); //1
+
+        e.dataTransfer = e.originalEvent.dataTransfer; //2
+        var files = e.target.files || e.dataTransfer.files;
+        console.log("뭔가 파일을 올렸네??" + files[0].name);
+        if (files.length > 1) {
+          alert("하나만 올려라.");
+          return;
+        }
+        if (files[0].type.match(/image.*/)) {
+        } else {
+          alert("이미지가 아닙니다.");
+          return;
+        }
+        if (files[0].type.match(/image.*/)) {
+          $("#first_modal").css({
+            display: "none",
+          });
+
+          $("#second_modal").css({
+            display: "flex",
+          });
+
+          $(".img_upload_space").css({
+            "background-image":
+              "url(" + window.URL.createObjectURL(files[0]) + ")",
+            outline: "none",
+            "background-size": "100%",
+            "background-repeat": "no-repeat",
+            "background-position": "center",
+          });
+        } else {
+          alert("이미지가 아닙니다.");
+          return;
+        }
+      }
+    </script>
+    {% comment %}
+    <script src="{% static 'js/script.js' %}"></script>
+    {% endcomment %}
+  </body>
+</html>

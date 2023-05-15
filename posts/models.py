@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
+from accounts.models import User
 
 
 # Create your models here.
@@ -42,3 +43,10 @@ class Comment(models.Model):
     content = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)

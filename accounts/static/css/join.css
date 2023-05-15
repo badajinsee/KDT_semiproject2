@@ -1,0 +1,130 @@
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+
+/* 폰트지정 */
+* {
+  font-family: "Spoqa Han Sans Neo", "sans-serif";
+}
+
+/* 인스타 이미지 */
+.main_img {
+  width: 280px;
+  margin-top: 40px;
+  /* margin-bottom: 10px; */
+}
+
+/* h2 */
+.join_font_size {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 20px;
+  color: rgb(115, 115, 115);
+  margin: 0 40px 10px 40px;
+}
+
+/* 전체 컨테이너 */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 70px;
+}
+
+/* 로그인 폼 전체 */
+.login_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 350px;
+  height: 558px;
+  /*  */
+  padding: 10px auto;
+  border: 1px solid #dfdfdf;
+  border-radius: 3px;
+  text-align: center;
+}
+
+/* input 부분 */
+.input_size {
+  width: 260px;
+  height: 40px;
+  padding: 14px 0 2px 8px;
+  display: block;
+  background-color: #fcfcfc;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+/* 로그인 버튼 */
+.join_button {
+  width: 260px;
+  height: 35px;
+  background-color: rgb(122, 179, 244);
+  border: none;
+}
+
+/* 페이스북 로그인 버튼 */
+.facebook_login_button {
+  width: 260px;
+  height: 35px;
+  background-color: rgb(65, 147, 239);
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+/* 페이스북 로그인 버튼 a 태그 */
+.facebook_login_button a {
+  text-decoration: none;
+  color: white;
+}
+
+/* 화원가입 링크 연결 div */
+.haveAccount {
+  width: 350px;
+  height: 70px;
+  margin-top: 10px;
+  padding: 15px;
+  border: 1px solid #dfdfdf;
+  border-radius: 3px;
+  text-align: center;
+}
+
+/* 회원가입 P태그 */
+.haveAccount p {
+  font-size: 14px;
+  font-weight: 400;
+  color: #333333;
+  margin: 15px;
+}
+
+/* 회원가입 P > a */
+.haveAccount p a {
+  font-weight: 600;
+  color: #248ae3;
+  text-decoration: none;
+}
+
+/* 다운로드 이미지 */
+.down_img {
+  width: 136px;
+  height: 40px;
+}
+
+/* 또는 지정 */
+.or {
+  font-size: 13px;
+  color: #999999;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0px 15px;
+  margin-bottom: 10px;
+}
+
+/* 다운로드 P태그 */
+.app_font {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 14px;
+}
