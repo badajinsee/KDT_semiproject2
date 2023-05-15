@@ -8,9 +8,10 @@
 </head>
 <body>
   <h1>detail</h1>
-  {% for post in posts %}
+
     {{ post.content }}
-  {% endfor %}
+    {{ post.location }}
+  <br>
 
   {% for post_image in post.post_images.all %}
     <img src="{{ post_image.image.url }}" alt="">

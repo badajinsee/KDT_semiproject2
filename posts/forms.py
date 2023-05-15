@@ -8,6 +8,7 @@ class PostForm(forms.ModelForm):
             'content',
             'latitude',
             'longitude',
+            'location',
         )
 
 

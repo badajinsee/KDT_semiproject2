@@ -41,7 +41,7 @@ def create(request):
         imageForm = PostImageForm(request.POST, request.FILES)
         if form.is_valid() and imageForm.is_valid():
             post = form.save(commit=False)
-            # post.user = request.user
+            post.user = request.user
             form.save()
 
             for image in request.FILES.getlist("image"):
@@ -64,17 +64,24 @@ def update(request, post_pk):
     post = Post.objects.get(pk=post_pk)
     if request.user == post.user:
         if request.method == "POST":
-            form = PostForm(request.POST, request.FILES, instance=post)
-            if form.is_valid():
+            form = PostForm(request.POST, instance=post)
+            imageForm = PostImageForm(request.POST, request.FILES, instance=post.post_images.first())
+            if form.is_valid() and imageForm.is_valid():
                 form.save()
+
+                # PostImage.objects.filter(post=post).delete()
+                for image in request.FILES.getlist("image"):
+                    PostImage.objects.create(post=post, image=image)
                 return redirect("posts:detail", post.pk)
         else:
             form = PostForm(instance=post)
+            imageForm = PostImageForm(instance=post.post_images.first())
     else:
         return redirect("posts:index")
     context = {
         "post": post,
         "form": form,
+        "imageForm": imageForm,
     }
 
     return render(request, "posts/update.html", context)
