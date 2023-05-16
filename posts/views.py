@@ -34,7 +34,6 @@ def detail(request, post_pk):
 
     return render(request, "posts/detail.html", context)
 
-
 def create(request):
     if request.method == "POST":
         form = PostForm(request.POST)
@@ -46,7 +45,7 @@ def create(request):
 
             for image in request.FILES.getlist("image"):
                 PostImage.objects.create(post=post, image=image)
-            return redirect("posts:detail", post.pk)
+            return redirect("accounts:profile", post.user.username)
 
     else:
         form = PostForm()
@@ -58,7 +57,6 @@ def create(request):
     }
 
     return render(request, "posts/create.html", context)
-
 
 def update(request, post_pk):
     post = Post.objects.get(pk=post_pk)
