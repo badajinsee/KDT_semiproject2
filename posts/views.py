@@ -43,11 +43,6 @@ def create(request):
     if request.method == "POST":
         form = PostForm(request.POST)
         imageForm = PostImageForm(request.POST, request.FILES)
-        print('\n')
-        print("여기는 form",form) 
-        print('\n')
-        print("여기는 imageForm",imageForm)
-        print('\n')
         if form.is_valid() and imageForm.is_valid():
             post = form.save(commit=False)
             post.user = request.user
@@ -66,7 +61,7 @@ def create(request):
         "imageForm": imageForm,
     }
 
-    return render(request, "posts/create-ex.html", context)
+    return render(request, "posts/create.html", context)
 
 def update(request, post_pk):
     post = Post.objects.get(pk=post_pk)
