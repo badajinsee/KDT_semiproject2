@@ -1,6 +1,6 @@
 .pro_main_img {
-  width: 150px;
-  height: 150px;
+  width: 170px;
+  height: 170px;
   border-radius: 90px;
   overflow: hidden;
   margin-right: 70px;
@@ -8,7 +8,6 @@
 
 .container {
   display: flex;
-  justify-content: center;
 }
 
 .main {
@@ -23,10 +22,14 @@
   margin-left: 50px;
   order: 1;
   margin-top: 50px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .main2 h2 {
-  height: 10px;
+  margin-right: 20px;
 }
 
 .button {
@@ -34,16 +37,19 @@
 }
 
 .main_3 {
-  /* display: flex; */
   order: 2;
   margin-right: 0;
+  margin-top: 10px;
+  text-align: center;
 }
 
 .main_3 li {
   list-style: none;
   display: inline;
   margin-right: 10px;
-  font-weight: 600;
+  font-size: 16px;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .main_3 ul {
@@ -95,11 +101,11 @@
 
 .following {
   background-color: rgb(219, 219, 219) !important;
-  border: 1px solid rgb(219, 219, 219);
+  /* border: 1px solid rgb(219, 219, 219); */
   color: black;
 }
 
-/* 프로필 이미지 모달 */
+/* 이미지 모달 */
 #modal_overlay_profile {
   width: 100%;
   height: 100%;
@@ -169,4 +175,8 @@
 .comment-input:focus::placeholder {
   color: transparent;
   cursor: text;
+}
+
+.btnfont {
+  font-size: 16px;
 }
