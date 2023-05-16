@@ -9,8 +9,10 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 @login_required
 def index(request):
-    posts = Post.objects.filter(user__in=request.user.followings.all()).order_by('-updated_at')
-    users = User.objects.exclude(Q(followers=request.user) | Q(id=request.user.id))
+    posts = Post.objects.filter(
+        Q(user__in=request.user.followings.all()) | Q(user=request.user))
+    users = User.objects.exclude(
+        Q(followers=request.user) | Q(id=request.user.id))
     context = {
         "posts": posts,
         "users": users,
@@ -39,6 +41,7 @@ def detail(request, post_pk):
 
     return render(request, "posts/detail.html", context)
 
+
 def create(request):
     if request.method == "POST":
         form = PostForm(request.POST)
@@ -62,6 +65,7 @@ def create(request):
     }
 
     return render(request, "posts/create.html", context)
+
 
 def update(request, post_pk):
     post = Post.objects.get(pk=post_pk)
