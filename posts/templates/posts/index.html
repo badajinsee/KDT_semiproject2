@@ -280,7 +280,8 @@
         {% else %}
         <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
         {% endif %}
-        <div class='post-header-m fw-bold ms-3'>{{user}}</div>
+        {% comment %} 따로 작업필요 {% endcomment %}
+        <a href="{%url 'accounts:profile' user %}" class='post-header-m fw-bold ms-3'>{{user}}</a>
       </div>
       <div class="d-flex justify-content-between mt-3 mb-3 ">
         <div class="fw-bold"style='color:gray'>회원님을 위한 추천</div>
