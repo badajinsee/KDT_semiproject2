@@ -37,7 +37,7 @@ class PostImage(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     parent_comment = models.ForeignKey("self", on_delete=models.CASCADE, null=True)
     content = models.CharField(max_length=200)

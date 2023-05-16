@@ -1,6 +1,7 @@
 
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block style %}
 
 <link rel="stylesheet" href="{% static 'css/index.css' %}">
@@ -18,235 +19,290 @@
 {% block content %}
   <div class="row">
     <main class="col-lg-9 col-md-12 main-content m-5" style="max-width: 500px;"><!-- 게시글 헤더 -->
-      <div class="text-center">
-        <div style="display: flex; align-items: center;">
-          <img class="circle-image post-header-m" src="{% static 'img/image1.jpg' %}" alt="Post Image">
-          <div class='post-header-m fw-bold'>유저 이름<i class="bi bi-dot ms-3" style="color:gray"></i></div>
-          <div class='post-header-m'>2분 전</div>
-          <div class='post-header-m'>팔로우</div>
-          <!-- 게시글 모달-->
-          <button  style="margin-left: auto;" type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal_header">
-            <i class="bi bi-three-dots"></i>
-          </button>
-        </div>
-      </div>
-      <!-- Modal -->
-      <div class="modal fade" id="exampleModal_header" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-              <div class="list-group text-center">
-                <!-- 팔로우 일때 -->
-                <a href="#" class="list-group-item list-group-item-action p-3">신고</a> 
-                <a href="#" class="list-group-item list-group-item-action p-3">팔로우취소</a>
-                <a href="#" class="list-group-item list-group-item-action p-3">즐겨찾기에 추가</a>
-                <a href="#" class="list-group-item list-group-item-action p-3">게시물로 이동</a>
-                <a href="#" class="list-group-item list-group-item-action p-3">공유 대상...</a>
-                <a href="#" class="list-group-item list-group-item-action p-3">링크 복사</a>
-                <a href="#" class="list-group-item list-group-item-action p-3">퍼가기</a>
-                <a href="#" class="list-group-item list-group-item-action p-3">이 계정 정보</a>
-                <a href="#" class="list-group-item list-group-item-action p-3">취소</a>
-                <!-- 팔로우 아닐때 
-                  <a href="#" class="list-group-item list-group-item-action p-3">신고</a> 
-                  <a href="#" class="list-group-item list-group-item-action p-3">관심 없음</a>
-                  <a href="#" class="list-group-item list-group-item-action p-3">게시물로 이동</a>
-                  <a href="#" class="list-group-item list-group-item-action p-3">공유 대상...</a>
-                  <a href="#" class="list-group-item list-group-item-action p-3">링크 복사</a>
-                  <a href="#" class="list-group-item list-group-item-action p-3">퍼가기</a>
-                  <a href="#" class="list-group-item list-group-item-action p-3">이 계정 정보</a>
-                  <a href="#" class="list-group-item list-group-item-action p-3">취소</a>
-                -->
-              </div>
-          </div>
-        </div>
-      </div>
-    <div class="mt-3 square-image-container"> <!-- 게시글 이미지 캐러셀 -->
-      <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
-        <div class="carousel-indicators">
-
-          <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
-          <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
-          <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
-
-        </div>
-        <div class="carousel-inner rounded">
-          <div class="carousel-item active">
-            <img src="{% static "img/image1.jpg" %}" class="d-block square-image" alt="...">
-          </div>
-          <div class="carousel-item">
-            <img src="{% static 'img/image2.jpg' %}" class="d-block square-image" alt="...">
-          </div>
-          <div class="carousel-item">
-            <img src="{% static 'img/image3.jpg' %}" class="d-block  square-image" alt="...">
-          </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon">
-            <i class="fas fa-chevron-left"></i>
-          </span>
-          <span class="visually-hidden">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
-          <span class="carousel-control-next-icon">
-            <i class="fas fa-chevron-right"></i> <!-- Font Awesome 아이콘 사용 -->
-          </span>
-          <span class="visually-hidden">Next</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="mt-2"> <!-- 왼쪽에 좋아요, 댓글, 메시지/ 오른쪽 북마크 -->
-      <i class="bi bi-heart me-3 icon-size"></i>
-      <i class="bi bi-chat me-3 icon-size"></i>
-      <i class="bi bi-send me-3 icon-size"></i>
-      <span style="float: right;"><i class="bi bi-bookmark" style="font-size: 25px;"></i></span>
-    </div>
-    <div> <!-- 좋아요 개수 / 누르면 좋아요 누른사람이 뜸-->
-      <button type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal_like" style="padding-left: 0;">
-        좋아요 개수
-      </button>
-      
-      <!-- Modal -->
-      <div class="modal fade" id="exampleModal_like" tabindex="-1" aria-labelledby="exampleModalLabel_like" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel_like">좋아요</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <p>유저네임</p>
-              <p>유저네임</p>
-              <p>유저네임</p>
-            </div>
-            
-          </div>
-        </div>
-      </div>
-    </div>
-    <div> <!-- 본문 내용/ 길면 ...더보기 클릭시 전체 댓글-->
-      <div>
+      <!-- 여기서 부터 팔로우한 게시글 출력 -->
+      {% for post in posts %}
         <div>
-          <div class="post-name-content">
-            <div class="post-username fw-bold">본문 유저네임</div>
-            <div class="post-content">본문내용본문내용본문내용본문내용본문내용본문내용본문내용본문내용본문내용본문내용본문내용본문내용본문내용본문내용본문내용본문내용본문내용</div>
+          <div class="text-center">
+            <div style="display: flex; align-items: center;">
+              {% if post.user.profile_image %}
+              <img class="circle-image post-header-m" src="{{ post.user.profile_image.url }}" alt="Post Image">
+              {% else %}
+              <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
+              {% endif %}
+              
+              <div class='post-header-m fw-bold'>{{post.user}}<i class="bi bi-dot ms-3" style="color:gray"></i></div>
+              <div class='post-header-m'>{{ post.updated_at|custom_timesince }}</div>
+              {% comment %} <div class='post-header-m'>팔로우</div> {% endcomment %}
+              <!-- 게시글 모달-->
+              <button  style="margin-left: auto;" type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="exampleModal_header{{ forloop.counter0 }}">
+                <i class="bi bi-three-dots"></i>
+              </button>
+            </div>
           </div>
-          <a href="#" class='a-decoration' style="color:gray">더 보기</a>
-        </div>
-      </div>
-    </div>
-    <div class='mt-2'> <!-- 댓글 개수 모두보기 누르면 모달-->
-      <button type="button" class="btn ps-0" data-bs-toggle="modal" data-bs-target="#newModal">
-      댓글 개수 더보기
-      </button>
-      
-      <div class="modal fade" id="newModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-          <div class="modal-content">
-            <div class="modal-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <!-- 게시글 이미지 -->
-                  <img src="{% static 'img/image1.jpg' %}" alt="게시글이미지" style="max-width: 100%;  max-height:100%; width:500px; height:500px; object-fit: cover;">
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal_header{{ forloop.counter0 }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                  <div class="list-group text-center">
+                    <!-- 팔로우 일때 -->
+                    <a href="#" class="list-group-item list-group-item-action p-3">신고</a> 
+                    <a href="#" class="list-group-item list-group-item-action p-3">팔로우취소</a>
+                    <a href="#" class="list-group-item list-group-item-action p-3">즐겨찾기에 추가</a>
+                    <a href="#" class="list-group-item list-group-item-action p-3">게시물로 이동</a>
+                    <a href="#" class="list-group-item list-group-item-action p-3">공유 대상...</a>
+                    <a href="#" class="list-group-item list-group-item-action p-3">링크 복사</a>
+                    <a href="#" class="list-group-item list-group-item-action p-3">퍼가기</a>
+                    <a href="#" class="list-group-item list-group-item-action p-3">이 계정 정보</a>
+                    <a href="#" class="list-group-item list-group-item-action p-3">취소</a>
+                    <!-- 팔로우 아닐때 
+                      <a href="#" class="list-group-item list-group-item-action p-3">신고</a> 
+                      <a href="#" class="list-group-item list-group-item-action p-3">관심 없음</a>
+                      <a href="#" class="list-group-item list-group-item-action p-3">게시물로 이동</a>
+                      <a href="#" class="list-group-item list-group-item-action p-3">공유 대상...</a>
+                      <a href="#" class="list-group-item list-group-item-action p-3">링크 복사</a>
+                      <a href="#" class="list-group-item list-group-item-action p-3">퍼가기</a>
+                      <a href="#" class="list-group-item list-group-item-action p-3">이 계정 정보</a>
+                      <a href="#" class="list-group-item list-group-item-action p-3">취소</a>
+                    -->
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-3 square-image-container"> <!-- 게시글 이미지 캐러셀 -->
+            <div id="carouselExampleIndicators{{ forloop.counter0 }}" class="carousel slide" data-bs-ride="true">
+              <div class="carousel-indicators">
+                <!-- 캐러셀 연결 추가 -->
+                {% comment %} {% for  in  %}{% endfor %} {% endcomment %}
+                {% for image in post.post_images.all %}
+                  {% if forloop.counter0 == 0 %} 
+                    <li data-bs-target="#carouselExampleIndicators{{ forloop.parentloop.counter0 }}" data-bs-slide-to="{{ forloop.counter0 }}" class="active"></li>
+                  {% else %}
+                    <li data-bs-target="#carouselExampleIndicators{{ forloop.parentloop.counter0 }}" data-bs-slide-to="{{ forloop.counter0 }}"></li>
+                  {% endif %}
+                {% endfor %}
+                
+              </div>
+              <div class="carousel-inner rounded">
+                {% for image in post.post_images.all %}
+                  {% if forloop.counter0 == 0 %}
+                  <div class="carousel-item active">
+                    <img src="{{ image.image.url }}" class="d-block square-image" alt="...">
+                  </div>
+                  {% else %}
+                  <div class="carousel-item">
+                    <img src="{{ image.image.url }}" class="d-block square-image" alt="...">
+                  </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              <a class="carousel-control-prev" href="#carouselExampleIndicators{{ forloop.counter0 }}" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon">
+                  <i class="fas fa-chevron-left"></i>
+                </span>
+                <span class="visually-hidden">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#carouselExampleIndicators{{ forloop.counter0 }}" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon">
+                  <i class="fas fa-chevron-right"></i> <!-- Font Awesome 아이콘 사용 -->
+                </span>
+                <span class="visually-hidden">Next</span>
+              </a>
+            </div>
+          </div>  
+
+          <div class="mt-2"> <!-- 왼쪽에 좋아요, 댓글, 메시지/ 오른쪽 북마크 -->
+            <i class="bi bi-heart me-3 icon-size"></i>
+            <i class="bi bi-chat me-3 icon-size"></i>
+            <i class="bi bi-send me-3 icon-size"></i>
+            <span style="float: right;"><i class="bi bi-bookmark" style="font-size: 25px;"></i></span>
+          </div>
+          <div> <!-- 좋아요 개수 / 누르면 좋아요 누른사람이 뜸-->
+            <button type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal_like" style="padding-left: 0;">
+              좋아요 개수 : {{post.like_count}}
+            </button>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal_like" tabindex="-1" aria-labelledby="exampleModalLabel_like" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel_like">좋아요</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>유저네임</p>
+                    <p>유저네임</p>
+                    <p>유저네임</p>
+                  </div>
+                  
                 </div>
-                <div class="col-md-6">
-                  <div class="row">
-                    <div class="col-12">
-                      <!-- 유저네임 -->
-                      <div class="mb-3 pb-3"style="display: flex; align-items: center; border-bottom: 1px solid lightgray;">
-                        <img class="circle-image post-header-m" src="{% static 'img/image1.jpg' %}" alt="Post Image">
-                        <div class='post-header-m fw-bold'>유저 이름</div>
-                        <!-- 게시글 모달-->
-                        <button  style="margin-left: auto;" type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal_header">
-                          <i class="bi bi-three-dots"></i>
-                        </button>
-                        <div style=" border-bottom: 2px solid;"></div>
+              </div>
+            </div>
+          </div>
+          <div> <!-- 본문 내용/ 길면 ...더보기 클릭시 전체 댓글-->
+            <div>
+              <div>
+                <div class="post-name-content">
+                  <div class="post-username fw-bold">{{post.user}}</div>
+                  <div class="post-content">{{post.content}}</div>
+                </div>
+                <a href="#" class='a-decoration' style="color:gray">더 보기</a>
+              </div>
+            </div>
+          </div>
+          <div class='mt-2'> <!-- 댓글 개수 모두보기 누르면 모달-->
+            {% comment %} {% if post.comments%} {% endcomment %}
+              <button type="button" class="btn ps-0" data-bs-toggle="modal" data-bs-target="#newModal{{ forloop.counter0 }}">
+              댓글 {{ post.comments|length }}개 모두 보기
+              </button>
+            {% comment %} {% endif %} {% endcomment %}
+            
+            <div class="modal fade" id="newModal{{ forloop.counter0 }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <!-- 게시글 이미지 -->
+                        <div class="mt-3 square-image-container"> <!-- 게시글 이미지 캐러셀 -->
+                          <div id="carouselExampleIndicators-modal{{ forloop.counter0 }}" class="carousel slide" data-bs-ride="true">
+                            <div class="carousel-indicators">
+                              {% for image in post.post_images.all %}
+                                {% if forloop.counter0 == 0 %} 
+                                  <li data-bs-target="#carouselExampleIndicators-modal{{ forloop.parentloop.counter0 }}" data-bs-slide-to="{{ forloop.counter0 }}" class="active"></li>
+                                {% else %}
+                                  <li data-bs-target="#carouselExampleIndicators-modal{{ forloop.parentloop.counter0 }}" data-bs-slide-to="{{ forloop.counter0 }}"></li>
+                                {% endif %}
+                              {% endfor %}
+                    
+                            </div>
+                            <div class="carousel-inner rounded">
+                              {% for image in post.post_images.all %}
+                                {% if forloop.counter0 == 0 %}
+                                <div class="carousel-item active">
+                                  <img src="{{ image.image.url }}" class="d-block square-image" alt="...">
+                                </div>
+                                {% else %}
+                                <div class="carousel-item">
+                                  <img src="{{ image.image.url }}" class="d-block square-image" alt="...">
+                                </div>
+                                {% endif %}
+                              {% endfor %}
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators-modal{{ forloop.counter0 }}" role="button" data-bs-slide="prev">
+                              <span class="carousel-control-prev-icon">
+                                <i class="fas fa-chevron-left"></i>
+                              </span>
+                              <span class="visually-hidden">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleIndicators-modal{{ forloop.counter0 }}" role="button" data-bs-slide="next">
+                              <span class="carousel-control-next-icon">
+                                <i class="fas fa-chevron-right"></i> <!-- Font Awesome 아이콘 사용 -->
+                              </span>
+                              <span class="visually-hidden">Next</span>
+                            </a>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-12">
-                      <!-- 유저 이미지 -->
-                      <div style="display: flex; align-items: center;">
-                        <img class="circle-image post-header-m" src="{% static 'img/image1.jpg' %}" alt="Post Image">
-                        <div class='post-header-m fw-bold'>유저 이름</div>
-                        
+                      <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-12">
+                            <!-- 유저네임 -->
+                            <div class="mb-3 pb-3"style="display: flex; align-items: center; border-bottom: 1px solid lightgray;">
+                              {% if post.user.profile_image %}
+                              <img class="circle-image post-header-m" src="{{ post.user.profile_image.url }}" alt="Post Image">
+                              {% else %}
+                              <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
+                              {% endif %}
+                              <div class='post-header-m fw-bold'>{{ post.user }}</div>
+                              <!-- 게시글 모달-->
+                              <button  style="margin-left: auto;" type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="#newModal{{ forloop.counter0 }}">
+                                <i class="bi bi-three-dots"></i>
+                              </button>
+                              <div style=" border-bottom: 2px solid;"></div>
+                            </div>
+                          </div>
+                          <div class="col-12">
+                            <!-- 유저 이미지 -->
+                            <div style="display: flex; align-items: center;">
+                              {% if post.user.profile_image %}
+                              <img class="circle-image post-header-m" src="{{ post.user.profile_image.url }}" alt="Post Image">
+                              {% else %}
+                              <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
+                              {% endif %}
+                              <div class='post-header-m fw-bold'>{{ post.user }}</div>
+                              
+                            </div>
+                          </div>
+                          <div class="col-12">
+                            <!-- 본문 -->
+                            <p class="mt-3">{{ post.content }}</p>
+                          </div>
+                          <div class="col-12">
+                            <!-- 좋아요, 댓글, 메세지, 북마크 아이콘 -->
+                            <i class="bi bi-heart me-3 icon-size"></i>
+                            <i class="bi bi-chat me-3 icon-size"></i>
+                            <i class="bi bi-send me-3 icon-size"></i>
+                            <span style="float: right;"><i class="bi bi-bookmark" style="font-size: 25px;"></i></span>
+                          </div>
+                          <div class="col-12">
+                            <!-- 좋아요 개수 -->
+                            <span>좋아요 개수 : {{post.like_count}}</span>
+                          </div>
+                          <div class="col-12">
+                            <!-- 생성 일자 -->
+                            <span>생성일자</span>
+                          </div>
+                          <div class="col-12">
+                            <!-- 댓글 입력 폼 -->
+                            <input type="text" class="comment-input" placeholder="댓글 달기">
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-12">
-                      <!-- 본문 -->
-                      <p class="mt-3">본문 내용</p>
-                    </div>
-                    <div class="col-12">
-                      <!-- 좋아요, 댓글, 메세지, 북마크 아이콘 -->
-                      <i class="bi bi-heart me-3 icon-size"></i>
-                      <i class="bi bi-chat me-3 icon-size"></i>
-                      <i class="bi bi-send me-3 icon-size"></i>
-                      <span style="float: right;"><i class="bi bi-bookmark" style="font-size: 25px;"></i></span>
-                    </div>
-                    <div class="col-12">
-                      <!-- 좋아요 개수 -->
-                      <span>좋아요 개수</span>
-                    </div>
-                    <div class="col-12">
-                      <!-- 생성 일자 -->
-                      <span>생성일자</span>
-                    </div>
-                    <div class="col-12">
-                      <!-- 댓글 입력 폼 -->
-                      <input type="text" class="comment-input" placeholder="댓글 달기">
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <div> <!-- 댓글달기-->
+            <input type="text" class="comment-input" placeholder="댓글 달기">
+          </div>
         </div>
-      </div>
+      {% endfor %}
       
-    </div>
-    <div> <!-- 댓글달기-->
-      <input type="text" class="comment-input" placeholder="댓글 달기">
-    </div>
-
+      
     </main>
     <aside class="col-lg-3 d-lg-block d-none mt-5">  <!-- 오른쪽 사이드 부분 -->
       <div style="display: flex; align-items: center;">
-        <img class="circle-image post-header-m" src="{% static 'img/image1.jpg' %}" alt="Post Image">
-        <div class='post-header-m fw-bold ms-3'>유저 이름</div>
+        {% if user.profile_image %}
+        <img class="circle-image post-header-m" src="{{ user.profile_image.url }}" alt="Post Image">
+        {% else %}
+        <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
+        {% endif %}
+        <div class='post-header-m fw-bold ms-3'>{{user}}</div>
       </div>
       <div class="d-flex justify-content-between mt-3 mb-3 ">
         <div class="fw-bold"style='color:gray'>회원님을 위한 추천</div>
         <a href="#" class="a-decoration fw-bold" style="color:black">모두보기</a>
       </div>
+      {% for fol_user in users %}
       <div class="d-flex justify-content-between align-items-center mb-3">
-
         <div style="display: flex; align-items: center;">
-          <img class="circle-image post-header-m" src="{% static 'img/image1.jpg' %}" alt="Post Image">
-          <div class='post-header-m fw-bold ms-3'>유저 이름</div>
+          {% if fol_user.user.profile_image %}
+          <img class="circle-image post-header-m" src="{{ fol_user.profile_image.url }}" alt="Post Image">
+          {% else %}
+          <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
+          {% endif %}
+          <div class='post-header-m fw-bold ms-3'>{{fol_user}}</div>
         </div>
         <div>
           <a href="#" class="a-decoration fw-bold ">팔로우</a>
         </div>
       </div>
-      <div class="d-flex justify-content-between align-items-center mb-3">
-
-        <div style="display: flex; align-items: center;">
-          <img class="circle-image post-header-m" src="{% static 'img/image1.jpg' %}" alt="Post Image">
-          <div class='post-header-m fw-bold ms-3'>유저 이름</div>
-        </div>
-        <div>
-          <a href="#" class="a-decoration fw-bold ">팔로우</a>
-        </div>
-      </div>
-      <div class="d-flex justify-content-between align-items-center mb-3">
-
-        <div style="display: flex; align-items: center;">
-          <img class="circle-image post-header-m" src="{% static 'img/image1.jpg' %}" alt="Post Image">
-          <div class='post-header-m fw-bold ms-3'>유저 이름</div>
-        </div>
-        <div>
-          <a href="#" class="a-decoration fw-bold ">팔로우</a>
-        </div>
-      </div>
-      <div>
+      {% endfor %}
+      
+      <div>  
         <a href="https://about.instagram.com/" class="a-decoration fw-bold" style="color:lightgray; font-size:13px;" target="_blank">소개</a><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot mb-1" viewBox="0 0 16 16" style="color:lightgray">
           <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
         </svg>
