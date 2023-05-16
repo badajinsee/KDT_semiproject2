@@ -79,8 +79,8 @@
   word-break: break-all;
   overflow-wrap: break-word;
   white-space: normal;
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgb(187, 186, 186);
+  padding-top: 20px;
+
 }
 
 .comment-input::placeholder {
@@ -124,13 +124,14 @@
   border-radius: 5px;
 }
 
+/* 
 .carousel-indicators .active {
-  /* background-color: transparent; */
-  /* border: none; */
-  /* box-shadow: none; */
-  /* width: 10px;
-  height: 10px; */
-}
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  width: 10px;
+  height: 10px;
+} */
 
 .carousel-indicators button {
   background-color: rgba(0, 0, 0, 0.3);

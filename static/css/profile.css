@@ -14,6 +14,7 @@
   align-items: center;
   flex-wrap: wrap;
 }
+
 .main_1 {
   margin: 20px;
 }
@@ -74,7 +75,8 @@
   margin-right: 4px;
   margin-bottom: 4px;
   box-sizing: border-box;
-  width: calc(33.33% - 4px); /* 이미지 너비(309px) * 3개 + 마진(4px) */
+  width: calc(33.33% - 4px);
+  /* 이미지 너비(309px) * 3개 + 마진(4px) */
   position: relative;
 }
 

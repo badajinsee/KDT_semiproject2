@@ -71,6 +71,7 @@ div.page-border:hover span.material-symbols-outlined {
   word-wrap: normal;
   direction: ltr;
 }
+
 .sidebar-footer {
   position: relative;
 }
@@ -131,7 +132,6 @@ div.page-border:hover span.material-symbols-outlined {
   width: 800px;
   height: 600px;
   position: relative;
-  padding: 10px;
   z-index: 99999;
 }
 
@@ -143,6 +143,7 @@ div.page-border:hover span.material-symbols-outlined {
   width: 780px;
   height: 548px;
 }
+
 /* 화면의 너비가 800px 이하일 때, div 요소가 표시되지 않음 */
 
 @media (max-width: 800px) {
@@ -170,6 +171,7 @@ div.page-border:hover span.material-symbols-outlined {
     width: auto;
     border-radius: 70%;
   }
+
   /* .dropdown-toggle {
     font-size: 2rem;
     padding: 0.5rem 1rem;
