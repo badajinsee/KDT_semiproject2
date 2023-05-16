@@ -1,0 +1,62 @@
+.header h1 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.header {
+  margin: 20px;
+}
+
+.box1 {
+  border: 2px solid rgb(237, 237, 237);
+  width: 700px;
+  height: 500px;
+}
+
+.box1 h2 {
+  font-size: 24px;
+  font-weight: 400;
+  margin-top: 20px;
+}
+
+.img_update {
+  width: 38px;
+  height: 38px;
+  border-radius: 60%;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.profile_1 {
+  margin-top: 30px;
+}
+
+.update_input {
+  width: 260px;
+  height: 40px;
+  padding: 14px 0 2px 8px;
+  display: block;
+  font-size: 12px;
+  background-color: #fcfcfc;
+}
+
+.update {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.button_settings {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  margin-right: 10px;
+}
+
+.update > label {
+  margin-right: 5px;
+  padding: 10px;
+}

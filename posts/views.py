@@ -65,7 +65,7 @@ def create(request):
         "imageForm": imageForm,
     }
 
-    return render(request, "posts/create.html", context)
+    return render(request, "posts/create-ex.html", context)
 
 
 def update(request, post_pk):
