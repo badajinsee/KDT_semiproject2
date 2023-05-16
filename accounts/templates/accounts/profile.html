@@ -11,12 +11,17 @@
         <div class="d-flex justicy-content-center">
           <!-- 프로필 사진 -->
           <div class="main_1">
-
-            <label for="image-upload" class="image-upload-label">
-              <img class="pro_main_img" id="profile-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="">
-            </label>
-            <input type="file" id="image-upload" style="display: none" accept="image/*">
-
+            <form id="edit-profile-form">
+              {% csrf_token %}
+              <label for="image-upload" class="image-upload-label">
+                {% if person.profile_image %}
+                  <img src="{{ person.profile_image.url }}" alt="post_image" id="profile-image2">
+                {% else %}
+                  <img class="pro_main_img" id="profile-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="">
+                {% endif %}
+              </label>
+              <input type="file" id="image-upload" name="profile_image" style="display: none" accept="image/*">
+            </form>
           </div>
 
           <!-- 프로필 정보 & 버튼 -->
@@ -156,7 +161,7 @@
     </div>
   </div>
 
-
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script type='text/javascript' src="{% static 'js/followform.js' %}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
@@ -183,7 +188,7 @@
   </script>
 
   <script>
-    const imageUpload = document.getElementById('image-upload');
+    {% comment %} const imageUpload = document.getElementById('image-upload');
     const profileImage = document.getElementById('profile-image');
   
     imageUpload.addEventListener('change', function() {
@@ -197,7 +202,33 @@
       if (file) {
         reader.readAsDataURL(file);
       }
-    });
+    }); {% endcomment %}
   </script>
-
+  <script>
+    const editProfileForm = document.querySelector("#edit-profile-form");
+    const profileImage = document.querySelector("#profile-image2");
+    const csrfToken = document.querySelector('[name="csrfmiddlewaretoken"]').value;
+    const userId = "{{ user.pk }}";
+    const handleFileSelect = (event) => {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const imageData = new FormData();
+        imageData.append("csrfmiddlewaretoken", csrfToken);
+        imageData.append("profile_image", file);
+        axios
+          .post(`/accounts/profile/update/${userId}/`, imageData)
+          .then((response) => {
+            profileImage.src = response.data.profile_image_url;
+            console.log(profileImage)
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      };
+      reader.readAsDataURL(file);
+    };
+    
+    editProfileForm.addEventListener("change", handleFileSelect);
+  </script>
   {% endblock content %}

@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import  PasswordChangeForm
 from .forms import CustomUserChangeForm, LoginForm, signupForm
-from django.contrib.auth.forms import AuthenticationForm
+from django.urls import reverse_lazy, reverse
+from django.views.generic.edit import UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import update_session_auth_hash, get_user_model
@@ -33,7 +34,7 @@ def login(request):
 @login_required
 def logout(request):
     auth_logout(request)
-    return redirect('posts:index')
+    return redirect('accounts:login')
 
 
 def signup(request):
@@ -113,3 +114,23 @@ def follow(request, user_pk):
         }
         return JsonResponse(context)
     return redirect('accounts:profile', person.username)
+
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = User
+    fields = ['profile_image']
+    template_name = 'accounts/edit.html'
+
+    def get_object(self, queryset=None):
+        return self.request.user
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        if self.request.is_ajax():
+            data = {'profile_image_url': self.object.profile_image.url}
+            return JsonResponse(data)
+        else:
+            return response
+
+    def get_success_url(self):
+        return reverse('accounts:profile', kwargs={'username': self.request.user.username})
+        
