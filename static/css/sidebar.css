@@ -37,7 +37,7 @@ div.page-border:hover span.material-symbols-outlined {
 }
 
 /* 프로필 이미지 크기 조정 */
-.profile {
+.profile-img {
   width: 30px;
   height: 30px;
   border-radius: 70%;
