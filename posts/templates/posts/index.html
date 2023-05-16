@@ -30,7 +30,10 @@
               <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
               {% endif %}
               
-              <div class='post-header-m fw-bold'>{{post.user}}<i class="bi bi-dot ms-3" style="color:gray"></i></div>
+          
+              
+              {% comment %} <div class='post-header-m fw-bold'>{{post.user}}<i class="bi bi-dot ms-3" style="color:gray"></i></div> {% endcomment %}
+              <a style="text-decoration: none; color: black;" href="{% url 'accounts:profile' post.user %}" class='post-header-m fw-bold'>{{post.user}}<i class="bi bi-dot ms-3" style="color:gray"></i></a>
               <div class='post-header-m'>{{ post.updated_at|custom_timesince }}</div>
               {% comment %} <div class='post-header-m'>팔로우</div> {% endcomment %}
               <!-- 게시글 모달-->
@@ -255,7 +258,56 @@
                           </div>
                           <div class="col-12">
                             <!-- 댓글 입력 폼 -->
-                            <input type="text" class="comment-input" placeholder="댓글 달기">
+                            <!-- 댓글 구현 구역--------------------------------------------------------------------------------- -->
+                            <!-- 댓글 구현 구역--------------------------------------------------------------------------------- -->
+                            <ul>
+                              {% for comment in comments %}
+                                <li>
+                                  <p>댓글 : {{ comment.content }}</p> <!-- - {{ comment.user }} -->
+                                  
+                                  {% comment %} {% if request.user == comment.user %} {% endcomment %}
+                                  <form id="comments_delete" action="{% url 'posts:comments_delete' post.pk comment.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="submit" value="댓글삭제">
+                                  </form>
+                                  {% comment %} {% endif %} {% endcomment %}
+                                  
+                                  <ul id="comment{{ comment.pk }}">
+                                    {% for cocomment in cocomments %}
+                                      {% if cocomment.parent_comment == comment %}
+                                        <li>
+                                          <p>{{ cocomment.content }}</p>
+                                          {% comment %} {% if request.user == comment.user %} {% endcomment %}
+                                          <form id="cocomments_delete" action="{% url 'posts:comments_delete' post.pk cocomment.pk %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="submit" value="대댓글삭제">
+                                          </form>
+                                          {% comment %} {% endif %} {% endcomment %}
+                                        </li>
+                                      {% endif %}
+                                    {% endfor %}
+                                  </ul>
+                                    
+                                  <form id="cocomments_create" data-post-id="{{ post.pk }}" data-parentcomment-id="{{ comment.pk }}">  
+                                    {% csrf_token %}
+                                    {{ comment_form }}
+                                    <input type="submit" value="대댓글 등록">
+                                  </form>
+                                    
+                                </li>
+                                
+                              {% empty %}
+                                <p>첫 댓글을 작성해보세요!</p>
+                              {% endfor %}
+                              
+                            </ul>
+                            <form id="comments_create" data-post-id="{{ post.pk }}" data-parentcomment-id="0">  
+                              {% csrf_token %}
+                              <input type="text" name="content" id="id_content">
+                              <input type="submit" value="댓글 등록">
+                            </form>
+                            <!-- --------------------------------------------------------------------------------------------------- -->
+                            <!-- --------------------------------------------------------------------------------------------------- -->
                           </div>
                         </div>
                       </div>
@@ -280,7 +332,8 @@
         {% else %}
         <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
         {% endif %}
-        <div class='post-header-m fw-bold ms-3'>{{user}}</div>
+        <a style="text-decoration: none; color: black;" href="{% url 'accounts:profile' user %}" class='post-header-m fw-bold ms-3'>{{user}}</a>
+      
       </div>
       <div class="d-flex justify-content-between mt-3 mb-3 ">
         <div class="fw-bold"style='color:gray'>회원님을 위한 추천</div>
@@ -294,7 +347,8 @@
           {% else %}
           <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
           {% endif %}
-          <div class='post-header-m fw-bold ms-3'>{{fol_user}}</div>
+          <a href="{% url 'accounts:profile' fol_user %}" class='post-header-m fw-bold ms-3' style="text-decoration: none; color: black;">{{fol_user}}</a>
+          <a href=""></a>
         </div>
         <div>
           <a href="#" class="a-decoration fw-bold ">팔로우</a>
@@ -332,5 +386,6 @@
     </aside>
   </div>
   
-
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="{% static '/js/comment_async.js' %}" type="text/javascript"></script>
   {% endblock content %}

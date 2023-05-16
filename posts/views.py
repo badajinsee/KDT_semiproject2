@@ -9,13 +9,14 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 @login_required
 def index(request):
-    posts = Post.objects.filter(
-        Q(user__in=request.user.followings.all()) | Q(user=request.user))
-    users = User.objects.exclude(
-        Q(followers=request.user) | Q(id=request.user.id))
+    following_posts = Post.objects.filter(user__in=request.user.followings.all()).order_by('-created_at')
+    other_posts = Post.objects.exclude(user__in=request.user.followings.all()).order_by('-created_at')
+    # print('\n' + following_posts + '\n' + other_posts + '\n')
+    posts = list(following_posts) + list(other_posts)
+    # print('\n' + posts + '\n')
+    
     context = {
         "posts": posts,
-        "users": users,
     }
 
     return render(request, "posts/index.html", context)
@@ -26,10 +27,10 @@ def detail(request, post_pk):
     post = Post.objects.get(pk=post_pk)
 
     comment_form = CommentForm()
-    comments = post.comment_set.filter(
+    comments = post.comments.filter(
         parent_comment__isnull=True
     )  # Comment.objects.filter(post=post)
-    cocomments = post.comment_set.exclude(parent_comment__isnull=True)
+    cocomments = post.comments.exclude(parent_comment__isnull=True)
 
     context = {
         "posts": posts,
@@ -107,10 +108,11 @@ def delete(request, post_pk):
 def comments_create(request, post_pk, parent_pk):
     post = Post.objects.get(pk=post_pk)
     comment_form = CommentForm(request.POST)
-
+    print("\nasdfasdf\nw;oiefjoigwa\n")
     if comment_form.is_valid():
         comment = comment_form.save(commit=False)
         comment.post = post
+        comment.user = request.user
         if parent_pk != 0:
             comment.parent_comment = Comment.objects.get(pk=parent_pk)
         # comment.user = request.user
