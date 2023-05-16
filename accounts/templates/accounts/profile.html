@@ -1,19 +1,8 @@
-<!doctype html>
-<html lang="en">
+{% extends 'base.html' %} 
+{% load static %} 
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}" />
 
-<head>
-  {%load static%}
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>프로필</title>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-  <!-- <link rel="stylesheet" href="reset.css"> -->
-  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
-</head>
-
-<body>
   <div class="all">
     <div class="container mt-5">
 
@@ -22,32 +11,34 @@
         <div class="d-flex justicy-content-center">
           <!-- 프로필 사진 -->
           <div class="main_1">
-            <img class="pro_main_img"
-              src="https://www.nemopan.com/files/attach/images/6294/115/834/012/b79dbaf114f50acd111e3a8e0744928e.jpg"
-              alt="">
+
+            <label for="image-upload" class="image-upload-label">
+              <img class="pro_main_img" id="profile-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="">
+            </label>
+            <input type="file" id="image-upload" style="display: none" accept="image/*">
+
           </div>
 
           <!-- 프로필 정보 & 버튼 -->
           <div class="d-flex main_2 mt-5">
             <!-- 아이디 -->
-            <h2>{{ person }}</h2>
+            <h2 style="font-size: 30px; font-weight: 600;">{{ person }}</h2>
+
             <div class="d-grid gap-2 d-md-block">
+
               <!-- 팔로우 버튼 -->
               {% if request.user != person %}
               <form id="follow-form" data-user-id="{{ person.pk }}">
                 {% csrf_token %}
                 {% if request.user in person.followers.all %}
-                <input type="submit" value='언팔로우' class="btn btn-sm btn-outline-primary" {% if not request.user.is_authenticated %}disabled{% endif %}>
+                <input type="submit" value='언팔로우' class="btn btn-sm button btn-outline-primary" {% if not request.user.is_authenticated %}disabled{% endif %}>
                 {% else %}
-                <input type="submit" value='팔로우' class="btn btn-sm btn-primary" {% if not request.user.is_authenticated %}disabled{% endif %}>
+                <input type="submit" value='팔로우' class="btn btn-sm  button btn-primary" {% if not request.user.is_authenticated %}disabled{% endif %}>
                 {% endif %}
               </form>
               {% endif %}
               {% if request.user == person %}
-              <form action="{%url 'accounts:update' %}" method="POST">
-                {% csrf_token %}
-                <input type="submit" value="프로필 편집" class="btn button btn-secondary">
-              </form>
+                <a href="{% url 'accounts:edit' %}" value="프로필 편집" class="btn button btn-secondary">프로필 편집</a>
               {% endif %}
               {% comment %} <button id="followButton" class="btn button btn-primary" type="button">팔로우</button> {% endcomment %}
             </div>
@@ -58,21 +49,21 @@
         <div class="main_3">
           <ul>
             <!-- 게시물 갯수 -->
-            <li>
+            <li> 
               <span>게시물</span>
               <span>{{ person.post_set|length }}</span>
             </li>
             <!-- 팔로워 인원 -->
             <li>
-              <button type="button" class="btn btn-sm me-1 btn-white" data-bs-toggle="modal" data-bs-target="#followings" id="follow">
+              <button style = "font-size:16px" type="button" class="btn btn-sm me-1 btn-white" data-bs-toggle="modal" data-bs-target="#followings" id="follow">
                 팔로잉
                 <span id="followings-count">{{ person.followings.all|length }}</span>
               </button>
             </li>
             <!-- 팔로우 인원 -->
             <li>
-              <button type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#followers" id="follow">
-                팔로우 
+              <button style = "font-size:16px" type="button" class="btn btn-sm " data-bs-toggle="modal" data-bs-target="#followers" id="follow">
+                팔로우
                 <span id="followers-count">{{ person.followers.all|length }}</span>
               </button>
             </li>
@@ -100,36 +91,7 @@
             {% endif %}
           </li>
         {% endfor %}
-          {% comment %} <li>
-            <img class="imgs_main" src="https://cdn.ggilbo.com/news/photo/202303/965576_799386_1342.png" alt="">
-          </li>
-          <li>
-            <img class="imgs_main"
-              src="https://post-phinf.pstatic.net/MjAyMTEyMjBfMjQ5/MDAxNjM5OTc2NjYyMDE1.EcKLMLf9cRNlLqE9nsctmk9s_jRXBEpCaTVHl9WlG2gg.f0ZwHzwlYxK-QElsOIWNtSYwaGK03bm9WZRmrIr7KEsg.JPEG/Ye-Eun_Shin_%285%29-crop.jpg?type=w1200"
-              alt="">
-          </li>
-          <li>
-            <img class="imgs_main" src="https://i.pinimg.com/736x/7e/fc/3a/7efc3ade83ae7e6787cc4813c31c0918.jpg" alt="">
-          </li>
-          <li>
-            <img class="imgs_main"
-              src="https://res.heraldm.com/phpwas/restmb_jhidxmake.php?idx=5&simg=201903151829006274874_20190315183247_01.jpg"
-              alt="">
-          </li>
-          <li>
-            <img class="imgs_main" src="https://photo.newsen.com/news_photo/2020/05/26/202005261329072310_1.jpg" alt="">
-          </li>
-          <li>
-            <img class="imgs_main"
-              src="https://news.nateimg.co.kr/orgImg/hm/2021/05/04/202105041639522853107_20210504164020_01.jpg" alt="">
-          </li>
-          <li>
-            <img class="imgs_main"
-              src="https://menu.moneys.co.kr/moneyweek/thumb/2023/02/21/06/2023022112120720840_1.jpg" alt="">
-          </li>
-          <li>
-            <img class="imgs_main" src="https://i.pinimg.com/736x/be/4b/b3/be4bb351ee48c054ceb49b0e7f86b018.jpg" alt="">
-          </li> {% endcomment %}
+        
         </ul>
       </div>
 
@@ -163,6 +125,7 @@
       </div>
     </div>
     
+    {% comment %} 팔로우 팔로잉 목록 모달 {% endcomment %}
     <div class="modal fade" id="followers" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -201,8 +164,8 @@
 
   <!-- 팔로잉 팔로우 js -->
   <script>
-    {% comment %} // Get the button element
-    const followButton = document.getElementById('followButton');
+  // Get the button element
+    {% comment %} const followButton = document.getElementById('followButton');
 
     // Add click event listener to the button
     followButton.addEventListener('click', function () {
@@ -214,12 +177,27 @@
         followButton.innerText = '팔로우';
         followButton.classList.remove('following'); // Remove CSS class for gray color
       }
-    });
+    }); {% endcomment %}
 
- {% endcomment %}
 
   </script>
 
-</body>
+  <script>
+    const imageUpload = document.getElementById('image-upload');
+    const profileImage = document.getElementById('profile-image');
+  
+    imageUpload.addEventListener('change', function() {
+      const file = imageUpload.files[0];
+      const reader = new FileReader();
+  
+      reader.addEventListener('load', function() {
+        profileImage.src = reader.result;
+      });
+  
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
 
-</html>
+  {% endblock content %}

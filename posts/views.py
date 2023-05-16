@@ -1,14 +1,19 @@
 from django.shortcuts import render, redirect
 from .models import Post, PostImage, Comment, Notification
+from accounts.models import User
 from .forms import PostForm, PostImageForm, CommentForm
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
+@login_required
 def index(request):
-    posts = Post.objects.all()
-
+    posts = Post.objects.filter(user__in=request.user.followings.all()).order_by('-updated_at')
+    users = User.objects.exclude(Q(followers=request.user) | Q(id=request.user.id))
     context = {
         "posts": posts,
+        "users": users,
     }
 
     return render(request, "posts/index.html", context)
@@ -38,6 +43,11 @@ def create(request):
     if request.method == "POST":
         form = PostForm(request.POST)
         imageForm = PostImageForm(request.POST, request.FILES)
+        print('\n')
+        print("여기는 form",form) 
+        print('\n')
+        print("여기는 imageForm",imageForm)
+        print('\n')
         if form.is_valid() and imageForm.is_valid():
             post = form.save(commit=False)
             post.user = request.user
@@ -56,14 +66,16 @@ def create(request):
         "imageForm": imageForm,
     }
 
-    return render(request, "posts/create.html", context)
+    return render(request, "posts/create-ex.html", context)
 
 def update(request, post_pk):
     post = Post.objects.get(pk=post_pk)
     if request.user == post.user:
         if request.method == "POST":
             form = PostForm(request.POST, instance=post)
-            imageForm = PostImageForm(request.POST, request.FILES, instance=post.post_images.first())
+            imageForm = PostImageForm(
+                request.POST, request.FILES, instance=post.post_images.first()
+            )
             if form.is_valid() and imageForm.is_valid():
                 form.save()
 
@@ -118,7 +130,9 @@ def comments_delete(request, post_pk, comment_pk):
     comment.delete()
     return redirect("posts:detail", post_pk)
 
-def notifications(request):
-    notifications = Notification.objects.filter(user=request.user, is_read=False).order_by('-created_at')
-    return render(request, 'posts/notifications.html', {'notifications': notifications})
 
+def notifications(request):
+    notifications = Notification.objects.filter(
+        user=request.user, is_read=False
+    ).order_by("-created_at")
+    return render(request, "posts/notifications.html", {"notifications": notifications})

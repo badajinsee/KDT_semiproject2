@@ -12,8 +12,8 @@
       crossorigin="anonymous"
     />
     <!-- css 지정 -->
-    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
     <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
     <link rel="stylesheet" href="{% static 'css/sidebar.css'%}" />
     <!-- 아이콘 -->
     <link
@@ -32,7 +32,7 @@
 
   <body>
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <!-- sidebar -->
         <div class="row">
           <div
@@ -41,7 +41,7 @@
           >
             <!-- 인스타그램 이미지 & 메인페이지 지정 -->
             <div>
-              <a href="#">
+              <a href="{% url 'posts:index' %}">
                 <img
                   class="main_img"
                   src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png"
@@ -52,7 +52,7 @@
             <div class="icons">
               <!-- 홈 카테고리 -->
               <div class="d-flex justify-content-between menuhover mb-2">
-                <a class="a-text" href="https://www.naver.com">
+                <a class="a-text" href="{% url 'posts:index' %}">
                   <div class="d-flex align-items-center page-border">
                     <span class="material-symbols-outlined">home</span>
                     <h1 class="ms-3 hidden">홈</h1>
@@ -139,7 +139,7 @@
                   <hr />
                   <!-- django 할때 로그인 부분 구현  -->
                   <!-- <a class="dropdown-item" href="#">로그인</a> -->
-                  <a class="dropdown-item" href="#">로그아웃</a>
+                  <a class="dropdown-item" href="{% url 'accounts:logout' %}">로그아웃</a>
                 </div>
               </div>
             </div>
