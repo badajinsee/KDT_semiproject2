@@ -3,23 +3,9 @@ from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import get_user_model, authenticate, login as django_login
 
 class CustomUserChangeForm(UserChangeForm):
-    profile_image = forms.ImageField(
-        label='프로필 이미지',
-        widget=forms.FileInput(
-            attrs={'id': 'profile-image','class': 'form-control',}),)
-    
-
-    status_message = forms.CharField(
-        label='상태 메세지',
-        widget=forms.TextInput(
-            attrs={'id': 'status_message','class': 'form-control',}),)
-    
-
-    password = None
-
     class Meta:
         model = get_user_model()
-        fields = ('profile_image','status_message',)
+        fields = ('profile_image', 'status_message')
 
 
 class LoginForm(forms.Form):

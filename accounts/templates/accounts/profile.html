@@ -11,10 +11,12 @@
         <div class="d-flex justicy-content-center">
           <!-- 프로필 사진 -->
           <div class="main_1">
+
             <label for="image-upload" class="image-upload-label">
               <img class="pro_main_img" id="profile-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="">
             </label>
             <input type="file" id="image-upload" style="display: none" accept="image/*">
+
           </div>
 
           <!-- 프로필 정보 & 버튼 -->
@@ -36,10 +38,7 @@
               </form>
               {% endif %}
               {% if request.user == person %}
-              <form action="{%url 'accounts:update' %}" method="POST">
-                {% csrf_token %}
-                <input type="submit" value="프로필 편집" class="btn button btn-secondary">
-              </form>
+                <a href="{% url 'accounts:edit' %}" value="프로필 편집" class="btn button btn-secondary">프로필 편집</a>
               {% endif %}
               {% comment %} <button id="followButton" class="btn button btn-primary" type="button">팔로우</button> {% endcomment %}
             </div>
