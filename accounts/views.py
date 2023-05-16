@@ -1,12 +1,10 @@
 from django.shortcuts import render, redirect
 from .forms import CustomUserChangeForm, LoginForm, signupForm
-from django.urls import reverse_lazy, reverse
-from django.views.generic.edit import UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.decorators.http import require_POST
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-from django.contrib.auth import update_session_auth_hash, get_user_model
-from django.contrib.auth import get_user_model, authenticate, login as django_login
+from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, login as django_login
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
 from .models import User
@@ -115,22 +113,15 @@ def follow(request, user_pk):
         return JsonResponse(context)
     return redirect('accounts:profile', person.username)
 
-class ProfileUpdateView(LoginRequiredMixin, UpdateView):
-    model = User
-    fields = ['profile_image']
-    template_name = 'accounts/edit.html'
-
-    def get_object(self, queryset=None):
-        return self.request.user
+@require_POST
+def profile_image_update(request, pk):
+    user = User.objects.get(pk=pk)
+    form = CustomUserChangeForm(request.POST, request.FILES, instance=user)
+    if form.is_valid():
+        form.save()
+        data = {'profile_image_url': user.profile_image.url}
+        return JsonResponse(data)
+    else:
+        return JsonResponse({'error': 'Invalid form'})
     
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        if self.request.is_ajax():
-            data = {'profile_image_url': self.object.profile_image.url}
-            return JsonResponse(data)
-        else:
-            return response
-
-    def get_success_url(self):
-        return reverse('accounts:profile', kwargs={'username': self.request.user.username})
         

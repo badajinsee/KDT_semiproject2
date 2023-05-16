@@ -217,10 +217,10 @@
         imageData.append("csrfmiddlewaretoken", csrfToken);
         imageData.append("profile_image", file);
         axios
-          .post(`/accounts/profile/update/${userId}/`, imageData)
+          .post(`/accounts/profile/update_image/${userId}/`, imageData)
           .then((response) => {
             profileImage.src = response.data.profile_image_url;
-            console.log(profileImage)
+            console.log(response.data.profile_image_url)
           })
           .catch((error) => {
             console.error(error);
