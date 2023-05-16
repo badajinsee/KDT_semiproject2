@@ -10,6 +10,11 @@
   display: flex;
 }
 
+.width-main {
+  height: 100px;
+  margin-top: 30px;
+}
+
 .main {
   align-items: center;
   flex-wrap: wrap;
@@ -19,7 +24,7 @@
   margin: 20px;
 }
 
-.main2 {
+.main_2 {
   margin-left: 50px;
   order: 1;
   margin-top: 50px;
@@ -29,8 +34,9 @@
   align-items: center;
 }
 
-.main2 h2 {
+.main_2 h2 {
   margin-right: 20px;
+  margin-bottom: 20px;
 }
 
 .button {

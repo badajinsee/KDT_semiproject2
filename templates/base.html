@@ -79,7 +79,7 @@
               </div>
               <!-- 알림 카테고리 -->
               <div class="d-flex justify-content-between menuhover mb-2">
-                <a class="a-text" href="#">
+                <a class="a-text" href="{%url 'posts:notifications' %}">
                   <div class="d-flex align-items-center page-border">
                     <span class="material-symbols-outlined">favorite</span>
                     <h1 class="ms-3 hidden">알림</h1>
@@ -100,11 +100,11 @@
               <div class="d-flex justify-content-between menuhover mb-2">
                 <a class="a-text" href="{%url 'accounts:profile' user %}">
                   <div class="d-flex align-items-center page-border">
-                    <img
-                      class="profile"
-                      src="http://file3.instiz.net/data/file3/2021/05/31/3/e/5/3e53b0b1d44022514120cd75182aeecd.png"
-                      alt=""
-                    />
+                    {% if user.profile_image %}
+                      <img class=" post-header-m profile-img " src="{{ user.profile_image.url }}" alt="Post Image">
+                    {% else %}
+                      <img class=" post-header-m profile-img " src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
+                    {% endif %}
                     <h2 class="ms-3 hidden">프로필</h2>
                   </div>
                 </a>

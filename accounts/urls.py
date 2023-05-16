@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import ProfileUpdateView
+
 app_name = 'accounts'
 urlpatterns = [
     path('login/', views.login, name='login'),
@@ -10,5 +10,5 @@ urlpatterns = [
     path('edit/', views.edit, name='edit'),
     path('<int:user_pk>/follow/', views.follow, name='follow',),
     path('<username>/', views.profile, name='profile'),
-    path('profile/update/<int:pk>/', ProfileUpdateView.as_view(), name='profile_update'),
+    path('profile/update_image/<int:pk>/', views.profile_image_update, name='profile_image_update'),
 ]
