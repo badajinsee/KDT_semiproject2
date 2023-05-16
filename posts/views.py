@@ -117,6 +117,11 @@ def comments_create(request, post_pk, parent_pk):
             comment.parent_comment = Comment.objects.get(pk=parent_pk)
         # comment.user = request.user
         comment_form.save()
+
+        if comment.user != post.user:
+            message = f" {post.title} 댓글 달림"
+            notification = Notification.objects.create(user=post.user, message=message)
+
         return redirect("posts:detail", post.pk)
     context = {
         "post": post,
@@ -132,8 +137,16 @@ def comments_delete(request, post_pk, comment_pk):
     return redirect("posts:detail", post_pk)
 
 
-def notifications(request):
-    notifications = Notification.objects.filter(
-        user=request.user, is_read=False
-    ).order_by("-created_at")
-    return render(request, "posts/notifications.html", {"notifications": notifications})
+def notification_list(request):
+    user = request.user
+    notifications = Notification.objects.filter(user=user).order_by('-created_at')
+    context = {
+        'notifications': notifications
+    }
+    return render(request, 'posts/notification.html', context)
+
+def notification_mark_as_read(request, notification_id):
+    notification = Notification.objects.get(id=notification_id)
+    notification.is_read = True
+    notification.save()
+    return redirect('notifications:notification_list')
