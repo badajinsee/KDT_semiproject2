@@ -8,29 +8,29 @@
 
       <!-- 헤더 -->
       <div class=" main">
-        <div class="d-flex justicy-content-center">
+        <div class="d-flex justicy-content-center ">
           <!-- 프로필 사진 -->
           <div class="main_1">
             <form id="edit-profile-form">
               {% csrf_token %}
               <label for="image-upload" class="image-upload-label">
                 {% if person.profile_image %}
-                  <img src="{{ person.profile_image.url }}" alt="post_image" id="profile-image2">
+                  <img class="pro_main_img"  src="{{ person.profile_image.url }}" alt="post_image" id="profile-image2">
                 {% else %}
                   <img class="pro_main_img" id="profile-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="">
                 {% endif %}
               </label>
-              <input type="file" id="image-upload" name="profile_image" style="display: none" accept="image/*">
+              <input  type="file" id="image-upload" name="profile_image" style="display: none" accept="image/*">
             </form>
           </div>
 
-          <!-- 프로필 정보 & 버튼 -->
-          <div class="d-flex main_2 mt-5">
-            <!-- 아이디 -->
-            <h2 style="font-size: 30px; font-weight: 600;">{{ person }}</h2>
-
+          <div class="container width-main">
+            <div>
+              <h2 style="font-size: 30px; font-weight: 600;">{{ person }}</h2>
+              <p class="mt-3">{{user.status_message}}</p>
+            </div>
+          
             <div class="d-grid gap-2 d-md-block">
-
               <!-- 팔로우 버튼 -->
               {% if request.user != person %}
               <form id="follow-form" data-user-id="{{ person.pk }}">
@@ -42,12 +42,13 @@
                 {% endif %}
               </form>
               {% endif %}
+          
               {% if request.user == person %}
                 <a href="{% url 'accounts:edit' %}" value="프로필 편집" class="btn button btn-secondary">프로필 편집</a>
               {% endif %}
-              {% comment %} <button id="followButton" class="btn button btn-primary" type="button">팔로우</button> {% endcomment %}
             </div>
           </div>
+         
         </div>
 
         <!-- 프로필 게시물 갯수 & 팔로워명 & 팔로우명 -->
@@ -204,6 +205,8 @@
       }
     }); {% endcomment %}
   </script>
+
+  
   <script>
     const editProfileForm = document.querySelector("#edit-profile-form");
     const profileImage = document.querySelector("#profile-image2");
