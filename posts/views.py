@@ -3,9 +3,11 @@ from .models import Post, PostImage, Comment, Notification
 from accounts.models import User
 from .forms import PostForm, PostImageForm, CommentForm
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
+@login_required
 def index(request):
     posts = Post.objects.filter(user__in=request.user.followings.all()).order_by('-updated_at')
     users = User.objects.exclude(Q(followers=request.user) | Q(id=request.user.id))
