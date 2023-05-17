@@ -247,9 +247,9 @@
                             <!-- 유저네임 -->
                             <div class="mb-3 pb-3"style="display: flex; align-items: center; border-bottom: 1px solid lightgray;">
                               {% if post.user.profile_image %}
-                              <img class="circle-image post-header-m" src="{{ post.user.profile_image.url }}" alt="Post Image">
+                              <img class="circle-image post-header-m mr-3" src="{{ post.user.profile_image.url }}" alt="Post Image">
                               {% else %}
-                              <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
+                              <img class="circle-image post-header-m mr-3" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
                               {% endif %}
                               <div class='post-header-m fw-bold'>{{ post.user }}</div>
                               <!-- 게시글 모달-->
@@ -264,71 +264,87 @@
                           border-bottom: 1px solid lightgray;
                           margin-bottom: 10px;">
                             <!-- 본문 -->
-                            <p class="mt-3">{{ post.content }}</p>
+                            <div style="display: flex; align-items: flex-start; padding: 10px; height: 100px;">
+                              <p class="mt-3">{{ post.content }}</p>
+                            </div>
                           </div>
-                          <div class="col-12">
+                          
+                          <div class="col-12" style="border-top: 1px solid lightgray">
+                            <ul id="newModal{{forloop.counter0}}comment" class="scrollable-div">
+        
+                              
+                              {% for comment in post.comments.all %}
+                                {% if not comment.parent_comment %}
+                                  <li >
+                                    <div class="horizontal-container">
+                                      <p class="bold">{{ post.user }}</p> <p>&nbsp;&nbsp;&nbsp;</p> <p class="small-text">{{ comment.updated_at|custom_timesince }}</p>
+                                    </div>
+                                    <p class="mb-2">{{ comment.content }}</p> <!-- - {{ comment.user }} -->
+                                    
+                                    {% comment %} {% if request.user == comment.user %} {% endcomment %}
+                                    <form data-post-id="{{ post.pk }}" data-comment-id="{{ comment.pk }}" method="POST">
+                                      {% csrf_token %}
+                                      <input type="submit" class="custom-button" value="댓글삭제">
+                                    </form>
+                                    <br>
+                                    {% comment %} {% endif %} {% endcomment %}
+                                    
+                                    <!--
+                                    <ul id="post{{ post.pk }} comment{{ comment.pk }}">
+                                      {% for cocomment in comment.comment_set.all %}
+                                          <li>
+                                            <p>------대댓글 : {{ cocomment.content }}</p>
+                                            {% if request.user == comment.user %}
+                                            <form id="cocomments_delete" action="{% url 'posts:comments_delete' post.pk cocomment.pk %}" method="post">
+                                              {% csrf_token %}
+                                              <input type="submit" value="삭제하기">
+                                            </form>
+                                            {% endif %}
+                                          </li>
+                                          {% endfor %}
+                                        </ul>
+                                        
+                                        <form id="cocomments_create" data-post-id="{{ post.pk }}" data-parentcomment-id="{{ comment.pk }}">  
+                                          {% csrf_token %}
+                                          {{ comment_form }}
+                                          <input type="submit" value="대댓글 등록">
+                                        </form>
+                                    -->  
+                                      
+                                  </li>
+                                {% endif %}
+                              {% endfor %}
+                              
+                            </ul>
+                          
+                          <div
+                          class="col-12"
+                          style="border-top: 1px solid lightgray; padding-top: 10px; padding-bottom: 10px;"
+                          >
                             <!-- 좋아요, 댓글, 메세지, 북마크 아이콘 -->
                             <i class="bi bi-heart me-3 icon-size"></i>
                             <i class="bi bi-chat me-3 icon-size"></i>
                             <i class="bi bi-send me-3 icon-size"></i>
                             <span style="float: right;"><i class="bi bi-bookmark" style="font-size: 25px;"></i></span>
                           </div>
+                          
                           <div class="col-12">
                             <!-- 좋아요 개수 -->
                             <span>좋아요 개수 : {{post.like_count}}</span>
                           </div>
-                          <div class="col-12">
+                          
+                          <div class="col-12" style="margin-bottom: 10px">
                             <!-- 생성 일자 -->
-                            <span>생성일자</span>
+                            <span style="font-size: 12px">생성일자</span>
                           </div>
-                          <div class="col-12">
+                          
                             <!-- 댓글 입력 폼 -->
                             <!-- 댓글 구현 구역--------------------------------------------------------------------------------- -->
                             <!-- 댓글 구현 구역--------------------------------------------------------------------------------- -->
-                            <ul>
-                              {% for comment in comments %}
-                                <li>
-                                  <p>댓글 : {{ comment.content }}</p> <!-- - {{ comment.user }} -->
-                                  
-                                  {% comment %} {% if request.user == comment.user %} {% endcomment %}
-                                  <form id="comments_delete" action="{% url 'posts:comments_delete' post.pk comment.pk %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="submit" value="댓글삭제">
-                                  </form>
-                                  {% comment %} {% endif %} {% endcomment %}
-                                  
-                                  <ul id="comment{{ comment.pk }}">
-                                    {% for cocomment in cocomments %}
-                                      {% if cocomment.parent_comment == comment %}
-                                        <li>
-                                          <p>{{ cocomment.content }}</p>
-                                          {% comment %} {% if request.user == comment.user %} {% endcomment %}
-                                          <form id="cocomments_delete" action="{% url 'posts:comments_delete' post.pk cocomment.pk %}" method="post">
-                                            {% csrf_token %}
-                                            <input type="submit" value="대댓글삭제">
-                                          </form>
-                                          {% comment %} {% endif %} {% endcomment %}
-                                        </li>
-                                      {% endif %}
-                                    {% endfor %}
-                                  </ul>
-                                    
-                                  <form id="cocomments_create" data-post-id="{{ post.pk }}" data-parentcomment-id="{{ comment.pk }}">  
-                                    {% csrf_token %}
-                                    {{ comment_form }}
-                                    <input type="submit" value="대댓글 등록">
-                                  </form>
-                                    
-                                </li>
-                                
-                              {% empty %}
-                                <p>첫 댓글을 작성해보세요!</p>
-                              {% endfor %}
-                              
-                            </ul>
-                            <form id="comments_create" data-post-id="{{ post.pk }}" data-parentcomment-id="0">  
+                            <form class="col-12" id="comments_create" data-post-id="{{ post.pk }}" data-parentcomment-id="0" method="POST">  
                               {% csrf_token %}
-                              <input type="text" name="content" id="id_content">
+                              
+                              <input type="text" class="comment-input" name="content" id="id_content" placeholder="댓글 달기">
                               <input type="submit" value="댓글 등록">
                             </form>
                           </div>
@@ -363,20 +379,22 @@
         <a href="#" class="a-decoration fw-bold" style="color:black">모두보기</a>
       </div>
       {% for fol_user in users|slice:":5" %}
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <div style="display: flex; align-items: center;">
-          {% if fol_user.user.profile_image %}
-          <img class="circle-image post-header-m" src="{{ fol_user.profile_image.url }}" alt="Post Image">
-          {% else %}
-          <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
-          {% endif %}
-          <a href="{% url 'accounts:profile' fol_user %}" class='post-header-m fw-bold ms-3' style="text-decoration: none; color: black;">{{fol_user}}</a>
-          <a href=""></a>
+        {% if fol_user != request.user %}
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div style="display: flex; align-items: center;">
+            {% if fol_user.user.profile_image %}
+            <img class="circle-image post-header-m" src="{{ fol_user.profile_image.url }}" alt="Post Image">
+            {% else %}
+            <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
+            {% endif %}
+            <a href="{% url 'accounts:profile' fol_user %}" class='post-header-m fw-bold ms-3' style="text-decoration: none; color: black;">{{fol_user}}</a>
+            <a href=""></a>
+          </div>
+          <div>
+            <a href="#" class="a-decoration fw-bold ">팔로우</a>
+          </div>
         </div>
-        <div>
-          <a href="#" class="a-decoration fw-bold ">팔로우</a>
-        </div>
-      </div>
+        {% endif %}
       {% endfor %}
       
       <div>  
@@ -410,6 +428,79 @@
   </div>
   
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="{% static '/js/comment_async.js' %}" type="text/javascript"></script>
-  <script src="{% static '/js/likeform.js' %}" type="text/javascript"></script>
+  <script>
+    const commentForm = document.querySelector('#comments_create');
+    {% comment %} const cocommentForm = document.querySelector('#cocomments_create') {% endcomment %}
+    // h1.innerText = "asd;lfkajsd;lfkj;sadlkf
+    commentForm.addEventListener('submit', function (event) {
+      event.preventDefault()
+      const csrftoken = document.querySelector('[name = csrfmiddlewaretoken]').value
+      const parentcommentId = event.target.dataset.parentcommentId
+      const postId = event.target.dataset.postId
+      
+      
+      // create li element
+      const li = document.createElement('li');
+
+      // li.appendChild(form);
+      const formData = new FormData(commentForm);
+      
+      axios.post(`/${postId}/comments/${parentcommentId}/`, formData, {
+        headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+      })
+      .then((response) => {
+        const content = response.data.content
+        const postPk = response.data.postPk
+        const commentPk = response.data.commentPk
+        const postUser = response.data.postUser
+        
+        const postUl = commentForm.parentNode.querySelector('ul');
+        const commentLi = document.createElement('li');
+        console.log("도달지점2")
+        commentLi.innerHTML = `
+            <div class="horizontal-container">
+              <p class="bold">${postUser}</p> <p>&nbsp;&nbsp;&nbsp;</p> <p class="small-text">방금 전</p>
+            </div>
+            <p class="mb-2">${content}</p>
+            <form data-post-id = "${postPk}" data-comment-id = "${commentPk}" method="post">
+                {% csrf_token %}
+                <input type="submit" class="custom-button" value="댓글삭제">
+            </form>
+            <br>
+            `;
+        const inputText = commentForm.querySelector('form input[type="text"]');
+        inputText.value = '';    
+        console.log(lis.length, lis)
+        postUl.appendChild(commentLi);
+        
+        const scrollableDiv = document.querySelector('.scrollable-div');
+        scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
+      })
+    })
+  </script>
+  
+  <script>
+    const lis = commentForm.parentNode.getElementsByTagName('li');
+
+Array.from(lis).forEach((li, index) => {
+  li.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const commentId = event.target.dataset.commentId;
+    const postId = event.target.dataset.postId;
+    console.log('도달1');
+    console.log(postId, commentId, index);
+    axios.post(`/${postId}/comments/${commentId}/delete/`, {}, {
+      headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+    })
+    .then((response) => {
+      console.log('도달2');
+      li.remove();
+    })
+    .catch((response) => {
+      li.remove();
+    });
+  });
+});
+
+  </script>
   {% endblock content %}
