@@ -269,7 +269,10 @@
                           margin-bottom: 10px; overflow:auto;">
                             <!-- 본문 -->
                             <div style="display: flex; align-items: flex-start; padding: 10px; height: 100px;">
-                              <p class="mt-3">{{ post.content }}</p>
+                              <p class="mt-3" style="height: 180px;
+                              border-bottom: 1px solid lightgray;
+                              margin-bottom: 10px;
+                              overflow: auto;">{{ post.content }}</p>
                             </div>
                           </div>
                           
@@ -345,7 +348,7 @@
                             <!-- 댓글 입력 폼 -->
                             <!-- 댓글 구현 구역--------------------------------------------------------------------------------- -->
                             <!-- 댓글 구현 구역--------------------------------------------------------------------------------- -->
-                            <form class="col-12" id="comments_create" data-post-id="{{ post.pk }}" data-parentcomment-id="0" method="POST">  
+                            <form class="col-12 comments_create" data-post-id="{{ post.pk }}" data-parentcomment-id="0" method="POST">  
                               {% csrf_token %}
                               <div style="display:flex; justify-content: space-between; border-bottom: 1px solid lightgray;
                               padding-bottom: 5px;">
@@ -433,78 +436,72 @@
   
 
   <script>
-    const commentForm = document.querySelector('#comments_create');
-    
-    
-    commentForm.addEventListener('submit', function (event) {
-      event.preventDefault()
-      const csrftoken = document.querySelector('[name = csrfmiddlewaretoken]').value
-      const parentcommentId = event.target.dataset.parentcommentId
-      const postId = event.target.dataset.postId
+    const commentForms = document.querySelectorAll('.comments_create');
+    console.log(commentForms)
+    commentForms.forEach((commentForm) => {
+      const lis = commentForm.parentNode.getElementsByTagName('li');
+        console.log(lis)
+      Array.from(lis).forEach((li2, index) => {
+      li2.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const commentId = event.target.dataset.commentId;
+        const postId = event.target.dataset.postId;
+        console.log('도달1');
+        console.log(postId, commentId, index);
+        axios.post(`/${postId}/comments/${commentId}/delete/`, {}, {
+          headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+        })
+        .then((response) => {
+          console.log('도달2');
+          li2.remove();
+        })
+      });
+      });
+      commentForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const csrftoken = document.querySelector('[name = csrfmiddlewaretoken]').value;
+        const parentcommentId = event.target.dataset.parentcommentId;
+        const postId = event.target.dataset.postId;
+        const li = document.createElement('li');
+        const formData = new FormData(commentForm);
+        const lis = commentForm.parentNode.getElementsByTagName('li');
+        console.log(lis)
       
-      
-      // create li element
-      const li = document.createElement('li');
-
-      // li.appendChild(form);
-      const formData = new FormData(commentForm);
-      
-      axios.post(`/${postId}/comments/${parentcommentId}/`, formData, {
-        headers: { 'X-CSRFToken': '{{ csrf_token }}' }
-      })
-      .then((response) => {
-        const content = response.data.content
-        const postPk = response.data.postPk
-        const commentPk = response.data.commentPk
-        const postUser = response.data.postUser
         
-        const postUl = commentForm.parentNode.querySelector('ul');
-        const commentLi = document.createElement('li');
-        console.log("도달지점2")
-        commentLi.innerHTML = `
-            <div class="horizontal-container">
-              <p class="bold">${postUser}</p> <p>&nbsp;&nbsp;&nbsp;</p> <p class="small-text">방금 전</p>
-            </div>
-            <p class="mb-2">${content}</p>
-            <form data-post-id = "${postPk}" data-comment-id = "${commentPk}" method="post">
-                {% csrf_token %}
-                <input type="submit" class="custom-button" value="댓글삭제">
-            </form>
-            <br>
+        axios.post(`/${postId}/comments/${parentcommentId}/`, formData, {
+          headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+        })
+          .then((response) => {
+            const content = response.data.content;
+            const postPk = response.data.postPk;
+            const commentPk = response.data.commentPk;
+            const postUser = response.data.postUser;
+
+            const postUl = commentForm.parentNode.querySelector('ul');
+            const commentLi = document.createElement('li');
+            commentLi.innerHTML = `
+              <div class="horizontal-container">
+                <p class="bold">${postUser}</p> <p>&nbsp;&nbsp;&nbsp;</p> <p class="small-text">방금 전</p>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <p class="mb-2 mt-2">${content}</p>
+                <form data-post-id="${postPk}" data-comment-id="${commentPk}" method="post">
+                  {% csrf_token %}
+                  <input type="submit" class="btn btn-outline-primary" style="border:none; font-size:13px;" value="댓글삭제">
+                </form>
+              </div>
+              <br>
             `;
-        const inputText = commentForm.querySelector('form input[type="text"]');
-        inputText.value = '';    
-        console.log(lis.length, lis)
-        postUl.appendChild(commentLi);
-        
-        const scrollableDiv = document.querySelector('.scrollable-div');
-        scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
-      })
-    })
-
-    const lis = commentForm.parentNode.getElementsByTagName('li');
-
-Array.from(lis).forEach((li, index) => {
-  li.querySelector('form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const commentId = event.target.dataset.commentId;
-    const postId = event.target.dataset.postId;
-    console.log('도달1');
-    console.log(postId, commentId, index);
-    axios.post(`/${postId}/comments/${commentId}/delete/`, {}, {
-      headers: { 'X-CSRFToken': '{{ csrf_token }}' }
-    })
-    .then((response) => {
-      console.log('도달2');
-      li.remove();
-    })
-    .catch((response) => {
-      li.remove();
+            const inputText = commentForm.querySelector('form input[type="text"]');
+            inputText.value = '';
+            postUl.appendChild(commentLi);
+            const scrollableDiv = document.querySelector('.scrollable-div');
+            scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
+            
+            
+          });
+      });
     });
-  });
-});
-
-
-</script>
-
+  </script>
+  
   {% endblock content %}
