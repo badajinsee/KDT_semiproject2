@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.db.models.functions import Random
+from django.contrib.auth import get_user_model
 
 # Create your views here.
 @login_required
@@ -16,7 +17,20 @@ def index(request):
     posts = list(following_posts) + list(other_posts)
     # print('\n' + posts + '\n')
     users = User.objects.order_by(Random())[:5]
-    
+    if request.is_ajax():
+        if request.user in users:
+            user = request.user
+            user_followed = user.followers.filter(id__in=users.values('id')).exists()
+            if user_followed:
+                user.followers.remove(user)
+                is_followed = False
+            else:
+                user.followers.add(user)
+                is_followed = True
+            context = {
+                'is_followed': is_followed,
+            }
+            return JsonResponse(context)
     context = {
         "posts": posts,
         "users": users,
