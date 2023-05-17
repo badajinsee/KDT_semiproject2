@@ -19,7 +19,7 @@
 
     <div class="login_form">
       <!-- 로그인 폼 -->
-      <img class="main_img" src="{% static 'img/main_img.png' %}" alt="메인 이미지">
+      <img class="main_img" src="{% static 'img/main_img1.png' %}" alt="메인 이미지">
       <form action="{% url 'accounts:login' %}" method="POST">
         {% csrf_token %}
         <input type="text" placeholder="전화번호, 사용자 이름 또는 이메일" class="input_size form-control" name="username">

@@ -52,7 +52,7 @@
       <!-- 버튼 -->
       <div class="button_settings">
         <input type="submit" class="btn btn-primary" value="Submit">
-        <button type="button" class="btn btn-danger">회원탈퇴</button>
+        <a href="{% url 'accounts:delete' %}" class="btn btn-danger">회원탈퇴</a>
       </div>
     </form>
   {% endblock content %}

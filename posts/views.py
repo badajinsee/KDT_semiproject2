@@ -4,7 +4,8 @@ from accounts.models import User
 from .forms import PostForm, PostImageForm, CommentForm
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-
+from django.http import JsonResponse
+from django.db.models.functions import Random
 
 # Create your views here.
 @login_required
@@ -14,9 +15,11 @@ def index(request):
     # print('\n' + following_posts + '\n' + other_posts + '\n')
     posts = list(following_posts) + list(other_posts)
     # print('\n' + posts + '\n')
+    users = User.objects.order_by(Random())[:5]
     
     context = {
         "posts": posts,
+        "users": users,
     }
 
     return render(request, "posts/index.html", context)
@@ -152,6 +155,7 @@ def notification_mark_as_read(request, notification_id):
     return redirect('notifications:notification_list')
 
 
+
 def search(request):
     keyword = request.GET.get("keyword")
 
@@ -171,3 +175,27 @@ def search(request):
     }
 
     return render(request, 'posts/search.html', context)
+
+@login_required
+def like(request, post_pk):
+    post = Post.objects.get(pk=post_pk)
+    if request.user in post.like_users.all():
+        post.like_users.remove(request.user)
+        is_like_users = False
+    else:
+        post.like_users.add(request.user)
+        is_like_users = True
+        context = {
+            'is_like_users':is_like_users
+        }
+        return JsonResponse(context,)
+    return redirect('posts:index')
+
+
+def explore(request):
+    posts = Post.objects.all()
+    context = {
+        "posts": posts,
+    }
+    return render(request, "posts/explore.html", context)
+
