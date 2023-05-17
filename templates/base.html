@@ -61,12 +61,24 @@
               </div>
               <!-- 검색 카테고리 -->
               <div class="d-flex justify-content-between menuhover mb-2">
-                <a class="a-text" href="">
+                <a class="a-text" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                  <span class="material-symbols-outlined"> search </span> 검색
+                </a>
+                {% comment %} <a class="a-text" href="">
                   <div class="d-flex align-items-center page-border">
                     <span class="material-symbols-outlined"> search </span>
                     <h1 class="ms-3 hidden">검색</h1>
                   </div>
-                </a>
+                </a> {% endcomment %}
+              </div>
+            
+              <div class="collapse" id="collapseExample">
+                <div class="card card-body" style="border:none;">
+                  <form action="{% url 'posts:search' %}" method="GET">
+                    <input class="form-control"type="text" name="keyword" placeholder="Enter a username" style="margin-bottom:10px">
+                    <button class="btn btn-dark" type="submit">Search</button>
+                  </form>
+                </div>
               </div>
               <!-- 탐색 탭 카테고리 -->
               <div class="d-flex justify-content-between menuhover mb-2">
@@ -360,6 +372,7 @@
         }
       }
     </script>
+    
     {% comment %}
     <script src="{% static 'js/script.js' %}"></script>
     {% endcomment %}
