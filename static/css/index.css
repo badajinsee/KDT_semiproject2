@@ -43,7 +43,7 @@
   text-decoration: none;
 }
 
-.modal-header-like {
+/* .modal-header-like {
   display: flex;
   flex-shrink: 0;
   align-items: center;
@@ -52,7 +52,105 @@
   border-bottom: var(--bs-modal-header-border-width) solid var(--bs-modal-header-border-color);
   border-top-left-radius: var(--bs-modal-inner-border-radius);
   border-top-right-radius: var(--bs-modal-inner-border-radius);
+} */
+.comment-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
+
+.comment-time {
+  font-size: 12px;
+}
+
+.comment-content {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.comment-form {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.comment-delete-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.custom-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.scrollable-div {
+  height: 200px;
+  overflow-y: scroll;
+}
+
+.horizontal-container {
+  display: flex;
+  align-items: center;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.small-text {
+  font-size: 12px;
+}
+
+#modal_overlay_profile {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px);
+  z-index: 99999;
+}
+
+#modal_window_profile {
+  background: white;
+  backdrop-filter: blur(13.5px);
+  -webkit-backdrop-filter: blur(13.5px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  width: 800px;
+  height: 600px;
+  position: relative;
+  padding: 10px;
+  z-index: 99999;
+}
+
+.modal_image_upload {
+  outline: 1px dashed lightgray;
+  outline-offset: -10px;
+  text-align: center;
+  transition: all 0.15s ease-in-out;
+  width: 780px;
+  height: 548px;
+}
+
 
 .post-username {
   white-space: nowrap;

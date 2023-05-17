@@ -4,7 +4,7 @@ from accounts.models import User
 from .forms import PostForm, PostImageForm, CommentForm
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-
+from django.http import JsonResponse
 
 # Create your views here.
 @login_required
@@ -107,34 +107,46 @@ def delete(request, post_pk):
 
 def comments_create(request, post_pk, parent_pk):
     post = Post.objects.get(pk=post_pk)
-    comment_form = CommentForm(request.POST)
-    print("\nasdfasdf\nw;oiefjoigwa\n")
-    if comment_form.is_valid():
-        comment = comment_form.save(commit=False)
-        comment.post = post
-        comment.user = request.user
+    content = request.POST.get('content')
+    if content:
+        comment = Comment(
+            post=post,
+            user=request.user,
+            content=content
+        )
+        
         if parent_pk != 0:
             comment.parent_comment = Comment.objects.get(pk=parent_pk)
-        # comment.user = request.user
-        comment_form.save()
-
-        if comment.user != post.user:
-            message = f" {post.title} 댓글 달림"
-            notification = Notification.objects.create(user=post.user, message=message)
-
-        return redirect("posts:detail", post.pk)
+        
+        # 추가적인 유효성 검사 로직을 수행할 수 있습니다.
+        
+        comment.save()
+        
+        # 댓글 저장 후의 처리 로직을 추가할 수 있습니다.
+        print("도달데스까")
+        context = {
+            "content": content,
+            "postPk": post.pk,
+            "commentPk": comment.pk,
+            "postUser": post.user.username,
+        }
+        print("도달데스까2")
+        return JsonResponse(context)
+    
+    # content가 없는 경우에 대한 처리 로직을 추가할 수 있습니다.
+    
     context = {
         "post": post,
-        "comment_form": comment_form,
     }
     return render(request, "posts/detail.html", context)
+
 
 
 def comments_delete(request, post_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
     # if request.user == comment.user:
     comment.delete()
-    return redirect("posts:detail", post_pk)
+    return JsonResponse({})
 
 
 def notification_list(request):
