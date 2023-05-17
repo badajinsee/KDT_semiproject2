@@ -80,7 +80,7 @@
                       >
                     </button>
                   </li>
-                  <!-- 팔로우 인원 -->
+                  <!-- 팔로워 인원 -->
                   <li>
                     <button
                       style="font-size: 16px"
@@ -90,7 +90,7 @@
                       data-bs-target="#followers"
                       id="follow"
                     >
-                      팔로우
+                      팔로워
                       <span id="followers-count"
                         >{{ person.followers.all|length }}</span
                       >
@@ -190,20 +190,7 @@
                 </div>
               </div>
               <div style="display: flex; flex-direction: row">
-                {% comment %}
-                <img
-                  src="http://file3.instiz.net/data/file3/2019/08/23/e/8/7/e8789bf21aba47ae9b819b32b41b628f.jpg"
-                  alt="게시글이미지"
-                  style="
-                    max-width: 100%;
-                    max-height: 100%;
-                    width: 500px;
-                    height: 500px;
-                    object-fit: cover;
-                    margin-right: 10px;
-                  "
-                />
-                {% endcomment %}
+            
                 <div class="mt-3 square-image-container pe-3 ps-1">
                   <!-- 게시글 이미지 캐러셀 -->
                   <div
@@ -436,14 +423,14 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-4" id="followingsModalLabel">팔로잉</h1>
+          <h1 class="modal-title fs-4" id="followingsModalLabel">팔로잉 목록</h1>
           <button
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
           ></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body " style="display:flex; justify-content: space-between;">
           {% for following in person.followings.all %}
           <a
             href="{% url 'accounts:profile' following %}"
@@ -500,14 +487,14 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-4" id="followersModalLabel">팔로우</h1>
+          <h1 class="modal-title fs-4" id="followersModalLabel">팔로워 목록</h1>
           <button
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
           ></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" style="display:flex; justify-content: space-between;">
           {% for follower in person.followers.all %}
           <a
             href="{% url 'accounts:profile' follower %}"
@@ -516,7 +503,9 @@
           >
           {% if request.user == person %}
           <form id="followform2" data-user-id="{{ person.pk }}">
-            {% csrf_token %} {% if request.user in person.followers.all %}
+            {% csrf_token %} 
+            
+            {% if request.user in person.followers.all %}
             <input
               type="submit"
               value="언팔로우"
