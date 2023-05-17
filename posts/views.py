@@ -150,3 +150,24 @@ def notification_mark_as_read(request, notification_id):
     notification.is_read = True
     notification.save()
     return redirect('notifications:notification_list')
+
+
+def search(request):
+    keyword = request.GET.get("keyword")
+
+    # if '#' not in keyword:
+    #     keyword = '#' + keyword[0:]
+
+    # posts = Post.objects.filter(Q(content__icontains=keyword))    
+
+    users = User.objects.filter(Q(username__icontains=keyword))
+    count = users.count()
+
+    context = {
+        # "posts": posts, 
+        "keyword": keyword, 
+        "count": count,
+        'users': users,    
+    }
+
+    return render(request, 'posts/search.html', context)
