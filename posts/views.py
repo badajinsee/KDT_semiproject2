@@ -124,8 +124,6 @@ def comments_create(request, post_pk, parent_pk):
         # 추가적인 유효성 검사 로직을 수행할 수 있습니다.
         
         comment.save()
-        
-        # 댓글 저장 후의 처리 로직을 추가할 수 있습니다.
         print("도달데스까")
         context = {
             "content": content,
@@ -144,28 +142,11 @@ def comments_create(request, post_pk, parent_pk):
     return render(request, "posts/detail.html", context)
 
 
-
 def comments_delete(request, post_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
     # if request.user == comment.user:
     comment.delete()
     return JsonResponse({})
-
-
-def notification_list(request):
-    user = request.user
-    notifications = Notification.objects.filter(user=user).order_by('-created_at')
-    context = {
-        'notifications': notifications
-    }
-    return render(request, 'posts/notification.html', context)
-
-def notification_mark_as_read(request, notification_id):
-    notification = Notification.objects.get(id=notification_id)
-    notification.is_read = True
-    notification.save()
-    return redirect('notifications:notification_list')
-
 
 
 def search(request):
@@ -210,4 +191,3 @@ def explore(request):
         "posts": posts,
     }
     return render(request, "posts/explore.html", context)
-
