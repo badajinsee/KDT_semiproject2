@@ -23,6 +23,8 @@
             style="
               max-width: 100%;
               max-height: 100%;
+              object-fit: contain;
+              overflow: hidden;
             "
             class="imgs_main"
             src=" {{ post.post_images.first.image.url }} "
@@ -66,7 +68,6 @@
                 padding-top: 10px;
               "
             >
-              <div style="width: 40px"></div>
               <div>{{person}} 게시글</div>
               <div style="width: 40px">
                 <a class="close_modal" href="#" id="close_modal" style="color: black">

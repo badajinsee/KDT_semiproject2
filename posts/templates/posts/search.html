@@ -1,43 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Search Results</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-  <style>
-    .search-img {
-      width: 170px;
-      height: 170px;
-      border-radius: 100%;
-      object-fit: cover;
-    }
+{% extends 'base.html' %}
+{% load static %}
 
-    .search-no-img {
-      width: 160px;    
-    }
-
-    .search-username {
-      font-size: 30px;
-      margin-top: 40px;
-    }
-
-    .search-userinfo {
-      font-size: 18px;
-      margin-right: 10px;
-
-    }
-
-  </style>
-</head>
-<body class="m-5">
-  <h1>검색된 유저</h1>  
+{% block content %}
+  <link rel="stylesheet" href="{% static 'css/search.css' %}">
+  <h1 class="search_text">➡️ 검색된 유저</h1>
   <hr>
   {% if users %}
-    <h2>키워드 : {{ keyword }}</h2>
-    <p>조회된 유저 수 : {{ count }}</p>
-          
+    <h2 class="search_text2">키워드 :
+      {{ keyword }}</h2>
+    <br>
+    <p class="search_text2">조회된 유저 수 :
+      {{ count }}</p>
+
     {% for post in users %}
       <div class="d-flex">
         <div>
@@ -45,7 +19,7 @@
             {% if post.profile_image %}
               <img src="{{ post.profile_image.url }}" alt="profile-img" class="search-img p-3">
             {% else %}
-            <img class="search-no-img" id="profile-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="no-img">
+              <img class="search-no-img" id="profile-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="no-img">
             {% endif %}
           </a>
         </div>
@@ -64,14 +38,22 @@
             <div class="d-flex search-userinfo">
               <div class="me-1">팔로우</div>
               <div>{{ post.followers.all|length }}</div>
-            </div>       
-          </div>        
-        </div> 
+            </div>
+          </div>
+        </div>
       </div>
     {% endfor %}
   {% else %}
     <p>No results found.</p>
   {% endif %}
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+
+{% endblock content %}
+
+</head>
+
+<body class="m-5">
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </body>
+
 </html>
