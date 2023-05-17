@@ -13,5 +13,6 @@ urlpatterns = [
     path('<int:post_pk>/comments/<int:comment_pk>/delete/', views.comments_delete, name='comments_delete'),
     path('notifications/', views.notification_list, name='notifications'),
     path('mark-as-read/<int:notification_id>/', views.notification_mark_as_read, name='notification_mark_as_read'),
+    path('<int:post_pk>/like/', views.like, name='like'),
 
 ]

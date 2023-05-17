@@ -4,7 +4,7 @@ from accounts.models import User
 from .forms import PostForm, PostImageForm, CommentForm
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-
+from django.http import JsonResponse
 
 # Create your views here.
 @login_required
@@ -150,3 +150,18 @@ def notification_mark_as_read(request, notification_id):
     notification.is_read = True
     notification.save()
     return redirect('notifications:notification_list')
+
+@login_required
+def like(request, post_pk):
+    post = Post.objects.get(pk=post_pk)
+    if request.user in post.like_users.all():
+        post.like_users.remove(request.user)
+        is_like_users = False
+    else:
+        post.like_users.add(request.user)
+        is_like_users = True
+        context = {
+            'is_like_users':is_like_users
+        }
+        return JsonResponse(context,)
+    return redirect('posts:index')
