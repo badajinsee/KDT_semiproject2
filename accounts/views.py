@@ -87,8 +87,10 @@ def edit(request):
 def profile(request, username):
     User = get_user_model()
     person = User.objects.get(username=username)
+    posts = person.post_set.all().order_by('-created_at')
     context = {
         'person': person,
+        'posts':posts,
     }
     return render(request, 'accounts/profile.html', context)
 

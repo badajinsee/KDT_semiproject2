@@ -111,7 +111,8 @@
     <!-- 이미지 -->
     <div class="image_coll">
       <ul class="row">
-        {% for post in person.post_set.all %}
+        <!-- 여기 수정 -->
+        {% for post in posts%}
         <li class="col-md-4">
           {% if post.post_images.first.image.url %}
           <button
