@@ -15,9 +15,9 @@
       {% csrf_token %}
       <div class="d-flex profile_1">
         {%if user.profile_image %}
-          <img src="{{ user.profile_image.url }}" alt="post_image" class="col-3 rounded-circle">
+          <img src="{{ user.profile_image.url }}" alt="post_image" class="col-3 rounded-circle" style="height: 150px; width: 150px; object-fit: cover;">
         {% else %}
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="no_image" class="col-3 rounded-circle">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="no_image" class="col-3 rounded-circle" style="height: 150px; width: 150px; object-fit: cover;">
         {% endif %}
         <!-- ID -->
         <div class="form-group sub_1">

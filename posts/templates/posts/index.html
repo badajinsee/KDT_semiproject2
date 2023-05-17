@@ -260,16 +260,16 @@
                             </div>
                           </div>
                           
-                          <div class="col-12" style="    height: 300px;
+                          <div class="col-12" style="    height: 180px;
                           border-bottom: 1px solid lightgray;
-                          margin-bottom: 10px;">
+                          margin-bottom: 10px; overflow:auto;">
                             <!-- 본문 -->
                             <div style="display: flex; align-items: flex-start; padding: 10px; height: 100px;">
                               <p class="mt-3">{{ post.content }}</p>
                             </div>
                           </div>
                           
-                          <div class="col-12" style="border-top: 1px solid lightgray">
+                          <div class="col-12" style="padding:0px;">
                             <ul id="newModal{{forloop.counter0}}comment" class="scrollable-div">
         
                               
@@ -279,13 +279,15 @@
                                     <div class="horizontal-container">
                                       <p class="bold">{{ post.user }}</p> <p>&nbsp;&nbsp;&nbsp;</p> <p class="small-text">{{ comment.updated_at|custom_timesince }}</p>
                                     </div>
-                                    <p class="mb-2">{{ comment.content }}</p> <!-- - {{ comment.user }} -->
-                                    
-                                    {% comment %} {% if request.user == comment.user %} {% endcomment %}
-                                    <form data-post-id="{{ post.pk }}" data-comment-id="{{ comment.pk }}" method="POST">
-                                      {% csrf_token %}
-                                      <input type="submit" class="custom-button" value="댓글삭제">
-                                    </form>
+                                    <div style="display:flex; justify-content:space-between;">
+                                      <p class="mb-2 mt-2">{{ comment.content }}</p> <!-- - {{ comment.user }} -->
+                                      
+                                      {% comment %} {% if request.user == comment.user %} {% endcomment %}
+                                      <form data-post-id="{{ post.pk }}" data-comment-id="{{ comment.pk }}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="submit" class="btn btn-outline-primary" style="border:none; font-size:13px;"value="댓글삭제">
+                                      </form>
+                                    </div>
                                     <br>
                                     {% comment %} {% endif %} {% endcomment %}
                                     
@@ -319,7 +321,10 @@
                           
                           <div
                           class="col-12"
-                          style="border-top: 1px solid lightgray; padding-top: 10px; padding-bottom: 10px;"
+                          style="border-top: 1px solid lightgray;
+                          margin-top: 10px;
+                          padding-bottom: 10px;
+                          padding-top: 10px;"
                           >
                             <!-- 좋아요, 댓글, 메세지, 북마크 아이콘 -->
                             <i class="bi bi-heart me-3 icon-size"></i>
@@ -328,14 +333,9 @@
                             <span style="float: right;"><i class="bi bi-bookmark" style="font-size: 25px;"></i></span>
                           </div>
                           
-                          <div class="col-12">
+                          <div class="col-12 pb-2">
                             <!-- 좋아요 개수 -->
                             <span>좋아요 개수 : {{post.like_count}}</span>
-                          </div>
-                          
-                          <div class="col-12" style="margin-bottom: 10px">
-                            <!-- 생성 일자 -->
-                            <span style="font-size: 12px">생성일자</span>
                           </div>
                           
                             <!-- 댓글 입력 폼 -->
@@ -343,9 +343,13 @@
                             <!-- 댓글 구현 구역--------------------------------------------------------------------------------- -->
                             <form class="col-12" id="comments_create" data-post-id="{{ post.pk }}" data-parentcomment-id="0" method="POST">  
                               {% csrf_token %}
-                              
-                              <input type="text" class="comment-input" name="content" id="id_content" placeholder="댓글 달기">
-                              <input type="submit" value="댓글 등록">
+                              <div style="display:flex; justify-content: space-between; border-bottom: 1px solid lightgray;
+                              padding-bottom: 5px;">
+
+                                <input type="text" class="comment-input form-control" name="content" id="id_content" style="    padding: 0px;
+                                padding-top: 5px;" placeholder="댓글 달기">
+                                <input type="submit" class="btn btn-outline-primary" style="border:none" value="댓글 등록">
+                              </div>
                             </form>
                           </div>
                         </div>
