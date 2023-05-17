@@ -23,6 +23,7 @@
   border-radius: 50%;
   clip-path: circle(50% at center);
   border: 1px solid rgb(196, 192, 192);
+  margin-right: 10px;
 }
 
 .main-content {
