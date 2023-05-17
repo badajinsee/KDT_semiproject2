@@ -93,8 +93,8 @@
 }
 
 .scrollable-div {
-  height: 200px;
-  overflow-y: scroll;
+  height: 120px;
+  overflow: auto;
 }
 
 .horizontal-container {

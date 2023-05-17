@@ -279,12 +279,7 @@
                     <!-- 유저 이미지 -->
                     <div
                       style="
-                        display: flex;
-                        align-items: center;
-                        margin-top: 10px;
-                        padding:10px;
-                      "
-                    >
+                        display: flex; align-items: center; margin-top: 10px; padding-left:10px;">
                       {% if post.user.profile_image %}
                       <img
                         class="circle-image post-header-m"
@@ -317,7 +312,10 @@
                     <div class="col-12">
                       <!-- 본문 -->
                       <div style="display: flex; align-items: flex-start; padding: 10px; height: 300px;">
-                        <p class="mt-3">{{ post.content }}</p>
+                        <p class="mt-3" style="    height: 180px;
+                        border-bottom: 1px solid lightgray;
+                        margin-bottom: 10px;
+                        overflow: auto;">{{ post.content }}</p>
                       </div>
                       <div
                         class="col-12 ps-2"
@@ -334,10 +332,7 @@
                         <!-- 좋아요 개수 -->
                         <span>좋아요 개수 : {{post.like_count}}</span>
                       </div>
-                      <div class="col-12 ps-2" style="margin-bottom: 10px">
-                        <!-- 생성 일자 -->
-                        <span style="font-size: 12px">생성일자</span>
-                      </div>
+                      
                       <div class="col-12 ps-2" style="border-top: 1px solid lightgray">
                         <!-- 댓글 입력 폼 -->
                         <div class="row">
