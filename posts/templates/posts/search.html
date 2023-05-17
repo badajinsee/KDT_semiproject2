@@ -5,33 +5,71 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Search Results</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <style>
+    .search-img {
+      width: 170px;
+      border-radius: 100%;
+    }
+
+    .search-no-img {
+      width: 160px;    
+    }
+
+    .search-username {
+      font-size: 30px;
+      margin-top: 40px;
+    }
+
+    .search-userinfo {
+      font-size: 18px;
+      margin-right: 10px;
+
+    }
+
+  </style>
 </head>
-<body>
-  <h1>Search Results</h1>
-  <form action="{% url 'posts:search' %}" method="GET">
-    <input type="text" name="keyword" placeholder="Enter a keyword">
-    <button type="submit">Search</button>
-  </form>
-  
+<body class="m-5">
+  <h1>검색된 유저</h1>  
+  <hr>
   {% if users %}
-      <h2>Keyword: {{ keyword }}</h2>
-      <p>Number of posts found: {{ count }}</p>
-           
-      {% for post in users %}
+    <h2>키워드 : {{ keyword }}</h2>
+    <p>조회된 유저 수 : {{ count }}</p>
+          
+    {% for post in users %}
+      <div class="d-flex">
         <div>
-          {{ post.username }}          
-
-          {% if post.profile_image %}
-            <img src="{{ post.profile_image.url }}" alt="profile-img">
-            console.log(img)
-          {% else %}
-            이미지 없음
-          {% endif %}
-
+          <a href="{% url 'accounts:profile' post %}">
+            {% if post.profile_image %}
+              <img src="{{ post.profile_image.url }}" alt="profile-img" class="search-img p-3">
+            {% else %}
+            <img class="search-no-img" id="profile-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="no-img">
+            {% endif %}
+          </a>
         </div>
-      {% endfor %}
-      {% else %}
-      <p>No results found.</p>
+
+        <div>
+          <div class="search-username">{{ post.username }}</div>
+          <div class="d-flex">
+            <div class="d-flex search-userinfo">
+              <div class="me-1">게시물</div>
+              <div>{{ post.post_set.all|length }}</div>
+            </div>
+            <div class="d-flex search-userinfo">
+              <div class="me-1">팔로잉</div>
+              <div>{{ post.followings.all|length }}</div>
+            </div>
+            <div class="d-flex search-userinfo">
+              <div class="me-1">팔로우</div>
+              <div>{{ post.followers.all|length }}</div>
+            </div>       
+          </div>        
+        </div> 
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No results found.</p>
   {% endif %}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </body>
 </html>
