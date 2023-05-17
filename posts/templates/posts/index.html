@@ -114,14 +114,21 @@
           </div>  
 
           <div class="mt-2"> <!-- 왼쪽에 좋아요, 댓글, 메시지/ 오른쪽 북마크 -->
-            <i class="bi bi-heart me-3 icon-size"></i>
-            <i class="bi bi-chat me-3 icon-size"></i>
-            <i class="bi bi-send me-3 icon-size"></i>
-            <span style="float: right;"><i class="bi bi-bookmark" style="font-size: 25px;"></i></span>
+            <form id= "likeform" data-post-id="{{ post.pk }}">
+              {% csrf_token %}
+              {% if request.user in post.like_users.all %}
+                <input type="submit" value="하트없어" id="like-{{post.pk}}">
+              {% else %}
+                <input type="submit" value="하트" id="like-{{post.pk}}">
+              {% endif %}
+              <i class="bi bi-chat me-3 icon-size"></i>
+              <i class="bi bi-send me-3 icon-size"></i>
+              <span style="float: right;"><i class="bi bi-bookmark" style="font-size: 25px;"></i></span>
+            </form>
           </div>
           <div> <!-- 좋아요 개수 / 누르면 좋아요 누른사람이 뜸-->
             <button type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal_like" style="padding-left: 0;">
-              좋아요 개수 : {{post.like_count}}
+              좋아요 {{post.like_count}}개
             </button>
             
             <!-- Modal -->
@@ -133,9 +140,28 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    <p>유저네임</p>
-                    <p>유저네임</p>
-                    <p>유저네임</p>
+                    {% for like_user in post.like_users.all %}
+                    {% if request.user != like_user %}
+                    <a
+                    href="{% url 'accounts:profile' like_user %}"
+                    class="link-dark link-underline link-underline-opacity-0 fs-5"
+                    >{{ like_user }}
+                    </a>
+                    <span>
+                      <form action="{%url 'accounts:follow' like_user.pk%}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value='팔로우' class="btn btn-sm button btn-outline-primary" {% if not request.user.is_authenticated %}disabled{% endif %}>
+                      </form>
+                    {% else %}
+                      <a
+                      href="{% url 'accounts:profile' like_user %}"
+                      class="link-dark link-underline link-underline-opacity-0 fs-5"
+                      >{{ like_user }}
+                      </a>
+                    {% endif %}
+                    </span>
+                    <p>{{ like_user.status_message}}</p>
+                    {% endfor %}
                   </div>
                   
                 </div>
@@ -377,4 +403,5 @@
   
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="{% static '/js/comment_async.js' %}" type="text/javascript"></script>
+  <script src="{% static '/js/likeform.js' %}" type="text/javascript"></script>
   {% endblock content %}
