@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
 
 
@@ -12,6 +12,9 @@ urlpatterns = [
     path('<int:post_pk>/comments/<int:parent_pk>/', views.comments_create, name='comments_create'),
     path('<int:post_pk>/comments/<int:comment_pk>/delete/', views.comments_delete, name='comments_delete'),
     path('notifications/', views.notification_list, name='notifications'),
-    path('mark-as-read/<int:notification_id>/', views.notification_mark_as_read, name='notification_mark_as_read'),
+    path('mark-as-read/<int:notification_id>/', views.notification_mark_as_read, name='notification_mark_as_read'),   
+    path('<int:post_pk>/like/', views.like, name='like'),
+    path('explore/', views.explore, name='explore'),
+    re_path(r'^search/$', views.search, name='search'),
 
 ]

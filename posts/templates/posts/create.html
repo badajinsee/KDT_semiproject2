@@ -7,7 +7,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>create</title>
     <!-- 부트 스트랩 -->
     <link
       rel="stylesheet"
@@ -431,24 +431,6 @@
               form.appendChild(latitudeInput);
               form.appendChild(longitudeInput);
               form.appendChild(locInput);
-
-
-              {% comment %}
-              const latitudeInput = document.querySelector('input[name="latitude"]');
-              const longitudeInput = document.querySelector('input[name="longitude"]');
-              if (data.length > 0) {
-                const selectedPlace = data[0];
-                latitudeInput.value = selectedPlace.y;
-                longitudeInput.value = selectedPlace.x;
-              } else {
-                latitudeInput.value = '';
-                longitudeInput.value = '';
-              }
-
-              // 검색한 위치 이름을 location input 값으로 연결해서 넣기
-              const locInput = document.querySelector('input[name="location"]');
-              locInput.value = document.getElementById('keyword').value;
-              {% endcomment %}
 
 
           } else if (status === kakao.maps.services.Status.ZERO_RESULT) {

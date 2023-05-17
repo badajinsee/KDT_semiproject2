@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Results</title>
+</head>
+<body>
+  <h1>Search Results</h1>
+  <form action="{% url 'posts:search' %}" method="GET">
+    <input type="text" name="keyword" placeholder="Enter a keyword">
+    <button type="submit">Search</button>
+  </form>
+  
+  {% if users %}
+      <h2>Keyword: {{ keyword }}</h2>
+      <p>Number of posts found: {{ count }}</p>
+           
+      {% for post in users %}
+        <div>
+          {{ post.username }}          
+
+          {% if post.profile_image %}
+            <img src="{{ post.profile_image.url }}" alt="profile-img">
+            console.log(img)
+          {% else %}
+            이미지 없음
+          {% endif %}
+
+        </div>
+      {% endfor %}
+      {% else %}
+      <p>No results found.</p>
+  {% endif %}
+</body>
+</html>

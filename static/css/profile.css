@@ -37,6 +37,7 @@
 .main_2 h2 {
   margin-right: 20px;
   margin-bottom: 20px;
+  width: 140px;
 }
 
 .button {
@@ -84,6 +85,7 @@
   width: calc(33.33% - 4px);
   /* 이미지 너비(309px) * 3개 + 마진(4px) */
   position: relative;
+  padding: 0px;
 }
 
 .image_coll li img {
@@ -151,6 +153,7 @@
   width: 780px;
   height: 548px;
 }
+
 
 /* 이미지 원형 */
 .circle-image {

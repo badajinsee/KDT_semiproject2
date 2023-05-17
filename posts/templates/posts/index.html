@@ -114,18 +114,33 @@
           </div>  
 
           <div class="mt-2"> <!-- 왼쪽에 좋아요, 댓글, 메시지/ 오른쪽 북마크 -->
-            <i class="bi bi-heart me-3 icon-size"></i>
-            <i class="bi bi-chat me-3 icon-size"></i>
-            <i class="bi bi-send me-3 icon-size"></i>
-            <span style="float: right;"><i class="bi bi-bookmark" style="font-size: 25px;"></i></span>
+            <form id= "likeform" data-post-id="{{ post.pk }}">
+              {% csrf_token %}
+              {% if request.user in post.like_users.all %}
+              <!--하트-->
+                <button type="submit" value="하트" id="like-{{post.pk}}" style = "border:none; background-color:transparent; font-size:25px; padding-right:10px; color:red" value="test2">
+                  <i class="bi bi-heart-fill"></i>
+                </button>
+            
+              {% else %}
+              <!--하트없음-->
+                <button type="submit" value="하트없음" id="like-{{post.pk}}" style = "border:none; background-color:transparent;font-size:25px; padding-right:10px; color:black;" value="test">
+                  <i class="bi bi-heart"></i>
+                </button>
+              {% endif %}
+
+              <i class="bi bi-chat me-3 icon-size"></i>
+
+              <span style="float: right;"><i class="bi bi-bookmark" style="font-size: 25px;"></i></span>
+            </form>
           </div>
           <div> <!-- 좋아요 개수 / 누르면 좋아요 누른사람이 뜸-->
-            <button type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal_like" style="padding-left: 0;">
-              좋아요 개수 : {{post.like_count}}
+            <button type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal_like_{{post.pk}}" style="padding-left: 0;">
+              좋아요 {{post.like_count}} </span>개
             </button>
             
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal_like" tabindex="-1" aria-labelledby="exampleModalLabel_like" aria-hidden="true">
+            <div class="modal fade" id="exampleModal_like_{{post.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel_like" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -133,9 +148,28 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    <p>유저네임</p>
-                    <p>유저네임</p>
-                    <p>유저네임</p>
+                    {% for like_user in post.like_users.all %}
+                    {% if request.user != like_user %}
+                    <a
+                    href="{% url 'accounts:profile' like_user %}"
+                    class="link-dark link-underline link-underline-opacity-0 fs-5"
+                    >{{ like_user }}
+                    </a>
+                    <span>
+                      <form action="{%url 'accounts:follow' like_user.pk%}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value='팔로우' class="btn btn-sm button btn-outline-primary" {% if not request.user.is_authenticated %}disabled{% endif %}>
+                      </form>
+                    {% else %}
+                      <a
+                      href="{% url 'accounts:profile' like_user %}"
+                      class="link-dark link-underline link-underline-opacity-0 fs-5"
+                      >{{ like_user }}
+                      </a>
+                    {% endif %}
+                    </span>
+                    <p>{{ like_user.status_message}}</p>
+                    {% endfor %}
                   </div>
                   
                 </div>
@@ -162,7 +196,7 @@
             
             <div class="modal fade" id="newModal{{ forloop.counter0 }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered modal-xl">
-                <div class="modal-content" style="width:885px">
+                <div class="modal-content" style="width:1000px">
                   <div class="modal-body">
                     <div class="row">
                       <div class="col-md-6">
@@ -213,9 +247,9 @@
                             <!-- 유저네임 -->
                             <div class="mb-3 pb-3"style="display: flex; align-items: center; border-bottom: 1px solid lightgray;">
                               {% if post.user.profile_image %}
-                              <img class="circle-image post-header-m" src="{{ post.user.profile_image.url }}" alt="Post Image">
+                              <img class="circle-image post-header-m mr-3" src="{{ post.user.profile_image.url }}" alt="Post Image">
                               {% else %}
-                              <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
+                              <img class="circle-image post-header-m mr-3" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
                               {% endif %}
                               <div class='post-header-m fw-bold'>{{ post.user }}</div>
                               <!-- 게시글 모달-->
@@ -226,7 +260,9 @@
                             </div>
                           </div>
                           
-                          <div class="col-12">
+                          <div class="col-12" style="    height: 300px;
+                          border-bottom: 1px solid lightgray;
+                          margin-bottom: 10px;">
                             <!-- 본문 -->
                             <div style="display: flex; align-items: flex-start; padding: 10px; height: 100px;">
                               <p class="mt-3">{{ post.content }}</p>
@@ -311,8 +347,6 @@
                               <input type="text" class="comment-input" name="content" id="id_content" placeholder="댓글 달기">
                               <input type="submit" value="댓글 등록">
                             </form>
-                            <!-- --------------------------------------------------------------------------------------------------- -->
-                            <!-- --------------------------------------------------------------------------------------------------- -->
                           </div>
                         </div>
                       </div>
@@ -344,21 +378,23 @@
         <div class="fw-bold"style='color:gray'>회원님을 위한 추천</div>
         <a href="#" class="a-decoration fw-bold" style="color:black">모두보기</a>
       </div>
-      {% for fol_user in users %}
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <div style="display: flex; align-items: center;">
-          {% if fol_user.user.profile_image %}
-          <img class="circle-image post-header-m" src="{{ fol_user.profile_image.url }}" alt="Post Image">
-          {% else %}
-          <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
-          {% endif %}
-          <a href="{% url 'accounts:profile' fol_user %}" class='post-header-m fw-bold ms-3' style="text-decoration: none; color: black;">{{fol_user}}</a>
-          <a href=""></a>
+      {% for fol_user in users|slice:":5" %}
+        {% if fol_user != request.user %}
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div style="display: flex; align-items: center;">
+            {% if fol_user.user.profile_image %}
+            <img class="circle-image post-header-m" src="{{ fol_user.profile_image.url }}" alt="Post Image">
+            {% else %}
+            <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
+            {% endif %}
+            <a href="{% url 'accounts:profile' fol_user %}" class='post-header-m fw-bold ms-3' style="text-decoration: none; color: black;">{{fol_user}}</a>
+            <a href=""></a>
+          </div>
+          <div>
+            <a href="#" class="a-decoration fw-bold ">팔로우</a>
+          </div>
         </div>
-        <div>
-          <a href="#" class="a-decoration fw-bold ">팔로우</a>
-        </div>
-      </div>
+        {% endif %}
       {% endfor %}
       
       <div>  

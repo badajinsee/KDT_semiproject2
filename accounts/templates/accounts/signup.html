@@ -17,7 +17,7 @@
   <div class="container">
     <div class="login_form">
       <!-- 로그인 폼 -->
-      <img class="main_img" src="{% static 'img/main_img.png' %}" alt="메인 이미지">
+      <img class="main_img" src="{% static 'img/main_img1.png' %}" alt="메인 이미지">
       <h2 class="join_font_size mb-5">친구들의 사진과 동영상을 보려면 가입하세요.</h2>
       <form action="{% url 'accounts:signup' %}" method="POST">
         {% csrf_token %}
@@ -37,8 +37,8 @@
 
     <!-- 회원가입 링크 연결 -->
     <div class="haveAccount">
-      <p>계정이 없으신가요?
-        <a href="#" class="noneunderline">가입하기</a>
+      <p>계정이 있으신가요?
+        <a href="{% url 'accounts:login'%}" class="noneunderline">로그인</a>
       </p>
     </div>
 
