@@ -363,20 +363,22 @@
         <a href="#" class="a-decoration fw-bold" style="color:black">모두보기</a>
       </div>
       {% for fol_user in users|slice:":5" %}
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <div style="display: flex; align-items: center;">
-          {% if fol_user.user.profile_image %}
-          <img class="circle-image post-header-m" src="{{ fol_user.profile_image.url }}" alt="Post Image">
-          {% else %}
-          <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
-          {% endif %}
-          <a href="{% url 'accounts:profile' fol_user %}" class='post-header-m fw-bold ms-3' style="text-decoration: none; color: black;">{{fol_user}}</a>
-          <a href=""></a>
+        {% if fol_user != request.user %}
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div style="display: flex; align-items: center;">
+            {% if fol_user.user.profile_image %}
+            <img class="circle-image post-header-m" src="{{ fol_user.profile_image.url }}" alt="Post Image">
+            {% else %}
+            <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
+            {% endif %}
+            <a href="{% url 'accounts:profile' fol_user %}" class='post-header-m fw-bold ms-3' style="text-decoration: none; color: black;">{{fol_user}}</a>
+            <a href=""></a>
+          </div>
+          <div>
+            <a href="#" class="a-decoration fw-bold ">팔로우</a>
+          </div>
         </div>
-        <div>
-          <a href="#" class="a-decoration fw-bold ">팔로우</a>
-        </div>
-      </div>
+        {% endif %}
       {% endfor %}
       
       <div>  
