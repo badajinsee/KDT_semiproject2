@@ -117,22 +117,30 @@
             <form id= "likeform" data-post-id="{{ post.pk }}">
               {% csrf_token %}
               {% if request.user in post.like_users.all %}
-                <input type="submit" value="하트없어" id="like-{{post.pk}}">
+              <!--하트-->
+                <button type="submit" value="하트" id="like-{{post.pk}}" style = "border:none; background-color:transparent; font-size:25px; padding-right:10px; color:red" value="test2">
+                  <i class="bi bi-heart-fill"></i>
+                </button>
+            
               {% else %}
-                <input type="submit" value="하트" id="like-{{post.pk}}">
+              <!--하트없음-->
+                <button type="submit" value="하트없음" id="like-{{post.pk}}" style = "border:none; background-color:transparent;font-size:25px; padding-right:10px; color:black;" value="test">
+                  <i class="bi bi-heart"></i>
+                </button>
               {% endif %}
+
               <i class="bi bi-chat me-3 icon-size"></i>
-              <i class="bi bi-send me-3 icon-size"></i>
+
               <span style="float: right;"><i class="bi bi-bookmark" style="font-size: 25px;"></i></span>
             </form>
           </div>
           <div> <!-- 좋아요 개수 / 누르면 좋아요 누른사람이 뜸-->
-            <button type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal_like" style="padding-left: 0;">
-              좋아요 {{post.like_count}}개
+            <button type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal_like_{{post.pk}}" style="padding-left: 0;">
+              좋아요 {{post.like_count}} </span>개
             </button>
             
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal_like" tabindex="-1" aria-labelledby="exampleModalLabel_like" aria-hidden="true">
+            <div class="modal fade" id="exampleModal_like_{{post.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel_like" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -188,7 +196,7 @@
             
             <div class="modal fade" id="newModal{{ forloop.counter0 }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered modal-xl">
-                <div class="modal-content" style="width:885px">
+                <div class="modal-content" style="width:1000px">
                   <div class="modal-body">
                     <div class="row">
                       <div class="col-md-6">
@@ -354,7 +362,7 @@
         <div class="fw-bold"style='color:gray'>회원님을 위한 추천</div>
         <a href="#" class="a-decoration fw-bold" style="color:black">모두보기</a>
       </div>
-      {% for fol_user in users %}
+      {% for fol_user in users|slice:":5" %}
       <div class="d-flex justify-content-between align-items-center mb-3">
         <div style="display: flex; align-items: center;">
           {% if fol_user.user.profile_image %}

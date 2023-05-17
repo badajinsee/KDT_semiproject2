@@ -5,6 +5,7 @@ from .forms import PostForm, PostImageForm, CommentForm
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.db.models.functions import Random
 
 # Create your views here.
 @login_required
@@ -14,9 +15,11 @@ def index(request):
     # print('\n' + following_posts + '\n' + other_posts + '\n')
     posts = list(following_posts) + list(other_posts)
     # print('\n' + posts + '\n')
+    users = User.objects.order_by(Random())[:5]
     
     context = {
         "posts": posts,
+        "users": users,
     }
 
     return render(request, "posts/index.html", context)
@@ -165,3 +168,11 @@ def like(request, post_pk):
         }
         return JsonResponse(context,)
     return redirect('posts:index')
+
+
+def explore(request):
+    posts = Post.objects.all()
+    context = {
+        "posts": posts,
+    }
+    return render(request, "posts/explore.html", context)

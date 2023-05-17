@@ -14,5 +14,6 @@ urlpatterns = [
     path('notifications/', views.notification_list, name='notifications'),
     path('mark-as-read/<int:notification_id>/', views.notification_mark_as_read, name='notification_mark_as_read'),
     path('<int:post_pk>/like/', views.like, name='like'),
+    path('explore/', views.explore, name='explore'),
 
 ]
