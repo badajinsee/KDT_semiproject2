@@ -136,7 +136,7 @@
           </div>
           <div> <!-- 좋아요 개수 / 누르면 좋아요 누른사람이 뜸-->
             <button type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal_like_{{post.pk}}" style="padding-left: 0;">
-              좋아요 {{post.like_count}} </span>개
+              <span id="like-count-{{post.pk}}">좋아요 {{post.like_count}}개</span>
             </button>
             
             <!-- Modal -->
@@ -147,28 +147,33 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel_like">좋아요</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
-                  <div class="modal-body">
+                  <div class="modal-body" style="padding: 0px;
+                  margin: 10px; font-weight: 600">
                     {% for like_user in post.like_users.all %}
-                    {% if request.user != like_user %}
-                    <a
-                    href="{% url 'accounts:profile' like_user %}"
-                    class="link-dark link-underline link-underline-opacity-0 fs-5"
-                    >{{ like_user }}
-                    </a>
-                    <span>
-                      <form action="{%url 'accounts:follow' like_user.pk%}" method="POST">
-                        {% csrf_token %}
-                        <input type="submit" value='팔로우' class="btn btn-sm button btn-outline-primary" {% if not request.user.is_authenticated %}disabled{% endif %}>
-                      </form>
-                    {% else %}
-                      <a
-                      href="{% url 'accounts:profile' like_user %}"
-                      class="link-dark link-underline link-underline-opacity-0 fs-5"
-                      >{{ like_user }}
-                      </a>
-                    {% endif %}
-                    </span>
-                    <p>{{ like_user.status_message}}</p>
+                      {% if request.user != like_user %}
+                      <!--좋아요한 사람들 목록-->
+                      <span style="display:flex; justify-content:space-between; font-weight: 600">
+                        <a
+                        href="{% url 'accounts:profile' like_user %}"
+                        class="link-dark link-underline link-underline-opacity-0 fs-5"
+                        style="font-weight: 600"
+                        >{{ like_user }}
+                        </a>
+                        <span>
+                          <form action="{%url 'accounts:follow' like_user.pk%}" method="POST">
+                            {% csrf_token %}
+                            <input type="submit" value='팔로우' class="btn btn-sm button btn-primary" style="border:none" {% if not request.user.is_authenticated %}disabled{% endif %}>
+                          </form>
+                        {% else %}
+                          <a
+                          href="{% url 'accounts:profile' like_user %}"
+                          class="link-dark link-underline link-underline-opacity-0 fs-5"
+                          style="margin-bottom:10px;">{{ like_user }}
+                          </a>
+                        {% endif %}
+                        </span>
+                      </span>
+                        <p style="font-weight:400; color:gray; margin-bottom:10px; ">{{ like_user.status_message}}</p>
                     {% endfor %}
                   </div>
                   
@@ -402,40 +407,25 @@
       {% endfor %}
       
       <div>  
-        <a href="https://about.instagram.com/" class="a-decoration fw-bold" style="color:lightgray; font-size:13px;" target="_blank">소개</a><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot mb-1" viewBox="0 0 16 16" style="color:lightgray">
-          <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-        </svg>
-        <a href="https://help.instagram.com/" class="a-decoration fw-bold" style="color:lightgray; font-size:13px;" target="_blank">도움말</a><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot mb-1" viewBox="0 0 16 16" style="color:lightgray">
-          <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-        </svg>
-        <a href="https://help.instagram.com/" class="a-decoration fw-bold" style="color:lightgray; font-size:13px;" target="_blank">홍보센터</a><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot mb-1" viewBox="0 0 16 16" style="color:lightgray">
-          <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-        </svg>
-        <a href="https://help.instagram.com/" class="a-decoration fw-bold" style="color:lightgray; font-size:13px;" target="_blank">API</a><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot mb-1" viewBox="0 0 16 16" style="color:lightgray">
-          <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-        </svg>
-        <a href="https://help.instagram.com/" class="a-decoration fw-bold" style="color:lightgray;  font-size:13px;" target="_blank">약관</a>
-      </div>
-      <div>
-        <a href="https://help.instagram.com/" class="a-decoration fw-bold" style="color:lightgray;  font-size:13px;" target="_blank">채용정보</a><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot mb-1" viewBox="0 0 16 16" style="color:lightgray">
-          <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-        </svg>
-        <a href="https://help.instagram.com/" class="a-decoration fw-bold" style="color:lightgray;  font-size:13px;" target="_blank">위치</a><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot mb-1" viewBox="0 0 16 16" style="color:lightgray">
-          <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-        </svg>
-        <a href="https://help.instagram.com/" class="a-decoration fw-bold" style="color:lightgray;  font-size:13px;" target="_blank">개인정보처리방침</a>
+        <a href="https://github.com/badajinsee" class="a-decoration fw-bold" style="color:lightgray; font-size:13px;" target="_blank">한선진</a>
+        <a href="https://github.com/komanduk" class="a-decoration fw-bold" style="color:lightgray; font-size:13px;" target="_blank">고영진</a>
+        <a href="https://github.com/j1-y00n" class="a-decoration fw-bold" style="color:lightgray; font-size:13px;" target="_blank">변지윤</a>
+        <a href="https://github.com/jeongyun11" class="a-decoration fw-bold" style="color:lightgray; font-size:13px;" target="_blank">정윤원</a>
+        <a href="https://github.com/Jo-Intelligentsia" class="a-decoration fw-bold" style="color:lightgray;  font-size:13px;" target="_blank">조규상</a>
       </div>
       <div class="mt-3" style="color:lightgray; font-size:13px;">
-        © 2023 INSTAGRAM FROM META
+        © 2023 12조 친해져야겠조
       </div>
     </aside>
   </div>
   
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="text/javascript" src="{% static 'js/likeform.js' %}"></script>
+  
   <script>
     const commentForm = document.querySelector('#comments_create');
-    {% comment %} const cocommentForm = document.querySelector('#cocomments_create') {% endcomment %}
-    // h1.innerText = "asd;lfkajsd;lfkj;sadlkf
+    
+    
     commentForm.addEventListener('submit', function (event) {
       event.preventDefault()
       const csrftoken = document.querySelector('[name = csrfmiddlewaretoken]').value
