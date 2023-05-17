@@ -17,9 +17,9 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     like_count = models.IntegerField(default=0)
     comment_count = models.IntegerField(default=0)
-    latitude = models.FloatField()
-    longitude = models.FloatField()
-    location = models.CharField(max_length=100)
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
+    location = models.CharField(max_length=100, blank=True, null=True)
 
 
 class PostImage(models.Model):

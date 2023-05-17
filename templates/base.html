@@ -98,7 +98,7 @@
 
               <!-- 프로필 카테고리 -->
               <div class="d-flex justify-content-between menuhover mb-2">
-                <a class="a-text" href="{%url 'accounts:profile' user %}">
+                <a class="a-text" href="{%url 'accounts:profile' user.username %}">
                   <div class="d-flex align-items-center page-border">
                     <img
                       class="profile"
@@ -124,7 +124,7 @@
                   <h1 class="ms-3 hidden">더 보기</h1>
                 </div>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="{% url 'accounts:profile' user.username %}">
                     <div class="d-flex align-items-center page-border">
                       <span class="material-symbols-outlined"> settings </span>
                       <h1 class="ms-3">설정</h1>
