@@ -1,8 +1,8 @@
-const forms = document.querySelectorAll('#likeform')
-const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+const likeforms = document.querySelectorAll('#likeform')
+const csrfTokenValue = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
 
-forms.forEach((likeform) => {
+likeforms.forEach((likeform) => {
   likeform.addEventListener('submit', function (event) {
     event.preventDefault()
     const postId = event.target.dataset.postId

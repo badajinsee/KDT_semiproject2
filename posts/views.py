@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.db.models.functions import Random
+from django.contrib.auth import get_user_model
 
 # Create your views here.
 @login_required
@@ -16,7 +17,20 @@ def index(request):
     posts = list(following_posts) + list(other_posts)
     # print('\n' + posts + '\n')
     users = User.objects.order_by(Random())[:5]
-    
+    if request.is_ajax():
+        if request.user in users:
+            user = request.user
+            user_followed = user.followers.filter(id__in=users.values('id')).exists()
+            if user_followed:
+                user.followers.remove(user)
+                is_followed = False
+            else:
+                user.followers.add(user)
+                is_followed = True
+            context = {
+                'is_followed': is_followed,
+            }
+            return JsonResponse(context)
     context = {
         "posts": posts,
         "users": users,
@@ -124,8 +138,6 @@ def comments_create(request, post_pk, parent_pk):
         # 추가적인 유효성 검사 로직을 수행할 수 있습니다.
         
         comment.save()
-        
-        # 댓글 저장 후의 처리 로직을 추가할 수 있습니다.
         print("도달데스까")
         context = {
             "content": content,
@@ -144,28 +156,11 @@ def comments_create(request, post_pk, parent_pk):
     return render(request, "posts/detail.html", context)
 
 
-
 def comments_delete(request, post_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
     # if request.user == comment.user:
     comment.delete()
     return JsonResponse({})
-
-
-def notification_list(request):
-    user = request.user
-    notifications = Notification.objects.filter(user=user).order_by('-created_at')
-    context = {
-        'notifications': notifications
-    }
-    return render(request, 'posts/notification.html', context)
-
-def notification_mark_as_read(request, notification_id):
-    notification = Notification.objects.get(id=notification_id)
-    notification.is_read = True
-    notification.save()
-    return redirect('notifications:notification_list')
-
 
 
 def search(request):
@@ -197,11 +192,14 @@ def like(request, post_pk):
     else:
         post.like_users.add(request.user)
         is_like_users = True
-        context = {
-            'is_like_users':is_like_users
-        }
-        return JsonResponse(context,)
-    return redirect('posts:index')
+    post.like_count = post.like_users.count()  # 좋아요 개수 업데이트
+    post.save()
+    context = {
+        'is_like_users':is_like_users,
+        'like_count': post.like_users.count()  # 좋아요 개수를 추가
+    }
+    return JsonResponse(context)
+    # return redirect('posts:index')
 
 
 def explore(request):
@@ -210,4 +208,3 @@ def explore(request):
         "posts": posts,
     }
     return render(request, "posts/explore.html", context)
-

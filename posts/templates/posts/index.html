@@ -5,7 +5,6 @@
 {% block style %}
 
 <link rel="stylesheet" href="{% static 'css/index.css' %}">
-<script src="{% static 'js/script.js' %}"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
@@ -136,7 +135,7 @@
           </div>
           <div> <!-- 좋아요 개수 / 누르면 좋아요 누른사람이 뜸-->
             <button type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal_like_{{post.pk}}" style="padding-left: 0;">
-              좋아요 {{post.like_count}} </span>개
+              <span id="like-count-{{post.pk}}">좋아요 {{post.like_count}}개</span>
             </button>
             
             <!-- Modal -->
@@ -147,28 +146,33 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel_like">좋아요</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
-                  <div class="modal-body">
+                  <div class="modal-body" style="padding: 0px;
+                  margin: 10px; font-weight: 600">
                     {% for like_user in post.like_users.all %}
-                    {% if request.user != like_user %}
-                    <a
-                    href="{% url 'accounts:profile' like_user %}"
-                    class="link-dark link-underline link-underline-opacity-0 fs-5"
-                    >{{ like_user }}
-                    </a>
-                    <span>
-                      <form action="{%url 'accounts:follow' like_user.pk%}" method="POST">
-                        {% csrf_token %}
-                        <input type="submit" value='팔로우' class="btn btn-sm button btn-outline-primary" {% if not request.user.is_authenticated %}disabled{% endif %}>
-                      </form>
-                    {% else %}
-                      <a
-                      href="{% url 'accounts:profile' like_user %}"
-                      class="link-dark link-underline link-underline-opacity-0 fs-5"
-                      >{{ like_user }}
-                      </a>
-                    {% endif %}
-                    </span>
-                    <p>{{ like_user.status_message}}</p>
+                      {% if request.user != like_user %}
+                      <!--좋아요한 사람들 목록-->
+                      <span style="display:flex; justify-content:space-between; font-weight: 600">
+                        <a
+                        href="{% url 'accounts:profile' like_user %}"
+                        class="link-dark link-underline link-underline-opacity-0 fs-5"
+                        style="font-weight: 600"
+                        >{{ like_user }}
+                        </a>
+                        <span>
+                          <form action="{%url 'accounts:follow' like_user.pk%}" method="POST">
+                            {% csrf_token %}
+                            <input type="submit" value='팔로우' class="btn btn-sm button btn-primary" style="border:none" {% if not request.user.is_authenticated %}disabled{% endif %}>
+                          </form>
+                        {% else %}
+                          <a
+                          href="{% url 'accounts:profile' like_user %}"
+                          class="link-dark link-underline link-underline-opacity-0 fs-5"
+                          style="margin-bottom:10px;">{{ like_user }}
+                          </a>
+                        {% endif %}
+                        </span>
+                      </span>
+                        <p style="font-weight:400; color:gray; margin-bottom:10px; ">{{ like_user.status_message}}</p>
                     {% endfor %}
                   </div>
                   
@@ -398,43 +402,39 @@
             <a href=""></a>
           </div>
           <div>
-            <a href="#" class="a-decoration fw-bold ">팔로우</a>
+            <form id="follow_form_{{ fol_user.pk }}" data-user-id="{{ fol_user.pk }}">
+              {% csrf_token %} 
+              {% if request.user in user.followers.all %}
+                <input class="fw-bold btn btn-primary" type="submit" value="팔로잉">
+              {% else %}
+                <input class="fw-bold btn btn-primary" type="submit" value="팔로우">
+              {% endif %}
+            </form>
           </div>
         </div>
         {% endif %}
       {% endfor %}
       
       <div>  
-        <a href="https://about.instagram.com/" class="a-decoration fw-bold" style="color:lightgray; font-size:13px;" target="_blank">소개</a><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot mb-1" viewBox="0 0 16 16" style="color:lightgray">
-          <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-        </svg>
-        <a href="https://help.instagram.com/" class="a-decoration fw-bold" style="color:lightgray; font-size:13px;" target="_blank">도움말</a><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot mb-1" viewBox="0 0 16 16" style="color:lightgray">
-          <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-        </svg>
-        <a href="https://help.instagram.com/" class="a-decoration fw-bold" style="color:lightgray; font-size:13px;" target="_blank">홍보센터</a><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot mb-1" viewBox="0 0 16 16" style="color:lightgray">
-          <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-        </svg>
-        <a href="https://help.instagram.com/" class="a-decoration fw-bold" style="color:lightgray; font-size:13px;" target="_blank">API</a><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot mb-1" viewBox="0 0 16 16" style="color:lightgray">
-          <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-        </svg>
-        <a href="https://help.instagram.com/" class="a-decoration fw-bold" style="color:lightgray;  font-size:13px;" target="_blank">약관</a>
-      </div>
-      <div>
-        <a href="https://help.instagram.com/" class="a-decoration fw-bold" style="color:lightgray;  font-size:13px;" target="_blank">채용정보</a><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot mb-1" viewBox="0 0 16 16" style="color:lightgray">
-          <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-        </svg>
-        <a href="https://help.instagram.com/" class="a-decoration fw-bold" style="color:lightgray;  font-size:13px;" target="_blank">위치</a><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot mb-1" viewBox="0 0 16 16" style="color:lightgray">
-          <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-        </svg>
-        <a href="https://help.instagram.com/" class="a-decoration fw-bold" style="color:lightgray;  font-size:13px;" target="_blank">개인정보처리방침</a>
+        <a href="https://github.com/badajinsee" class="a-decoration fw-bold" style="color:lightgray; font-size:13px;" target="_blank">한선진</a>
+        <a href="https://github.com/komanduk" class="a-decoration fw-bold" style="color:lightgray; font-size:13px;" target="_blank">고영진</a>
+        <a href="https://github.com/j1-y00n" class="a-decoration fw-bold" style="color:lightgray; font-size:13px;" target="_blank">변지윤</a>
+        <a href="https://github.com/jeongyun11" class="a-decoration fw-bold" style="color:lightgray; font-size:13px;" target="_blank">정윤원</a>
+        <a href="https://github.com/Jo-Intelligentsia" class="a-decoration fw-bold" style="color:lightgray;  font-size:13px;" target="_blank">조규상</a>
       </div>
       <div class="mt-3" style="color:lightgray; font-size:13px;">
-        © 2023 INSTAGRAM FROM META
+        © 2023 12조 친해져야겠조
       </div>
     </aside>
   </div>
   
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script type="text/javascript" src="{% static 'js/followform.js' %}"></script>
+
+  <script type="text/javascript" src="{% static 'js/likeform.js' %}"></script>
+  
+
   <script>
     const commentForms = document.querySelectorAll('.comments_create');
     console.log(commentForms)
@@ -462,7 +462,6 @@
         const csrftoken = document.querySelector('[name = csrfmiddlewaretoken]').value;
         const parentcommentId = event.target.dataset.parentcommentId;
         const postId = event.target.dataset.postId;
-
         const li = document.createElement('li');
         const formData = new FormData(commentForm);
         const lis = commentForm.parentNode.getElementsByTagName('li');
@@ -495,9 +494,7 @@
             `;
             const inputText = commentForm.querySelector('form input[type="text"]');
             inputText.value = '';
-
             postUl.appendChild(commentLi);
-
             const scrollableDiv = document.querySelector('.scrollable-div');
             scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
             
