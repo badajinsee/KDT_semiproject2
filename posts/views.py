@@ -197,11 +197,14 @@ def like(request, post_pk):
     else:
         post.like_users.add(request.user)
         is_like_users = True
-        context = {
-            'is_like_users':is_like_users
-        }
-        return JsonResponse(context,)
-    return redirect('posts:index')
+    post.like_count = post.like_users.count()  # 좋아요 개수 업데이트
+    post.save()
+    context = {
+        'is_like_users':is_like_users,
+        'like_count': post.like_users.count()  # 좋아요 개수를 추가
+    }
+    return JsonResponse(context)
+    # return redirect('posts:index')
 
 
 def explore(request):
