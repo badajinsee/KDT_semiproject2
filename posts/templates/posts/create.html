@@ -315,32 +315,32 @@
         e.stopPropagation();
         e.preventDefault();
         dragOver(e); //1
-
+      
         e.dataTransfer = e.originalEvent.dataTransfer; //2
         var files = e.target.files || e.dataTransfer.files;
         console.log("뭔가 파일을 올렸네??" + files[0].name);
-        if (files.length > 1) {
-          alert("하나만 올려라.");
-          return;
-        }
-        if (files[0].type.match(/image.*/)) {
-        } else {
-          alert("이미지가 아닙니다.");
-          return;
-        }
-        if (files[0].type.match(/image.*/)) {
+        
+        if (files.length > 0) {
           var imageInput = document.getElementById("id_image");
           var fileList = new DataTransfer();
-          fileList.items.add(files[0]);
+          
+          for (var i = 0; i < files.length; i++) {
+            if (files[i].type.match(/image.*/)) {
+              fileList.items.add(files[i]);
+            } else {
+              alert("이미지가 아닙니다.");
+            }
+          }
+          
           imageInput.files = fileList.files;
           $("#first_modal").css({
             display: "none",
           });
-
+      
           $("#second_modal").css({
             display: "flex",
           });
-
+      
           $(".img_upload_space").css({
             "background-image":
               "url(" + window.URL.createObjectURL(files[0]) + ")",
@@ -349,13 +349,11 @@
             "background-repeat": "no-repeat",
             "background-position": "center",
           });
-        } else {
-          alert("이미지가 아닙니다.");
-          return;
         }
       }
     </script>
-
+    
+    <!--kakao map api-->
     <script
       type="text/javascript"
       src="//dapi.kakao.com/v2/maps/sdk.js?appkey=	bf5df7cd95cbe3016b5acd766751ca3d&libraries=services"
