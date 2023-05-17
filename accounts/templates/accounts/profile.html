@@ -36,131 +36,71 @@
 
           <div class="container width-main">
             <div>
-              <h2 style="font-size: 30px; font-weight: 600;">{{ person }}</h2>
+              <div class="row"> 
+                <h2 class="col-md-6"style="font-size: 30px; font-weight: 600;">{{ person }}</h2>
+                <div class="d-grid gap-2 d-md-block col-md-6">
+                  <!-- 팔로우 버튼 -->
+                  {% if request.user != person %}
+                  <form id="follow-form" data-user-id="{{ person.pk }}">
+                    {% csrf_token %}
+                    {% if request.user in person.followers.all %}
+                    <input type="submit" value='언팔로우' class="btn btn-sm button btn-outline-primary" {% if not request.user.is_authenticated %}disabled{% endif %}>
+                    {% else %}
+                    <input type="submit" value='팔로우' class="btn btn-sm  button btn-primary" {% if not request.user.is_authenticated %}disabled{% endif %}>
+                    {% endif %}
+                  </form>
+                  {% endif %}
+              <!-- 프로필 게시물 갯수 & 팔로워명 & 팔로우명 -->
+                  {% if request.user == person %}
+                    <a href="{% url 'accounts:edit' %}" value="프로필 편집" class="btn button btn-secondary">프로필 편집</a>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="main_3">
+                <ul>
+                  <!-- 게시물 갯수 -->
+                  <li>
+                    <span>게시물</span>
+                    <span>{{ person.post_set|length }}</span>
+                  </li>
+                  <!-- 팔로워 인원 -->
+                  <li>
+                    <button
+                      style="font-size: 16px"
+                      type="button"
+                      class="btn btn-sm me-1 btn-white"
+                      data-bs-toggle="modal"
+                      data-bs-target="#followings"
+                      id="follow"
+                    >
+                      팔로잉
+                      <span id="followings-count"
+                        >{{ person.followings.all|length }}</span
+                      >
+                    </button>
+                  </li>
+                  <!-- 팔로우 인원 -->
+                  <li>
+                    <button
+                      style="font-size: 16px"
+                      type="button"
+                      class="btn btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#followers"
+                      id="follow"
+                    >
+                      팔로우
+                      <span id="followers-count"
+                        >{{ person.followers.all|length }}</span
+                      >
+                    </button>
+                  </li>
+                </ul>
+              </div>
               <p class="mt-3">{{user.status_message}}</p>
             </div>
-          
-            <div class="d-grid gap-2 d-md-block">
-              <!-- 팔로우 버튼 -->
-              {% if request.user != person %}
-              <form id="follow-form" data-user-id="{{ person.pk }}">
-                {% csrf_token %}
-                {% if request.user in person.followers.all %}
-                <input type="submit" value='언팔로우' class="btn btn-sm button btn-outline-primary" {% if not request.user.is_authenticated %}disabled{% endif %}>
-                {% else %}
-                <input type="submit" value='팔로우' class="btn btn-sm  button btn-primary" {% if not request.user.is_authenticated %}disabled{% endif %}>
-                {% endif %}
-              </form>
-              {% endif %}
-          
-              {% if request.user == person %}
-                <a href="{% url 'accounts:edit' %}" value="프로필 편집" class="btn button btn-secondary">프로필 편집</a>
-              {% endif %}
-            </div>
           </div>
-        
-
-        </div>
-
-        <!-- 프로필 정보 & 버튼 -->
-        {% comment %} <div class="d-flex main_2 mt-5">
-          <!-- 아이디 -->
-          <h2 style="font-size: 30px; font-weight: 600">{{ person }}</h2>
-
-          <div class="d-grid gap-2 d-md-block">
-            <!-- 팔로우 버튼 -->
-            {% if request.user != person %}
-            <form id="follow-form" data-user-id="{{ person.pk }}">
-              {% csrf_token %} {% if request.user in person.followers.all %}
-              <input
-                type="submit"
-                value="언팔로우"
-                class="btn btn-sm button btn-outline-primary"
-                {%
-                if
-                not
-                request.user.is_authenticated
-                %}disabled{%
-                endif
-                %}
-              />
-              {% else %}
-              <input
-                type="submit"
-                value="팔로우"
-                class="btn btn-sm button btn-primary"
-                {%
-                if
-                not
-                request.user.is_authenticated
-                %}disabled{%
-                endif
-                %}
-              />
-              {% endif %}
-            </form>
-            {% endif %} {% if request.user == person %}
-            <a
-              href="{% url 'accounts:edit' %}"
-              value="프로필 편집"
-              class="btn button btn-secondary"
-              >프로필 편집</a
-            >
-            {% endif %} {% comment %}
-            <button
-              id="followButton"
-              class="btn button btn-primary"
-              type="button"
-            >
-              팔로우
-            </button>
-      
-          </div>
-        </div>
-      </div> {% endcomment %}
-
-      <!-- 프로필 게시물 갯수 & 팔로워명 & 팔로우명 -->
-      <div class="main_3">
-        <ul>
-          <!-- 게시물 갯수 -->
-          <li>
-            <span>게시물</span>
-            <span>{{ person.post_set|length }}</span>
-          </li>
-          <!-- 팔로워 인원 -->
-          <li>
-            <button
-              style="font-size: 16px"
-              type="button"
-              class="btn btn-sm me-1 btn-white"
-              data-bs-toggle="modal"
-              data-bs-target="#followings"
-              id="follow"
-            >
-              팔로잉
-              <span id="followings-count"
-                >{{ person.followings.all|length }}</span
-              >
-            </button>
-          </li>
-          <!-- 팔로우 인원 -->
-          <li>
-            <button
-              style="font-size: 16px"
-              type="button"
-              class="btn btn-sm"
-              data-bs-toggle="modal"
-              data-bs-target="#followers"
-              id="follow"
-            >
-              팔로우
-              <span id="followers-count"
-                >{{ person.followers.all|length }}</span
-              >
-            </button>
-          </li>
-        </ul>
-      </div>
+        </div>    
     </div>
   </div>
 
@@ -174,14 +114,12 @@
           {% if post.post_images.first.image.url %}
           <button
             type="button"
-            class="btn ps-0 image{{forloop.conter0}}"
+            class="btn p-0 image{{forloop.conter0}}"
             data-bs-toggle="modal"
             data-bs-target="#newModal{{ forloop.counter0 }}"
           >
             <img
               style="
-                width: 14rem;
-                height: 11rem;
                 max-width: 100%;
                 max-height: 100%;
               "
@@ -209,7 +147,7 @@
           </a>
           {% endif %}
         </li>
-          <div class="modal_overlay" id="newModal{{forloop.counter0}}">
+          <div class="modal_overlay_profile" id="newModal{{forloop.counter0}}">
             <div
               class="modal_window"
               id="modal_window_profile{{forloop.conter0}}"
@@ -259,7 +197,7 @@
                   "
                 />
                 {% endcomment %}
-                <div class="mt-3 square-image-container">
+                <div class="mt-3 square-image-container pe-3 ps-1">
                   <!-- 게시글 이미지 캐러셀 -->
                   <div
                     id="carouselExampleIndicators-modal{{ forloop.counter0 }}"
@@ -330,7 +268,7 @@
                 </div>
           
                 <!-- 나눌부분 -->
-                <div style="width: 100%; border-left: 1px solid lightgray; height: 560px;">
+                <div style="width: 100%; border-left: 1px solid lightgray; height: 550px;">
                   <div
                     class="col-12"
                     style="border-bottom: 1px solid lightgray; padding-bottom: 10px"
@@ -379,26 +317,25 @@
                         <p class="mt-3">{{ post.content }}</p>
                       </div>
                       <div
-                        class="col-12"
+                        class="col-12 ps-2"
                         style="border-top: 1px solid lightgray; padding-top: 10px; padding-bottom: 10px;"
                       >
                         <!-- 좋아요, 댓글, 메세지, 북마크 아이콘 -->
                         <i class="bi bi-heart me-3 icon-size"></i>
                         <i class="bi bi-chat me-3 icon-size"></i>
-                        <i class="bi bi-send me-3 icon-size"></i>
                         <span style="float: right">
                           <i class="bi bi-bookmark" style="font-size: 25px"></i>
                         </span>
                       </div>
-                      <div class="col-12">
+                      <div class="col-12 ps-2">
                         <!-- 좋아요 개수 -->
                         <span>좋아요 개수 : {{post.like_count}}</span>
                       </div>
-                      <div class="col-12" style="margin-bottom: 10px">
+                      <div class="col-12 ps-2" style="margin-bottom: 10px">
                         <!-- 생성 일자 -->
                         <span style="font-size: 12px">생성일자</span>
                       </div>
-                      <div class="col-12" style="border-top: 1px solid lightgray">
+                      <div class="col-12 ps-2" style="border-top: 1px solid lightgray">
                         <!-- 댓글 입력 폼 -->
                         <div class="row">
                           <div class="col-10">
@@ -651,7 +588,7 @@
   // 닫기 버튼을 클릭했을 때 모달 창이 닫힌 후 첫 페이지로 이동
   document.querySelectorAll('.close_modal').forEach(function(btn) {
     btn.addEventListener('click', function() {
-      var modalId = this.closest('.modal_overlay').id;
+      var modalId = this.closest('.modal_overlay_profile').id;
       var modal = document.getElementById(modalId);
       modal.style.display = 'none';
 
