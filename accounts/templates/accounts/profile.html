@@ -37,9 +37,9 @@
 
           <div class="container width-main">
             <div>
-              <div class="row"> 
-                <h2 class="col-md-6"style="font-size: 30px; font-weight: 600;">{{ person }}</h2>
-                <div class="d-grid gap-2 d-md-block col-md-6">
+              <div style="display: flex; align-items: center;"> 
+                <h2 style="font-size: 30px; font-weight: 600;">{{ person }}</h2>
+                <span class="d-grid gap-2 d-md-block">
                   <!-- 팔로우 버튼 -->
                   {% if request.user != person %}
                   <form id="follow-form" data-user-id="{{ person.pk }}">
@@ -55,7 +55,7 @@
                   {% if request.user == person %}
                     <a href="{% url 'accounts:edit' %}" value="프로필 편집" class="btn button btn-secondary">프로필 편집</a>
                   {% endif %}
-                </div>
+                </span>
               </div>
               <div class="main_3">
                 <ul>
