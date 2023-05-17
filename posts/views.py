@@ -154,6 +154,28 @@ def notification_mark_as_read(request, notification_id):
     notification.save()
     return redirect('notifications:notification_list')
 
+
+
+def search(request):
+    keyword = request.GET.get("keyword")
+
+    # if '#' not in keyword:
+    #     keyword = '#' + keyword[0:]
+
+    # posts = Post.objects.filter(Q(content__icontains=keyword))    
+
+    users = User.objects.filter(Q(username__icontains=keyword))
+    count = users.count()
+
+    context = {
+        # "posts": posts, 
+        "keyword": keyword, 
+        "count": count,
+        'users': users,    
+    }
+
+    return render(request, 'posts/search.html', context)
+
 @login_required
 def like(request, post_pk):
     post = Post.objects.get(pk=post_pk)
@@ -176,3 +198,4 @@ def explore(request):
         "posts": posts,
     }
     return render(request, "posts/explore.html", context)
+
