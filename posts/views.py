@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Post, PostImage, Comment, Notification
+from .models import Post, PostImage, Comment
+
 from accounts.models import User
 from .forms import PostForm, PostImageForm, CommentForm
 from django.db.models import Q
