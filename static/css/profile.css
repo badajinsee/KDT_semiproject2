@@ -76,7 +76,7 @@
   margin-top: 30px;
 }
 
-.image_coll li {
+.image_coll>ul>li {
   list-style: none;
   display: inline-block;
   margin-right: 4px;
@@ -94,7 +94,7 @@
   height: 100%;
 }
 
-.image_coll ul {
+.image_coll>ul {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
@@ -190,4 +190,22 @@
 
 .btnfont {
   font-size: 16px;
+}
+
+.scrollable-div {
+  height: 120px;
+  overflow: auto;
+}
+
+.horizontal-container {
+  display: flex;
+  align-items: center;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.small-text {
+  font-size: 12px;
 }
