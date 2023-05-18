@@ -1,78 +1,57 @@
 <!doctype html>
 <html lang="en">
 
-<head>
-  {% load static %}
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>login.html</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-  <!--css적용링크 -->
-  <link rel="stylesheet" href="{% static 'css/reset.css' %}">
-  <link rel="stylesheet" href="{% static 'css/login.css' %}">
-  <!-- 글꼴 -->
-</head>
+  <head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>login.html</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <!--css적용링크 -->
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <!-- 글꼴 -->
+  </head>
 
-<body>
-  <div class="container">
+  <body>
+    <div class="container">
 
-    <div class="login_form">
-      <!-- 로그인 폼 -->
-      <img class="main_img" src="{% static 'img/main_img1.png' %}" alt="메인 이미지">
-      <form action="{% url 'accounts:login' %}" method="POST">
-        {% csrf_token %}
-        <input type="text" placeholder="전화번호, 사용자 이름 또는 이메일" class="input_size form-control" name="username">
-        <br>
-        <input type="password" placeholder="비밀번호" class="input_size form-control" name='password'>
-        <br>
+      <div class="login_form">
+        <!-- 로그인 폼 -->
+        <img class="main_img" src="{% static 'img/main_img1.png' %}" alt="메인 이미지">
+        <form action="{% url 'accounts:login' %}" method="POST">
+          {% csrf_token %}
+          <input type="text" placeholder="전화번호, 사용자 이름 또는 이메일" class="input_size form-control" name="username">
+          <br>
+          <input type="password" placeholder="비밀번호" class="input_size form-control" name='password'>
+          <br>
           <input class="btn btn-primary login_button" type="submit" value="로그인"></input>
-      </form>
+        </form>
 
-      <!-- 또는 -->
-      <!-- <div class="mt-3">
-        <p class="or">또는</p>
-      </div> -->
+      </div>
 
+      <!-- 회원가입 링크 연결 -->
+      <div class="haveAccount">
+        <p>계정이 없으신가요?
+          <a href="{% url 'accounts:signup' %}" class="noneunderline">가입하기</a>
+        </p>
+      </div>
 
-      <!-- 페이스북으로 로그인 -->
-      <!-- <div class="facebook">
-        <img class="facebook_img_size"
-          src="https://image.dongascience.com/Photo/2022/05/d1f298481d9d5e4d7287b9e4414da31e.png" alt="">
-        <a href="#" class="noneunderline">
-          <img src="img/facebook.png" alt="" class="facebookIcon">
-          <p>Facebook으로 로그인</p>
-        </a>
-      </div> -->
-
+      <br>
+      <!-- 앱 링크 인스타그램 -->
+      <div>
+        <p>앱을 다운로드하세요.</p>
+      </div>
+      <br>
+      <div>
+        <a href="https://apps.apple.com/app/instagram/id389801252?vt=lo">
+          <img class="down_img" src="https://static.cdninstagram.com/rsrc.php/v3/yi/r/cWx_hQBPmbo.png" alt=""></a>
+        <a href="https://play.google.com/store/apps/details?id=com.instagram.android&referrer=utm_source%3Dinstagramweb%26utm_campaign%3DloginPage%26ig_mid%3DCE0AAB29-A2D1-4154-B258-8846EA93110B%26utm_content%3Dlo%26utm_medium%3Dbadge&pli=1">
+          <img class="down_img" src="https://static.cdninstagram.com/rsrc.php/v3/ye/r/UtJtFmFLCiD.png" alt=""></a>
+      </div>
     </div>
 
-    <!-- 회원가입 링크 연결 -->
-    <div class="haveAccount">
-      <p>계정이 없으신가요?
-        <a href="{% url 'accounts:signup' %}" class="noneunderline">가입하기</a>
-      </p>
-    </div>
-
-    <br>
-    <!-- 앱 링크 인스타그램 -->
-    <div>
-      <p>앱을 다운로드하세요.</p>
-    </div>
-    <br>
-    <div>
-      <a href="https://apps.apple.com/app/instagram/id389801252?vt=lo"> <img class="down_img"
-          src="https://static.cdninstagram.com/rsrc.php/v3/yi/r/cWx_hQBPmbo.png" alt=""></a>
-      <a
-        href="https://play.google.com/store/apps/details?id=com.instagram.android&referrer=utm_source%3Dinstagramweb%26utm_campaign%3DloginPage%26ig_mid%3DCE0AAB29-A2D1-4154-B258-8846EA93110B%26utm_content%3Dlo%26utm_medium%3Dbadge&pli=1">
-        <img class="down_img" src="https://static.cdninstagram.com/rsrc.php/v3/ye/r/UtJtFmFLCiD.png" alt=""></a>
-    </div>
-  </div>
-
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-    crossorigin="anonymous"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+  </body>
 
 </html>

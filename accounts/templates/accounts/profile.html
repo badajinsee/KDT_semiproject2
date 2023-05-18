@@ -387,7 +387,7 @@
     </div>
   </div>
   
-  <!-- 게시글 모달-->
+
   <!-- 팔로잉 모달-->
   <div class="modal fade" id="followings" tabindex="-1">
     <div class="modal-dialog">
@@ -407,7 +407,7 @@
             class="link-dark link-underline link-underline-opacity-0 fs-5"
             >{{ following }}</a
           >
-          {% if request.user != person %}
+          {% if request.user == person %}
           <form id="followform2" data-user-id="{{ person.pk }}">
             {% csrf_token %} {% if request.user in person.followers.all %}
             <input
@@ -527,60 +527,7 @@
   crossorigin="anonymous"
 ></script>
 
-<!-- 팔로잉 팔로우 js -->
-<script>
-  // Get the button element
-    {% comment %} const followButton = document.getElementById('followButton');
-
-    // Add click event listener to the button
-    followButton.addEventListener('click', function () {
-      // Toggle the button text between "팔로우" and "팔로잉"
-      if (followButton.innerText === '팔로우') {
-        followButton.innerText = '팔로잉';
-        followButton.classList.add('following'); // Add CSS class for gray color
-      } else {
-        followButton.innerText = '팔로우';
-        followButton.classList.remove('following'); // Remove CSS class for gray color
-      }
-    }); {% endcomment %}
-</script>
-
-<script>
-  {% comment %} const imageUpload = document.getElementById('image-upload');
-  const profileImage = document.getElementById('profile-image');
-
-
-  imageUpload.addEventListener('change', function() {
-    const file = imageUpload.files[0];
-    const reader = new FileReader();
-
-    reader.addEventListener('load', function() {
-      profileImage.src = reader.result;
-    });
-
-    if (file) {
-
-  </script>
-
-  <script>
-    {% comment %} const imageUpload = document.getElementById('image-upload');
-    const profileImage = document.getElementById('profile-image');
-  
-    imageUpload.addEventListener('change', function() {
-      const file = imageUpload.files[0];
-      const reader = new FileReader();
-  
-      reader.addEventListener('load', function() {
-        profileImage.src = reader.result;
-      });
-  
-      if (file) {
-        reader.readAsDataURL(file);
-      }
-    }); {% endcomment %}
-  </script>
   <!-- 좋아요 js-->
-
 <script>
   // 닫기 버튼을 클릭했을 때 모달 창이 닫힌 후 첫 페이지로 이동
   document.querySelectorAll('.close_modal').forEach(function(btn) {
@@ -597,6 +544,8 @@
     });
   });
 </script>
+
+ <!-- 프로필 이미지 js-->
 <script>
   const editProfileForm = document.querySelector("#edit-profile-form");
   const profileImage = document.querySelector("#profile-image2");

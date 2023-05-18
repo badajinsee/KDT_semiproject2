@@ -29,12 +29,10 @@
               <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
               {% endif %}
               
-          
-              
-              {% comment %} <div class='post-header-m fw-bold'>{{post.user}}<i class="bi bi-dot ms-3" style="color:gray"></i></div> {% endcomment %}
+        
               <a style="text-decoration: none; color: black;" href="{% url 'accounts:profile' post.user %}" class='post-header-m fw-bold'>{{post.user}}<i class="bi bi-dot ms-3" style="color:gray"></i></a>
               <div class='post-header-m'>{{ post.updated_at|custom_timesince }}</div>
-              {% comment %} <div class='post-header-m'>팔로우</div> {% endcomment %}
+           
               <!-- 게시글 모달-->
               <button  style="margin-left: auto;" type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="exampleModal_header{{ forloop.counter0 }}">
                 <i class="bi bi-three-dots"></i>
@@ -56,16 +54,7 @@
                     <a href="#" class="list-group-item list-group-item-action p-3">퍼가기</a>
                     <a href="#" class="list-group-item list-group-item-action p-3">이 계정 정보</a>
                     <a href="#" class="list-group-item list-group-item-action p-3">취소</a>
-                    <!-- 팔로우 아닐때 
-                      <a href="#" class="list-group-item list-group-item-action p-3">신고</a> 
-                      <a href="#" class="list-group-item list-group-item-action p-3">관심 없음</a>
-                      <a href="#" class="list-group-item list-group-item-action p-3">게시물로 이동</a>
-                      <a href="#" class="list-group-item list-group-item-action p-3">공유 대상...</a>
-                      <a href="#" class="list-group-item list-group-item-action p-3">링크 복사</a>
-                      <a href="#" class="list-group-item list-group-item-action p-3">퍼가기</a>
-                      <a href="#" class="list-group-item list-group-item-action p-3">이 계정 정보</a>
-                      <a href="#" class="list-group-item list-group-item-action p-3">취소</a>
-                    -->
+                 
                   </div>
               </div>
             </div>
@@ -74,7 +63,7 @@
             <div id="carouselExampleIndicators{{ forloop.counter0 }}" class="carousel slide" data-bs-ride="true">
               <div class="carousel-indicators">
                 <!-- 캐러셀 연결 추가 -->
-                {% comment %} {% for  in  %}{% endfor %} {% endcomment %}
+               
                 {% for image in post.post_images.all %}
                   {% if forloop.counter0 == 0 %} 
                     <li data-bs-target="#carouselExampleIndicators{{ forloop.parentloop.counter0 }}" data-bs-slide-to="{{ forloop.counter0 }}" class="active"></li>
@@ -192,12 +181,11 @@
             </div>
           </div>
           <div class='mt-2'> <!-- 댓글 개수 모두보기 누르면 모달-->
-            {% comment %} {% if post.comments%} {% endcomment %}
+            
               <button type="button" class="btn ps-0" data-bs-toggle="modal" data-bs-target="#newModal{{ forloop.counter0 }}">
               댓글 {{ post.comments|length }}개 모두 보기
               </button>
-            {% comment %} {% endif %} {% endcomment %}
-            
+           
             <div class="modal fade" id="newModal{{ forloop.counter0 }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content" style="width:1000px">
@@ -296,30 +284,7 @@
                                       </form>
                                     </div>
                                     <br>
-                                    {% comment %} {% endif %} {% endcomment %}
-                                    
-                                    <!--
-                                    <ul id="post{{ post.pk }} comment{{ comment.pk }}">
-                                      {% for cocomment in comment.comment_set.all %}
-                                          <li>
-                                            <p>------대댓글 : {{ cocomment.content }}</p>
-                                            {% if request.user == comment.user %}
-                                            <form id="cocomments_delete" action="{% url 'posts:comments_delete' post.pk cocomment.pk %}" method="post">
-                                              {% csrf_token %}
-                                              <input type="submit" value="삭제하기">
-                                            </form>
-                                            {% endif %}
-                                          </li>
-                                          {% endfor %}
-                                        </ul>
-                                        
-                                        <form id="cocomments_create" data-post-id="{{ post.pk }}" data-parentcomment-id="{{ comment.pk }}">  
-                                          {% csrf_token %}
-                                          {{ comment_form }}
-                                          <input type="submit" value="대댓글 등록">
-                                        </form>
-                                    -->  
-                                      
+                               
                                   </li>
                                 {% endif %}
                               {% endfor %}
@@ -346,9 +311,11 @@
                           </div>
                           
                             <!-- 댓글 입력 폼 -->
-                            <!-- 댓글 구현 구역--------------------------------------------------------------------------------- -->
-                            <!-- 댓글 구현 구역--------------------------------------------------------------------------------- -->
-                            <form class="col-12 comments_create" data-post-id="{{ post.pk }}" data-parentcomment-id="0" method="POST">  
+
+                            
+                            <form class="col-12" id="comments_create" data-post-id="{{ post.pk }}" data-parentcomment-id="0" method="POST">  
+
+
                               {% csrf_token %}
                               <div style="display:flex; justify-content: space-between; border-bottom: 1px solid lightgray;
                               padding-bottom: 5px;">
