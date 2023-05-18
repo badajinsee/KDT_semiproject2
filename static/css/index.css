@@ -19,7 +19,7 @@
 .circle-image {
   width: 50px;
   height: 50px;
-  object-fit: cover;
+
   border-radius: 50%;
   clip-path: circle(50% at center);
   border: 1px solid rgb(196, 192, 192);
@@ -136,7 +136,6 @@
   width: 780px;
   height: 548px;
 }
-
 
 .post-username {
   white-space: nowrap;

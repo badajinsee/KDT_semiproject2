@@ -76,7 +76,7 @@
   margin-top: 30px;
 }
 
-.image_coll>ul>li {
+.image_coll > ul > li {
   list-style: none;
   display: inline-block;
   margin-right: 4px;
@@ -94,7 +94,7 @@
   height: 100%;
 }
 
-.image_coll>ul {
+.image_coll > ul {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
@@ -153,7 +153,6 @@
   width: 780px;
   height: 548px;
 }
-
 
 /* 이미지 원형 */
 .circle-image {
