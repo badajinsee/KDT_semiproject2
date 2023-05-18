@@ -1,6 +1,7 @@
-const forms = document.querySelector('#follow-form')
-const form2 = document.querySelectorAll('#followform2')
+const forms = document.querySelector('[id^="follow-form"]')
+const form2 = document.querySelectorAll('[id^="followform2"]')
 const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+if (forms !== null) {
 forms.addEventListener('submit', function (event) {
   event.preventDefault()
   const userId = event.target.dataset.userId
@@ -49,6 +50,7 @@ form2.forEach((followform2) => {
       })
   })
 })
+}
 
 
 const commentForms = document.querySelectorAll('.comments_create');
