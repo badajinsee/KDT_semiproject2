@@ -240,41 +240,20 @@
                             {% if not comment.parent_comment %}
                               <li>
                                 <div class="horizontal-container">
-                                  <p class="bold">{{ post.user }}</p> <p>&nbsp;&nbsp;&nbsp;</p> <p class="small-text">{{ comment.updated_at|custom_timesince }}</p>
+                                  <p class="bold">{{ comment.user }}</p> <p>&nbsp;&nbsp;&nbsp;</p> <p class="small-text">{{ comment.updated_at|custom_timesince }}</p>
                                 </div>
                                 <div style="display:flex; justify-content:space-between;">
                                   <p class="mb-2 mt-2">{{ comment.content }}</p> <!-- - {{ comment.user }} -->
                                   
                                   {% comment %} {% if request.user == comment.user %} {% endcomment %}
-                                  <form data-post-id="{{ post.pk }}" data-comment-id="{{ comment.pk }}" method="POST">
-                                    {% csrf_token %}
-                                    <input type="submit" class="btn btn-outline-primary" style="border:none; font-size:13px;"value="댓글삭제">
-                                  </form>
+                                  {% if comment.user == user %}
+                                    <form data-post-id="{{ post.pk }}" data-comment-id="{{ comment.pk }}" method="POST">
+                                      {% csrf_token %}
+                                      <input type="submit" class="btn btn-outline-primary" style="border:none; font-size:13px;"value="댓글삭제">
+                                    </form>
+                                  {% endif %}
                                 </div>
                                 <br>
-                                {% comment %} {% endif %} {% endcomment %}
-                                
-                                <!--
-                                <ul id="post{{ post.pk }} comment{{ comment.pk }}">
-                                  {% for cocomment in comment.comment_set.all %}
-                                      <li>
-                                        <p>------대댓글 : {{ cocomment.content }}</p>
-                                        {% if request.user == comment.user %}
-                                        <form id="cocomments_delete" action="{% url 'posts:comments_delete' post.pk cocomment.pk %}" method="post">
-                                          {% csrf_token %}
-                                          <input type="submit" value="삭제하기">
-                                        </form>
-                                        {% endif %}
-                                      </li>
-                                      {% endfor %}
-                                    </ul>
-                                    
-                                    <form id="cocomments_create" data-post-id="{{ post.pk }}" data-parentcomment-id="{{ comment.pk }}">  
-                                      {% csrf_token %}
-                                      {{ comment_form }}
-                                      <input type="submit" value="대댓글 등록">
-                                    </form>
-                                -->  
                                   
                               </li>
                             {% endif %}
@@ -359,11 +338,6 @@
                           </div>
                         </div>
                       </div>
-                     
-                      
-                        <!-- 댓글 입력 폼 -->
-                        <!-- 댓글 구현 구역--------------------------------------------------------------------------------- -->
-                        <!-- 댓글 구현 구역--------------------------------------------------------------------------------- -->
                         <form class="col-12 comments_create" data-post-id="{{ post.pk }}" data-parentcomment-id="0" method="POST">  
                           {% csrf_token %}
                           <div style="display:flex; justify-content: space-between; border-bottom: 1px solid lightgray;

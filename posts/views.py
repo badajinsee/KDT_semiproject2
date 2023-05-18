@@ -144,7 +144,7 @@ def comments_create(request, post_pk, parent_pk):
             "content": content,
             "postPk": post.pk,
             "commentPk": comment.pk,
-            "postUser": post.user.username,
+            "User": request.user
         }
         print("도달데스까2")
         return JsonResponse(context)
