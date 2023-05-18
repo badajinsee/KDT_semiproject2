@@ -51,13 +51,14 @@ form2.forEach((followform2) => {
 })
 
 
-const commentForms = document.querySelectorAll('.comments_create');
+const commentForms = document.querySelectorAll('#comments_create');
 console.log(commentForms)
 commentForms.forEach((commentForm) => {
   const lis = commentForm.parentNode.getElementsByTagName('li');
   console.log(lis)
   Array.from(lis).forEach((li2, index) => {
     li2.querySelector('form').addEventListener('submit', function (event) {
+
       event.preventDefault();
       const commentId = event.target.dataset.commentId;
       const postId = event.target.dataset.postId;
@@ -74,7 +75,6 @@ commentForms.forEach((commentForm) => {
   });
   commentForm.addEventListener('submit', function (event) {
     event.preventDefault();
-    const csrftoken = document.querySelector('[name = csrfmiddlewaretoken]').value;
     const parentcommentId = event.target.dataset.parentcommentId;
     const postId = event.target.dataset.postId;
 

@@ -367,8 +367,10 @@
           <div>
             <form id="follow_form_{{ fol_user.pk }}" data-user-id="{{ fol_user.pk }}">
               {% csrf_token %} 
-              {% if request.user in user.followers.all %}
-                <input class="fw-bold btn btn-primary" type="submit" value="팔로잉">
+
+              {% if request.user in fol_user.followers.all %}
+                <input class="fw-bold btn btn-primary" type="submit" value="언팔로우">
+
               {% else %}
                 <input class="fw-bold btn btn-primary" type="submit" value="팔로우">
               {% endif %}

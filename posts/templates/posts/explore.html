@@ -114,7 +114,9 @@
                       {% endif %}
                       <div>
                         <div class="post-header-m fw-bold">{{ post.user }}</div>
-                        <div style="font-size: 12px; padding-top:5px;">{{post.location}}</div>
+                        {% if post.location %}
+                         <div style="font-size: 12px; padding-top:5px;">{{post.location}}</div>
+                        {% endif %}
                       </div>
                       <!-- 게시글 모달-->
                       <button style="margin-left: auto" type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="#newModal{{ forloop.counter0 }}">
