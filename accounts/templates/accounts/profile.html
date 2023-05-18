@@ -211,7 +211,12 @@
                           {% else %}
                           <img class="circle-image post-header-m mr-3" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
                           {% endif %}
-                          <div class='post-header-m fw-bold'>{{ post.user }}</div>
+                          <div>
+                            <div class="post-header-m fw-bold" style="font-size: 20px;">{{ post.user }}</div>
+                            {% if post.location %}
+                             <div style="font-size: 12px; padding-top:5px;">{{post.location}}</div>
+                            {% endif %}
+                          </div>
                           <!-- 게시글 모달-->
                           {% if user == post.user %}
                             <div style="margin-left: auto;">

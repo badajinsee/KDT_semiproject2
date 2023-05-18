@@ -30,8 +30,14 @@
               <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
               {% endif %}
               
-        
-              <a style="text-decoration: none; color: black;" href="{% url 'accounts:profile' post.user %}" class='post-header-m fw-bold'>{{post.user}}<i class="bi bi-dot ms-3" style="color:gray"></i></a>
+              
+              <a style="text-decoration: none; color: black;" href="{% url 'accounts:profile' post.user %}" class='post-header-m fw-bold'>
+              <div style="display: grid; justify-items: start; padding-right: 10px;">
+                <div class="post-header-m fw-bold" style="font-size: 20px;">{{ post.user }}</div>
+                {% if post.location %}
+                 <div style="font-size: 12px; padding-top:5px;">{{post.location}}</div>
+                {% endif %}
+              </div></a>
               <div class='post-header-m'>{{ post.updated_at|custom_timesince }}</div>
            
               <!-- 게시글 모달-->
@@ -249,7 +255,12 @@
                               {% else %}
                               <img class="circle-image post-header-m mr-3" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
                               {% endif %}
-                              <div class='post-header-m fw-bold'>{{ post.user }}</div>
+                              <div>
+                                <div class="post-header-m fw-bold" style="font-size: 20px;">{{ post.user }}</div>
+                                {% if post.location %}
+                                 <div style="font-size: 12px; padding-top:5px;">{{post.location}}</div>
+                                {% endif %}
+                              </div>
                               <!-- 게시글 모달-->
                               {% if user == post.user %}
                                 <div style="margin-left: auto;">
