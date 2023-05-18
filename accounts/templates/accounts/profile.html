@@ -362,8 +362,6 @@
                      
                       
                         <!-- 댓글 입력 폼 -->
-                        <!-- 댓글 구현 구역--------------------------------------------------------------------------------- -->
-                        <!-- 댓글 구현 구역--------------------------------------------------------------------------------- -->
                         <form class="col-12 comments_create" data-post-id="{{ post.pk }}" data-parentcomment-id="0" method="POST">  
                           {% csrf_token %}
                           <div style="display:flex; justify-content: space-between; border-bottom: 1px solid lightgray;
@@ -393,24 +391,25 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-4" id="followingsModalLabel">팔로잉 목록</h1>
+          <h1 class="modal-title fs-4" id="followingsModalLabel">🩵 팔로잉 목록</h1>
           <button
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
           ></button>
         </div>
-        <div class="modal-body " style="display:flex; justify-content: space-between;">
+        <div class="modal-body ">
           {% for following in person.followings.all %}
           <a
             href="{% url 'accounts:profile' following %}"
             class="link-dark link-underline link-underline-opacity-0 fs-5"
-            >{{ following }}</a
-          >
+            >{{ following }}</a>
+            <hr>
           {% if request.user == person %}
           <form id="followform2" data-user-id="{{ person.pk }}">
-            {% csrf_token %} {% if request.user in person.followers.all %}
-            <input
+            {% csrf_token %} 
+            {% comment %} {% if request.user in person.followers.all %} {% endcomment %}
+            {% comment %} <input
               type="submit"
               value="언팔로우"
               class="btn btn-sm btn-outline-primary"
@@ -435,7 +434,7 @@
               endif
               %}
             />
-            {% endif %}
+            {% endif %} {% endcomment %}
           </form>
           {% endif %} {% endfor %}
         </div>
@@ -452,30 +451,33 @@
     </div>
   </div>
 
-  {% comment %} 팔로우 팔로잉 목록 모달 {% endcomment %}
+  {% comment %} 팔로워 목록 모달 {% endcomment %}
   <div class="modal fade" id="followers" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
+
         <div class="modal-header">
-          <h1 class="modal-title fs-4" id="followersModalLabel">팔로워 목록</h1>
+          <h1 class="modal-title fs-4" id="followersModalLabel"> ❤️ 팔로워 목록</h1>
           <button
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
           ></button>
         </div>
-        <div class="modal-body" style="display:flex; justify-content: space-between;">
+
+        <div class="modal-body" style="padding: 10px">
           {% for follower in person.followers.all %}
-          <a
+          
+            <a style="margin: 10px;"
             href="{% url 'accounts:profile' follower %}"
             class="link-dark link-underline link-underline-opacity-0 fs-5"
-            >{{ follower }}</a
-          >
-          {% if request.user == person %}
-          <form id="followform2" data-user-id="{{ person.pk }}">
-            {% csrf_token %} 
+            >{{ follower }}</a>
+            <hr>
+            {% if request.user == person %}
+            <form id="followform2" data-user-id="{{ person.pk }}">
+              {% csrf_token %} 
             
-            {% if request.user in person.followers.all %}
+            {% comment %} {% if request.user in person.followers.all %}
             <input
               type="submit"
               value="언팔로우"
@@ -501,9 +503,11 @@
               endif
               %}
             />
-            {% endif %}
-          </form>
-          {% endif %} {% endfor %}
+            {% endif %} {% endcomment %}
+            </form>
+            {% endif %} {% endfor %}
+          
+
         </div>
         <div class="modal-footer">
           <button
@@ -517,7 +521,6 @@
       </div>
     </div>
   </div>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
@@ -545,7 +548,7 @@
   });
 </script>
 
- <!-- 프로필 이미지 js-->
+<!-- 프로필 이미지 js-->
 <script>
   const editProfileForm = document.querySelector("#edit-profile-form");
   const profileImage = document.querySelector("#profile-image2");
