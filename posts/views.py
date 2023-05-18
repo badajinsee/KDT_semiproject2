@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from .models import Post, PostImage, Comment
-
 from accounts.models import User
 from .forms import PostForm, PostImageForm, CommentForm
 from django.db.models import Q
@@ -12,8 +11,9 @@ from django.contrib.auth import get_user_model
 # Create your views here.
 @login_required
 def index(request):
-    following_posts = Post.objects.filter(user__in=request.user.followings.all()).order_by('-created_at')
-    other_posts = Post.objects.exclude(user__in=request.user.followings.all()).order_by('-created_at')
+    following_posts = Post.objects.filter(Q(user__in=request.user.followings.all()) | Q(user=request.user)).order_by('-created_at')
+    other_posts = Post.objects.exclude(Q(user__in=request.user.followings.all()) | Q(user=request.user)).order_by('-created_at')
+
     # print('\n' + following_posts + '\n' + other_posts + '\n')
     posts = list(following_posts) + list(other_posts)
     # print('\n' + posts + '\n')
@@ -144,7 +144,7 @@ def comments_create(request, post_pk, parent_pk):
             "content": content,
             "postPk": post.pk,
             "commentPk": comment.pk,
-            "postUser": post.user.username,
+            "User": request.user
         }
         print("도달데스까2")
         return JsonResponse(context)

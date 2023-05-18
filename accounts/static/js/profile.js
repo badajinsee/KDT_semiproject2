@@ -91,13 +91,13 @@ commentForms.forEach((commentForm) => {
         const content = response.data.content;
         const postPk = response.data.postPk;
         const commentPk = response.data.commentPk;
-        const postUser = response.data.postUser;
+        const User = response.data.User;
 
         const postUl = commentForm.parentNode.querySelector('ul');
         const commentLi = document.createElement('li');
         commentLi.innerHTML = `
             <div class="horizontal-container">
-              <p class="bold">${postUser}</p> <p>&nbsp;&nbsp;&nbsp;</p> <p class="small-text">방금 전</p>
+              <p class="bold">${User}</p> <p>&nbsp;&nbsp;&nbsp;</p> <p class="small-text">방금 전</p>
             </div>
             <div style="display:flex; justify-content:space-between;">
               <p class="mb-2 mt-2">${content}</p>
