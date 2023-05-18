@@ -11,8 +11,9 @@ from django.contrib.auth import get_user_model
 # Create your views here.
 @login_required
 def index(request):
-    following_posts = Post.objects.filter(user__in=request.user.followings.all()).order_by('-created_at')
-    other_posts = Post.objects.exclude(user__in=request.user.followings.all()).order_by('-created_at')
+    following_posts = Post.objects.filter(Q(user__in=request.user.followings.all()) | Q(user=request.user)).order_by('-created_at')
+    other_posts = Post.objects.exclude(Q(user__in=request.user.followings.all()) | Q(user=request.user)).order_by('-created_at')
+
     # print('\n' + following_posts + '\n' + other_posts + '\n')
     posts = list(following_posts) + list(other_posts)
     # print('\n' + posts + '\n')
