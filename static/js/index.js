@@ -1,16 +1,17 @@
-const commentForms = document.querySelectorAll(".comments_create");
-const csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
-console.log(commentForms);
+const commentForms = document.querySelectorAll("#comments_create");
+// const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+console.log(csrftoken)
+
 commentForms.forEach((commentForm) => {
   const lis = commentForm.parentNode.getElementsByTagName("li");
-  console.log(lis);
-  Array.from(lis).forEach((li2, index) => {
-    li2.querySelector("form").addEventListener("submit", function (event) {
+  Array.from(lis).forEach((li, index) => {
+    li.querySelector("form").addEventListener("submit", function (event) {
+      
+      console.log(csrftoken)
+
       event.preventDefault();
       const commentId = event.target.dataset.commentId;
       const postId = event.target.dataset.postId;
-      console.log("도달1");
-      console.log(postId, commentId, index);
       axios
         .post(
           `/${postId}/comments/${commentId}/delete/`,
@@ -20,22 +21,20 @@ commentForms.forEach((commentForm) => {
           }
         )
         .then((response) => {
-          console.log("도달2");
-          li2.remove();
+          li.remove();
         });
     });
   });
+
   commentForm.addEventListener("submit", function (event) {
+
+console.log(csrftoken)
     event.preventDefault();
-    const csrftoken = document.querySelector(
-      "[name = csrfmiddlewaretoken]"
-    ).value;
     const parentcommentId = event.target.dataset.parentcommentId;
     const postId = event.target.dataset.postId;
     const li = document.createElement("li");
     const formData = new FormData(commentForm);
     const lis = commentForm.parentNode.getElementsByTagName("li");
-    console.log(lis);
 
     axios
       .post(`/${postId}/comments/${parentcommentId}/`, formData, {
@@ -45,7 +44,7 @@ commentForms.forEach((commentForm) => {
         const content = response.data.content;
         const postPk = response.data.postPk;
         const commentPk = response.data.commentPk;
-        const postUser = response.data.postUser;
+        const User = response.data.User;
 
         const postUl = commentForm.parentNode.querySelector("ul");
         const commentLi = document.createElement("li");

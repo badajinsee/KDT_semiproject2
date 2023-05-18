@@ -343,7 +343,7 @@
                       
                         <!-- 댓글 입력 폼 -->
 
-                        <form class="col-12 comments_create" data-post-id="{{ post.pk }}" data-parentcomment-id="0" method="POST">  
+                        <form class="col-12" id="comments_create" data-post-id="{{ post.pk }}" data-parentcomment-id="0" method="POST">  
                           {% csrf_token %}
                           <div style="display:flex; justify-content: space-between; border-bottom: 1px solid lightgray;
                           padding-bottom: 5px;">
