@@ -26,7 +26,7 @@
               {% csrf_token %}
               <label for="image-upload" class="image-upload-label">
                 {% if person.profile_image %}
-                  <img class="pro_main_img"  src="{{ person.profile_image.url }}" alt="post_image" id="profile-image2">
+                  <img class="pro_main_img"  src="{{ person.profile_image.url }}" alt="post_image" id="profile-image">
                 {% else %}
                   <img class="pro_main_img" id="profile-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="">
                 {% endif %}
