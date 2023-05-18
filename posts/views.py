@@ -130,7 +130,7 @@ def comments_create(request, post_pk, parent_pk):
     if content:
         comment = Comment(
             post=post,
-            user=request.user,
+            user= request.user,
             content=content
         )
         

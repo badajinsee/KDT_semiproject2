@@ -273,7 +273,7 @@
                                 {% if not comment.parent_comment %}
                                   <li >
                                     <div class="horizontal-container">
-                                      <p class="bold">{{ post.user }}</p> <p>&nbsp;&nbsp;&nbsp;</p> <p class="small-text">{{ comment.updated_at|custom_timesince }}</p>
+                                      <p class="bold">{{ comment.user }}</p> <p>&nbsp;&nbsp;&nbsp;</p> <p class="small-text">{{ comment.updated_at|custom_timesince }}</p>
                                     </div>
                                     <div style="display:flex; justify-content:space-between;">
                                       <p class="mb-2 mt-2">{{ comment.content }}</p> <!-- - {{ comment.user }} -->
@@ -300,9 +300,8 @@
                           padding-top: 10px;"
                           >
                             <!-- 좋아요, 댓글, 메세지, 북마크 아이콘 -->
-                            <i class="bi bi-heart me-3 icon-size"></i>
+                            <i class="bi bi-heart-fill me-3 icon-size" style="color:red;"></i>
                             <i class="bi bi-chat me-3 icon-size"></i>
-                            <i class="bi bi-send me-3 icon-size"></i>
                             <span style="float: right;"><i class="bi bi-bookmark" style="font-size: 25px;"></i></span>
                           </div>
                       
@@ -356,7 +355,7 @@
         {% if fol_user != request.user %}
         <div class="d-flex justify-content-between align-items-center mb-3">
           <div style="display: flex; align-items: center;">
-            {% if fol_user.user.profile_image %}
+            {% if fol_user.profile_image %}
             <img class="circle-image post-header-m" src="{{ fol_user.profile_image.url }}" alt="Post Image">
             {% else %}
             <img class="circle-image post-header-m" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
