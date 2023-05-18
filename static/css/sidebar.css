@@ -38,10 +38,9 @@ div.page-border:hover span.material-symbols-outlined {
 
 /* 프로필 이미지 크기 조정 */
 .profile-img {
-  width: 30px;
-  height: 30px;
-  border-radius: 70%;
-  object-fit: cover;
+  height: 26px;
+  width: 26px;
+  border-radius: 50%;
 }
 
 /* 아이콘 a링크 스타일 지정  */

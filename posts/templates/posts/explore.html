@@ -4,8 +4,8 @@
 
 {% block content %}
   <link rel="stylesheet" href="{% static 'css/explore.css' %}">
-
-  <div class="container2">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  {% comment %} <div class="container2">
     <!-- 이미지 -->
     <div class="image_coll">
       <ul class="row">
@@ -141,8 +141,7 @@
                           {{post.like_count}}</span>
                       </div>
                       <div class="col-12 ps-2" style="margin-bottom: 10px">
-                        <!-- 생성 일자 -->
-                        <span style="font-size: 12px">생성일자</span>
+                        
                       </div>
                       <div class="col-12 ps-2" style="border-top: 1px solid lightgray">
                         <!-- 댓글 입력 폼 -->
@@ -166,7 +165,262 @@
         {% endfor %}
       </ul>
     </div>
+  </div> {% endcomment %}
+  <div class="container2">
+    <!-- 이미지 -->
+    <div class="image_coll">
+      <ul class="row">
+        <!-- 여기 수정 -->
+        {% for post in posts%}
+        <li class="col-md-4">
+          {% if post.post_images.first.image.url %}
+          <button
+            type="button"
+            class="btn p-0 image{{forloop.conter0}}"
+            data-bs-toggle="modal"
+            data-bs-target="#newModal{{ forloop.counter0 }}"
+          >
+            <img
+              style="
+                max-width: 100%;
+                max-height: 100%;
+              "
+              class="imgs_main"
+              src=" {{ post.post_images.first.image.url }} "
+              alt="movie_img"
+            />
+          </button>
+          {% else %}
+          <a
+            href="{% url 'posts:detail' post.pk %}"
+            style="color: #198754; text-decoration: none"
+          >
+            <img
+              style="
+                width: 14rem;
+                height: 11rem;
+                max-width: 100%;
+                max-height: 100%;
+              "
+              class="imgs_main"
+              src="{% static 'no_image.jpg' %}"
+              alt="no_img"
+            />
+          </a>
+          {% endif %}
+        </li>
+        <div class="modal fade" id="newModal{{ forloop.counter0 }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content" style="width:1000px">
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <!-- 게시글 이미지 -->
+                    <div class="mt-3 square-image-container"> <!-- 게시글 이미지 캐러셀 -->
+                      <div id="carouselExampleIndicators-modal{{ forloop.counter0 }}" class="carousel slide" data-bs-ride="true">
+                        <div class="carousel-indicators">
+                          {% for image in post.post_images.all %}
+                            {% if forloop.counter0 == 0 %} 
+                              <li data-bs-target="#carouselExampleIndicators-modal{{ forloop.parentloop.counter0 }}" data-bs-slide-to="{{ forloop.counter0 }}" class="active"></li>
+                            {% else %}
+                              <li data-bs-target="#carouselExampleIndicators-modal{{ forloop.parentloop.counter0 }}" data-bs-slide-to="{{ forloop.counter0 }}"></li>
+                            {% endif %}
+                          {% endfor %}
+                
+                        </div>
+                        <div class="carousel-inner rounded">
+                          {% for image in post.post_images.all %}
+                            {% if forloop.counter0 == 0 %}
+                            <div class="carousel-item active">
+                              <img src="{{ image.image.url }}" class="d-block square-image" alt="...">
+                            </div>
+                            {% else %}
+                            <div class="carousel-item">
+                              <img src="{{ image.image.url }}" class="d-block square-image" alt="...">
+                            </div>
+                            {% endif %}
+                          {% endfor %}
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators-modal{{ forloop.counter0 }}" role="button" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <i class="fas fa-chevron-left"></i>
+                          </span>
+                          <span class="visually-hidden">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators-modal{{ forloop.counter0 }}" role="button" data-bs-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <i class="fas fa-chevron-right"></i> <!-- Font Awesome 아이콘 사용 -->
+                          </span>
+                          <span class="visually-hidden">Next</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-12">
+                        <!-- 유저네임 -->
+                        <div class="mb-3 pb-3"style="display: flex; align-items: center; border-bottom: 1px solid lightgray;">
+                          {% if post.user.profile_image %}
+                          <img class="circle-image post-header-m mr-3" src="{{ post.user.profile_image.url }}" alt="Post Image">
+                          {% else %}
+                          <img class="circle-image post-header-m mr-3" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIbLTGKz4waJGU2vkbhQkRavjf2OdeY7Eo4l8yFnggdF3fX1bUF4FEUP13o34ioSCm-M&usqp=CAU" alt="Post Image None">
+                          {% endif %}
+                          <div class='post-header-m fw-bold'>{{ post.user }}</div>
+                          <!-- 게시글 모달-->
+                          <button  style="margin-left: auto;" type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="#newModal{{ forloop.counter0 }}">
+                            <i class="bi bi-three-dots"></i>
+                          </button>
+                          <div style=" border-bottom: 2px solid;"></div>
+                        </div>
+                      </div>
+                      
+                      <div class="col-12" style="    height: 180px;
+                      border-bottom: 1px solid lightgray;
+                      margin-bottom: 10px; overflow:auto;">
+                        <!-- 본문 -->
+                        <div style="display: flex; align-items: flex-start; padding: 10px; height: 100px;">
+                          <p class="mt-3" style="height: 180px;
+                          border-bottom: 1px solid lightgray;
+                          margin-bottom: 10px;
+                          overflow: auto;">{{ post.content }}</p>
+                        </div>
+                      </div>
+                      
+                      <div class="col-12" style="padding:0px;">
+                        <ul id="newModal{{forloop.counter0}}comment" class="scrollable-div">
+    
+                          
+                          {% for comment in post.comments.all %}
+                            {% if not comment.parent_comment %}
+                              <li>
+                                <div class="horizontal-container">
+                                  <p class="bold">{{ comment.user }}</p> <p>&nbsp;&nbsp;&nbsp;</p> <p class="small-text"></p>
+                                </div>
+                                <div style="display:flex; justify-content:space-between;">
+                                  <p class="mb-2 mt-2">{{ comment.content }}</p> <!-- - {{ comment.user }} -->
+                                  
+                                  {% comment %} {% if request.user == comment.user %} {% endcomment %}
+                                  {% if comment.user == user %}
+                                    <form data-post-id="{{ post.pk }}" data-comment-id="{{ comment.pk }}" method="POST">
+                                      {% csrf_token %}
+                                      <input type="submit" class="btn btn-outline-primary" style="border:none; font-size:13px;"value="댓글삭제">
+                                    </form>
+                                  {% endif %}
+                                </div>
+                                <br>
+                                  
+                              </li>
+                            {% endif %}
+                          {% endfor %}
+                          
+                        </ul>
+                      
+                      <div
+                      class="col-12"
+                      style="border-top: 1px solid lightgray;
+                      margin-top: 10px;
+                      padding-bottom: 10px;
+                      padding-top: 10px;"
+                      >
+                        <div class="mt-2"> <!-- 왼쪽에 좋아요, 댓글, 메시지/ 오른쪽 북마크 -->
+                          <form id= "likeform" data-post-id="{{ post.pk }}">
+                            {% csrf_token %}
+                            {% if request.user in post.like_users.all %}
+                            <!--하트-->
+                              <button type="submit" value="하트" id="like-{{post.pk}}" style = "border:none; background-color:transparent; font-size:25px; padding-right:10px; color:red" value="test2">
+                                <i class="bi bi-heart-fill"></i>
+                              </button>
+                          
+                            {% else %}
+                            <!--하트없음-->
+                              <button type="submit" value="하트없음" id="like-{{post.pk}}" style = "border:none; background-color:transparent;font-size:25px; padding-right:10px; color:black;" value="test">
+                                <i class="bi bi-heart"></i>
+                              </button>
+                            {% endif %}
+              
+                            <i class="bi bi-chat me-3 icon-size"></i>
+              
+                            <span style="float: right;"><i class="bi bi-bookmark" style="font-size: 25px;"></i></span>
+                          </form>
+                        </div>
+                       
+                        <div> <!-- 좋아요 개수 / 누르면 좋아요 누른사람이 뜸-->
+                          <button type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal_like_{{post.pk}}" style="padding-left: 0;">
+                            <span id="like-count-{{post.pk}}">좋아요 {{post.like_count}}개</span>
+                          </button>
+                          
+                          <!-- Modal -->
+                          <div class="modal fade" id="exampleModal_like_{{post.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel_like" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel_like">좋아요</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" style="padding: 0px;
+                                margin: 10px; font-weight: 600">
+                                  {% for like_user in post.like_users.all %}
+                                    {% if request.user != like_user %}
+                                    <!--좋아요한 사람들 목록-->
+                                    <span style="display:flex; justify-content:space-between; font-weight: 600">
+                                      <a
+                                      href="{% url 'accounts:profile' like_user %}"
+                                      class="link-dark link-underline link-underline-opacity-0 fs-5"
+                                      style="font-weight: 600"
+                                      >{{ like_user }}
+                                      </a>
+                                      <span>
+                                        <form action="{%url 'accounts:follow' like_user.pk%}" method="POST">
+                                          {% csrf_token %}
+                                          <input type="submit" value='팔로우' class="btn btn-sm button btn-primary" style="border:none" {% if not request.user.is_authenticated %}disabled{% endif %}>
+                                        </form>
+                                      {% else %}
+                                        <a
+                                        href="{% url 'accounts:profile' like_user %}"
+                                        class="link-dark link-underline link-underline-opacity-0 fs-5"
+                                        style="margin-bottom:10px;">{{ like_user }}
+                                        </a>
+                                      {% endif %}
+                                      </span>
+                                    </span>
+                                      <p style="font-weight:400; color:gray; margin-bottom:10px; ">{{ like_user.status_message}}</p>
+                                  {% endfor %}
+                                </div>
+                                
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                     
+                      
+                        <!-- 댓글 입력 폼 -->
+
+                        <form class="col-12 comments_create" data-post-id="{{ post.pk }}" data-parentcomment-id="0" method="POST">  
+                          {% csrf_token %}
+                          <div style="display:flex; justify-content: space-between; border-bottom: 1px solid lightgray;
+                          padding-bottom: 5px;">
+
+                            <input type="text" class="comment-input form-control" name="content" id="id_content" style="    padding: 0px;
+                            padding-top: 5px;" placeholder="댓글 달기">
+                            <input type="submit" class="btn btn-outline-primary" style="border:none" value="댓글 등록">
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
+  
   <script>
     // 닫기 버튼을 클릭했을 때 모달 창이 닫힌 후 첫 페이지로 이동
     document
