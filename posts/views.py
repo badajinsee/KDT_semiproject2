@@ -120,7 +120,7 @@ def delete(request, post_pk):
     if request.user == post.user:
         post.delete()
 
-    return redirect("posts:index")
+    return redirect("posts:index") 
 
 
 def comments_create(request, post_pk, parent_pk):

@@ -205,7 +205,7 @@
                     <div class="row">
                       <div class="col-12">
                         <!-- 유저네임 -->
-                        <div class="mb-3 pb-3"style="display: flex; align-items: center; border-bottom: 1px solid lightgray;">
+                        <div class="mb-3 pb-3" style="display: flex; align-items: center; border-bottom: 1px solid lightgray;">
                           {% if post.user.profile_image %}
                           <img class="circle-image post-header-m mr-3" src="{{ post.user.profile_image.url }}" alt="Post Image">
                           {% else %}
@@ -213,10 +213,17 @@
                           {% endif %}
                           <div class='post-header-m fw-bold'>{{ post.user }}</div>
                           <!-- 게시글 모달-->
-                          <button  style="margin-left: auto;" type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="#newModal{{ forloop.counter0 }}">
-                            <i class="bi bi-three-dots"></i>
-                          </button>
-                          <div style=" border-bottom: 2px solid;"></div>
+                          {% if user == post.user %}
+                            <div style="margin-left: auto;">
+                              <form action="{% url 'posts:delete' post.pk %}" method="post" >
+                                {% csrf_token %}
+                                <input type="submit" value="삭제" class="btn btn-danger">
+                              </form>
+                            </div>
+                          {% endif %}
+                          
+                         
+                          <div style=" border-bottom: 2px solid;"></div> 
                         </div>
                       </div>
                       

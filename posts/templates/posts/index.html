@@ -35,9 +35,14 @@
               <div class='post-header-m'>{{ post.updated_at|custom_timesince }}</div>
            
               <!-- 게시글 모달-->
-              <button  style="margin-left: auto;" type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="exampleModal_header{{ forloop.counter0 }}">
-                <i class="bi bi-three-dots"></i>
-              </button>
+                {% if user == post.user %}
+                  <div style="margin-left: auto;">
+                    <form action="{% url 'posts:delete' post.pk %}" method="post" >
+                      {% csrf_token %}
+                      <input type="submit" value="삭제" class="btn btn-danger">
+                    </form>
+                  </div>
+                {% endif %}
             </div>
           </div>
           <!-- Modal -->
@@ -246,9 +251,14 @@
                               {% endif %}
                               <div class='post-header-m fw-bold'>{{ post.user }}</div>
                               <!-- 게시글 모달-->
-                              <button  style="margin-left: auto;" type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="#newModal{{ forloop.counter0 }}">
-                                <i class="bi bi-three-dots"></i>
-                              </button>
+                              {% if user == post.user %}
+                                <div style="margin-left: auto;">
+                                  <form action="{% url 'posts:delete' post.pk %}" method="post" >
+                                    {% csrf_token %}
+                                    <input type="submit" value="삭제" class="btn btn-danger">
+                                  </form>
+                                </div>
+                              {% endif %}
                               <div style=" border-bottom: 2px solid;"></div>
                             </div>
                           </div>

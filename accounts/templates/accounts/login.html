@@ -21,7 +21,7 @@
         <img class="main_img" src="{% static 'img/main_img1.png' %}" alt="메인 이미지">
         <form action="{% url 'accounts:login' %}" method="POST">
           {% csrf_token %}
-          <input type="text" placeholder="전화번호, 사용자 이름 또는 이메일" class="input_size form-control" name="username">
+          <input type="text" placeholder="사용자 이름" class="input_size form-control" name="username">
           <br>
           <input type="password" placeholder="비밀번호" class="input_size form-control" name='password'>
           <br>
