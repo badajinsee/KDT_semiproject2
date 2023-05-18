@@ -124,6 +124,7 @@ def delete(request, post_pk):
 
 
 def comments_create(request, post_pk, parent_pk):
+    print("도달데스까??")
     post = Post.objects.get(pk=post_pk)
     content = request.POST.get('content')
     if content:
@@ -144,7 +145,7 @@ def comments_create(request, post_pk, parent_pk):
             "content": content,
             "postPk": post.pk,
             "commentPk": comment.pk,
-            "User": request.user
+            "User": request.user.username
         }
         print("도달데스까2")
         return JsonResponse(context)
